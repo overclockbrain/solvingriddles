@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="${resultTitle}" 
+            th:style="${isSuccess} ? 'color: #00ff41' : 'color: red'"></h1>
+        
+        <p th:text="${resultMessage}"></p>
+        <br>
+
+        <div th:if="${isSuccess}">
+            <p>次のレベルへ進みますか？</p>
+            <button disabled>LEVEL 2 (Coming Soon)</button>
+        </div>
+
+        <div th:unless="${isSuccess}">
+            <a th:href="@{/quiz}"><button style="background-color:red; color:white;">RETRY</button></a>
+        </div>
+        <br><br><br>
+        <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
+    </div>
+</body>
+</html>
