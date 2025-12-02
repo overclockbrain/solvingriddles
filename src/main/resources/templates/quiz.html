@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Level 1</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>LEVEL 1: System Key</h2>
+        <p>欠損したキーを入力せよ</p>
+        
+        <h3 style="font-size: 2rem; letter-spacing: 5px;">
+            Q W E R <span style="color:red">[ ? ]</span> Y
+        </h3>
+        
+        <br>
+        <form th:action="@{/quiz/check}" method="post">
+            <input type="text" name="answer" placeholder="Enter key..." autofocus>
+            <button type="submit">EXECUTE</button>
+        </form>
+        
+        <br><br><br>
+        <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
+    </div>
+</body>
+</html>
