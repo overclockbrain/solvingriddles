@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Level 1</title>
+    <title th:text="'Level ' + ${riddle.id}">Level X</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <div class="container">
-        <h2>LEVEL 1: System Key</h2>
-        <p>欠損したキーを入力せよ</p>
+        <h2 th:text="'LEVEL ' + ${riddle.id} + ': SECURITY CHECK'">LEVEL X</h2>
+        <p>セキュリティ・質問に回答せよ</p>
         
-        <h3 style="font-size: 2rem; letter-spacing: 5px;">
-            Q W E R <span style="color:red">[ ? ]</span> Y
+        <h3 style="font-size: 1.5rem; margin: 30px 0;" th:text="${riddle.question}">
+            ここに問題文が出るで
         </h3>
         
+        <p style="color: #555; font-size: 0.9rem;" th:text="'HINT: ' + ${riddle.hint}">
+            ヒント
+        </p>
+
         <br>
         <form th:action="@{/quiz/check}" method="post">
+            <input type="hidden" name="id" th:value="${riddle.id}" />
+            
             <input type="text" name="answer" placeholder="Enter key..." autofocus>
             <button type="submit">EXECUTE</button>
         </form>

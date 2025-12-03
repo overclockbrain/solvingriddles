@@ -1,20 +1,40 @@
 package com.example.solvingriddles;
 
+import com.example.solvingriddles.model.Riddle;
+import com.example.solvingriddles.service.RiddleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 /**
  * アプリ全体の画面遷移を管理するコントローラー
+ * <p>
+ * ユーザーからのリクエストを受け付け、Service層に処理を依頼し、
+ * 結果に応じたHTMLテンプレートを返却する役割を持つ。
  */
 @Controller
 public class MainController {
 
+    private final RiddleService riddleService;
+
+    /**
+     * コンストラクタ
+     * <p>
+     * Springの依存性注入(DI)により、自動的にRiddleServiceが渡される。
+     * @param riddleService 謎解きのロジックを担当するサービス
+     */
+    public MainController(RiddleService riddleService) {
+        this.riddleService = riddleService;
+    }
+
     /**
      * トップ画面を表示する
-     * @return トップ画面のHTML名 (index.html)
+     * @return トップ画面のHTMLファイル名 (index.html)
      */
     @GetMapping("/")
     public String index() {
@@ -22,8 +42,8 @@ public class MainController {
     }
 
     /**
-     * 謎解き一覧画面を表示する (★ここを追加！)
-     * @return 一覧画面のHTML名 (list.html)
+     * 謎解きの一覧画面を表示する
+     * @return 一覧画面のHTMLファイル名 (list.html)
      */
     @GetMapping("/list")
     public String list() {
@@ -31,32 +51,58 @@ public class MainController {
     }
 
     /**
-     * 謎解き（第1問）の画面を表示する
-     * @return 謎解き画面のHTML名 (quiz.html)
+     * 指定されたIDの謎解き画面を表示する
+     * <p>
+     * URLの {id} 部分を数値として受け取り、対応する問題データを検索する。
+     * データが存在しない場合は一覧画面へリダイレクトする。
+     *
+     * @param id    URLから取得した問題ID (例: /quiz/1 なら 1)
+     * @param model 画面(HTML)にデータを渡すための入れ物
+     * @return 謎解き画面 (quiz.html)、または一覧へのリダイレクトパス
      */
-    @GetMapping("/quiz")
-    public String quiz() {
+    @GetMapping("/quiz/{id}")
+    public String quiz(@PathVariable Integer id, Model model) {
+        // Serviceを使って問題データを取得
+        Optional<Riddle> riddle = riddleService.findById(id);
+
+        // もし存在しないIDなら、一覧画面に強制送還（リダイレクト）
+        if (riddle.isEmpty()) {
+            return "redirect:/list";
+        }
+
+        // HTML側で "riddle" という名前でデータを使えるようにする
+        model.addAttribute("riddle", riddle.get());
         return "quiz";
     }
 
     /**
-     * ユーザーの回答を判定して、結果画面を表示する
+     * ユーザーの回答を受け取り、正誤判定を行う
+     * <p>
+     * 判定ロジックはService層に委譲し、その結果に応じて画面表示用のメッセージを設定する。
+     *
+     * @param id     回答対象の問題ID
      * @param answer フォームから送信された回答文字列
      * @param model  画面に結果を表示するためのデータ受け渡し用
-     * @return 結果画面のHTML名 (result.html)
+     * @return 結果画面のHTMLファイル名 (result.html)
      */
     @PostMapping("/quiz/check")
-    public String check(@RequestParam String answer, Model model) {
-        // 正解は "t" か "T" (大文字小文字無視)
-        if ("t".equalsIgnoreCase(answer)) {
+    public String check(@RequestParam Integer id, @RequestParam String answer, Model model) {
+        // 判定ロジックはServiceに丸投げ
+        boolean isSuccess = riddleService.checkAnswer(id, answer);
+
+        if (isSuccess) {
             model.addAttribute("resultTitle", "ACCESS GRANTED");
             model.addAttribute("resultMessage", "認証成功。システムロックが解除されました。");
-            model.addAttribute("isSuccess", true); // 成功フラグ
+            model.addAttribute("isSuccess", true);
         } else {
             model.addAttribute("resultTitle", "ACCESS DENIED");
             model.addAttribute("resultMessage", "不正なキーです。セキュリティアラート作動。");
-            model.addAttribute("isSuccess", false); // 失敗フラグ
+            model.addAttribute("isSuccess", false);
         }
+        
+        // リトライ用にIDも渡しておく (result.htmlから戻るため)
+        model.addAttribute("riddleId", id);
+        
         return "result";
     }
 }

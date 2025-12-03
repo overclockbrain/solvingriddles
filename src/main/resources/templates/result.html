@@ -14,14 +14,22 @@
 
         <div th:if="${isSuccess}">
             <p>次のレベルへ進みますか？</p>
-            <button disabled>LEVEL 2 (Coming Soon)</button>
+            
+            <a th:href="@{/quiz/{id}(id=${riddleId + 1})}">
+                <button>NEXT LEVEL</button>
+            </a>
+            
+            <br><br>
+            <a th:href="@{/list}">一覧へ戻る</a>
         </div>
 
         <div th:unless="${isSuccess}">
-            <a th:href="@{/quiz}"><button style="background-color:red; color:white;">RETRY</button></a>
+            <a th:href="@{/quiz/{id}(id=${riddleId})}">
+                <button style="background-color:red; color:white;">RETRY</button>
+            </a>
+            <br><br>
+            <a th:href="@{/list}">一覧へ戻る</a>
         </div>
-        <br><br><br>
-        <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
     </div>
 </body>
 </html>
