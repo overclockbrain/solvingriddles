@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Result</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{common/head :: common-head('Result')}"></head>
 <body>
+    <header th:replace="~{common/header :: common-header}"></header>
+
     <div class="container">
         <h1 th:text="${resultTitle}" 
-            th:style="${isSuccess} ? 'color: #00ff41' : 'color: red'"></h1>
+            th:class="${isSuccess} ? 'text-success' : 'text-danger'"></h1>
         
         <p th:text="${resultMessage}"></p>
         <br>
 
         <div th:if="${isSuccess}">
             <p>次のレベルへ進みますか？</p>
-            
             <a th:href="@{/quiz/{id}(id=${riddleId + 1})}">
                 <button>NEXT LEVEL</button>
             </a>
-            
             <br><br>
             <a th:href="@{/list}">一覧へ戻る</a>
         </div>
 
         <div th:unless="${isSuccess}">
             <a th:href="@{/quiz/{id}(id=${riddleId})}">
-                <button style="background-color:red; color:white;">RETRY</button>
+                <button class="btn-retry">RETRY</button>
             </a>
-            <br><br>
-            <a th:href="@{/list}">一覧へ戻る</a>
         </div>
     </div>
 </body>

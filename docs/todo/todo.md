@@ -39,18 +39,18 @@
 ## 🥅 ゴール4: 画面の共通化とメニュー実装
 全画面のレイアウトを統一し、スマホ対応のメニューを作る。
 
-- [ ] **Step 1: 共通部品の作成 (Fragments)**
-    - [ ] `src/main/resources/templates/common/head.html` (CSSなど)
-    - [ ] `src/main/resources/templates/common/header.html` (ナビバー)
-    - [ ] `src/main/resources/templates/common/layout.html` (枠組み)
+- [x] **Step 1: 共通部品の作成 (Fragments)**
+    - [x] `src/main/resources/templates/common/head.html` (CSSなど)
+    - [x] `src/main/resources/templates/common/header.html` (ナビバー)
+    - [x] `src/main/resources/templates/common/layout.html` (枠組み)
 
-- [ ] **Step 2: 各画面への適用**
-    - [ ] `index.html`, `list.html`, `quiz.html`, `result.html` を修正
-    - [ ] `th:replace` を使って共通部品を読み込む
+- [x] **Step 2: 各画面への適用**
+    - [x] `index.html`, `list.html`, `quiz.html`, `result.html` を修正
+    - [x] `th:replace` を使って共通部品を読み込む
 
-- [ ] **Step 3: アコーディオンメニューの実装**
-    - [ ] ハンバーガーボタン（≡）をヘッダーに追加
-    - [ ] `static/js/script.js` を作成し、クリックでの開閉処理を記述
+- [x] **Step 3: アコーディオンメニューの実装**
+    - [x] ハンバーガーボタン（≡）をヘッダーに追加
+    - [x] `static/js/script.js` を作成し、クリックでの開閉処理を記述
 
 ---
 

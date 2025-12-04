@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Mystery App</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{common/head :: common-head('Top')}"></head>
+
 <body>
+    <header th:replace="~{common/header :: common-header}"></header>
+
     <div class="container">
         <h1>SYSTEM HACKING...</h1>
         <p>セキュリティホールを発見しました。</p>

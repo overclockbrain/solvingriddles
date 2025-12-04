@@ -1,4 +1,7 @@
 /* src/main/resources/static/css/style.css */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 body {
     background-color: #0d1117; /* GitHubっぽい黒 */
     color: #00ff41; /* マトリックス緑 */
@@ -31,4 +34,138 @@ button {
     font-size: 1.2rem; 
     cursor: pointer;
     font-weight: bold;
+}
+/* ヘッダー周りのスタイル */
+.header-bar {
+    border-bottom: 1px solid #00ff41;
+    padding: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #00ff41;
+    text-decoration: none;
+}
+
+.menu-btn {
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* ミッション一覧の箱 */
+.mission-box {
+    border: 1px solid #00ff41;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+/* クイズ画面用 */
+.question-text {
+    font-size: 1.5rem;
+    margin: 30px 0;
+    letter-spacing: 2px; /* ちょっと文字間隔あけるとハッカーっぽい */
+}
+
+.hint-text {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+/* 結果画面用 */
+.text-success {
+    color: #00ff41; /* 成功時の緑 */
+}
+
+.text-danger {
+    color: #ff4444; /* 失敗時の赤 */
+}
+
+.btn-retry {
+    background-color: #ff4444;
+    color: white;
+    border: 1px solid #ff4444;
+}
+.btn-retry:hover {
+    background-color: #cc0000; /* ホバー時はちょっと暗く */
+}
+/* --- ヘッダーエリア --- */
+.app-header {
+    position: relative; 
+}
+
+.header-bar {
+    border-bottom: 1px solid #00ff41;
+    padding: 15px;
+    /* margin-bottom は削除（メニューが浮くから隙間いらん） */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0d1117; /* 背景色を追加（透け防止） */
+    position: relative;        /* 重なり順のために追加 */
+    z-index: 1001;            /* メニューよりさらに上に */
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #00ff41;
+    text-decoration: none;
+}
+
+.menu-btn {
+    cursor: pointer;
+    font-size: 1.5rem;
+    user-select: none; /* 連打で選択されんように */
+}
+
+/* --- アコーディオンメニュー --- */
+.side-menu {
+    /* ★ここが大改造ポイント！ */
+    position: absolute;  /* 浮カせる！ */
+    top: 100%;           /* ヘッダーの真下に配置 */
+    left: 0;
+    width: 100%;         /* 横幅いっぱい */
+    z-index: 1000;       /* コンテンツの上に重ねる */
+    
+    background-color: rgba(13, 17, 23, 0.95); /* 少しだけ透けさせるのがオサレ */
+    padding: 10px;
+    border-bottom: 1px solid #00ff41;
+    
+    /* アニメーション用（フワッと出るようにしたいなら） */
+    box-shadow: 0 10px 20px rgba(0, 255, 65, 0.1);
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    margin: 15px 0;
+    border-bottom: 1px dashed #333; /* 区切り線 */
+    padding-bottom: 5px;
+}
+
+.menu-link {
+    color: white;
+    display: block;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.menu-link:hover {
+    color: #00ff41; /* ホバーで光らせる */
+}
+
+.menu-link-disabled {
+    color: #555;
+    display: block;
+    text-decoration: none;
+    cursor: not-allowed;
 }
