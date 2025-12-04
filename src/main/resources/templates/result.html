@@ -16,8 +16,6 @@
             <a th:href="@{/quiz/{id}(id=${riddleId + 1})}">
                 <button>NEXT LEVEL</button>
             </a>
-            <br><br>
-            <a th:href="@{/list}">一覧へ戻る</a>
         </div>
 
         <div th:unless="${isSuccess}">
@@ -25,6 +23,8 @@
                 <button class="btn-retry">RETRY</button>
             </a>
         </div>
+        <br><br><br>
+        <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
     </div>
 </body>
 </html>
