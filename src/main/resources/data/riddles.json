@@ -3,18 +3,54 @@
         "id": 1,
         "question": "次の数列の法則を見抜け: 0, 1, 10, 11, 100, [?]",
         "answer": "101",
-        "hint": "2進数で考えてみて"
+        "hint": "2進数で考えてみて",
+        "type": "text",
+        "level": 1
     },
     {
         "id": 2,
         "question": "キー配列の欠損を埋めよ: Q W E R [?] Y",
         "answer": "t",
-        "hint": "手元のキーボードの左上を見て"
+        "hint": "手元のキーボードの左上を見て",
+        "type": "text",
+        "level": 2
     },
     {
         "id": 3,
         "question": "ショートカットキーを解読せよ: Ctrl+C=Copy, Ctrl+V=Paste, Ctrl+X=[?]",
         "answer": "cut",
-        "hint": "ハサミの形をイメージして（切り取り）"
+        "hint": "ハサミの形をイメージして（切り取り）",
+        "type": "text",
+        "level": 3
+    },
+    {
+        "id": 4,
+        "question": "システム異常発生。強制排除プログラムを起動せよ。\n\n(画面上の違和感をクリックせよ)",
+        "answer": "found",
+        "hint": "『O』の中に異物が混入している...",
+        "type": "click",
+        "options": [
+            {
+                "text": "E R R ",
+                "role": "normal"
+            },
+            {
+                "text": "O",
+                "role": "fake"
+            },
+            {
+                "text": " R   4 0 4 : N ",
+                "role": "normal"
+            },
+            {
+                "text": "O",
+                "role": "target"
+            },
+            {
+                "text": " T _ F O U N D",
+                "role": "normal"
+            }
+        ],
+        "level": 4
     }
 ]

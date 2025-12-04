@@ -169,3 +169,29 @@ button {
     text-decoration: none;
     cursor: not-allowed;
 }
+
+/* --- クリック探索問題用 --- */
+.click-area {
+    margin-top: 30px; 
+    font-size: 2rem; 
+    letter-spacing: 5px;
+    font-family: monospace;
+    user-select: none; /* 文字選択できなくして、ゲームっぽくする */
+}
+
+.fake-char {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.fake-char:hover {
+    color: #ff4444; /* ダミーは赤く光らせて「罠」っぽく */
+}
+
+.target-char {
+    cursor: pointer;
+    color: #00ff41; /* 正解は最初から緑（難易度上げるなら白にしてな！） */
+    font-weight: bold;
+}
+.target-char:hover {
+    text-shadow: 0 0 10px #00ff41; /* 正解は輝く */
+}
