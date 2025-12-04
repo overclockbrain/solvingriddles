@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Mission List</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{common/head :: common-head('Mission List')}"></head>
+
 <body>
+    <header th:replace="~{common/header :: common-header}"></header>
+
     <div class="container">
         <h2>SELECT TARGET</h2>
         <p>侵入するサーバーを選択してください</p>
         <br>
 
-        <div style="border: 1px solid #00ff41; padding: 20px; margin-bottom: 20px;">
+        <div class="mission-box">
             <h3>LEVEL 1: Binary Code</h3>
             <p>難易度: ★☆☆☆☆</p>
             <a th:href="@{/quiz/1}"><button>START HACKING</button></a>
         </div>
 
-        <div style="border: 1px solid #00ff41; padding: 20px; margin-bottom: 20px;">
+        <div class="mission-box">
             <h3>LEVEL 2: Key Layout</h3>
             <p>難易度: ★★☆☆☆</p>
             <a th:href="@{/quiz/2}"><button>START HACKING</button></a>
         </div>
         
-        <div style="border: 1px solid #00ff41; padding: 20px;">
+        <div class="mission-box">
              <h3>LEVEL 3: Shortcut</h3>
              <p>難易度: ★★★☆☆</p>
              <a th:href="@{/quiz/3}"><button>START HACKING</button></a>
