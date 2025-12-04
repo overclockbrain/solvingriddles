@@ -10,22 +10,14 @@
         <p>侵入するサーバーを選択してください</p>
         <br>
 
-        <div class="mission-box">
-            <h3>LEVEL 1: Binary Code</h3>
-            <p>難易度: ★☆☆☆☆</p>
-            <a th:href="@{/quiz/1}"><button>START HACKING</button></a>
-        </div>
-
-        <div class="mission-box">
-            <h3>LEVEL 2: Key Layout</h3>
-            <p>難易度: ★★☆☆☆</p>
-            <a th:href="@{/quiz/2}"><button>START HACKING</button></a>
-        </div>
-        
-        <div class="mission-box">
-             <h3>LEVEL 3: Shortcut</h3>
-             <p>難易度: ★★★☆☆</p>
-             <a th:href="@{/quiz/3}"><button>START HACKING</button></a>
+        <div th:each="r : ${riddles}" class="mission-box">
+            <h3 th:text="'LEVEL ' + ${r.id}">LEVEL X</h3>
+            
+            <p th:text="'難易度: ' + ${r.difficultyIcon}">難易度: ★★★☆☆</p>
+            
+            <a th:href="@{/quiz/{id}(id=${r.id})}">
+                <button>START HACKING</button>
+            </a>
         </div>
 
         <br>

@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class RiddleRepository {
     /**
      * アプリ起動時に1回だけ呼ばれるメソッド
      * JSONファイルを読んで storage に詰め込む
+     * @throws IOException ファイル読み込みに失敗した場合
      */
     @PostConstruct
     public void init() {
@@ -50,9 +52,19 @@ public class RiddleRepository {
     }
 
     /**
-     * IDで検索 (ここはさっきと同じ)
+     * IDで検索
+     * @param id 謎解きID
+     * @return 該当する謎解きデータ (存在しない場合は空のOptional)
      */
     public Optional<Riddle> findById(Integer id) {
         return Optional.ofNullable(storage.get(id));
+    }
+
+    /**
+     * 全件取得
+     * @return 全ての謎解きデータのリスト
+     */
+    public List<Riddle> findAll() {
+        return new ArrayList<>(storage.values());
     }
 }

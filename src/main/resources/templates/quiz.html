@@ -16,10 +16,41 @@
             ヒント
         </p>
 
-        <form th:action="@{/quiz/check}" method="post">
+        <form id="quizForm" th:action="@{/quiz/check}" method="post">
             <input type="hidden" name="id" th:value="${riddle.id}" />
-            <input type="text" name="answer" placeholder="Enter key..." autofocus>
-            <button type="submit">EXECUTE</button>
+
+            <div th:if="${riddle.type == 'text'}">
+                <input type="text" name="answer" placeholder="Enter key..." autofocus>
+                <button type="submit">EXECUTE</button>
+            </div>
+
+            <div th:if="${riddle.type == 'click'}" class="click-area">
+                <input type="hidden" id="hiddenAnswer" name="answer" value="">
+
+                <th:block th:each="opt : ${riddle.options}">
+                    
+                    <span th:if="${opt.role == 'target'}" 
+                          class="target-char" 
+                          th:text="${opt.text}"
+                          onclick="submitAnswer('found')"></span>
+
+                    <span th:if="${opt.role == 'fake'}" 
+                          class="fake-char" 
+                          th:text="${opt.text}"
+                          onclick="submitAnswer('wrong')"></span>
+
+                    <span th:if="${opt.role == 'normal'}" 
+                          th:text="${opt.text}"></span>
+                          
+                </th:block>
+
+                <script>
+                    function submitAnswer(val) {
+                        document.getElementById('hiddenAnswer').value = val;
+                        document.getElementById('quizForm').submit();
+                    }
+                </script>
+            </div>
         </form>
         
         <br><br><br>

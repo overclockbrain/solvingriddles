@@ -4,6 +4,7 @@ import com.example.solvingriddles.model.Riddle;
 import com.example.solvingriddles.repository.RiddleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service // ← これ忘れたらただの普通のクラスやから注意な！
@@ -11,7 +12,10 @@ public class RiddleService {
 
     private final RiddleRepository repository;
 
-    // コンストラクタ注入 (Springが勝手にRepositoryを渡してくれる)
+    /**
+     * コンストラクタ
+     * @param repository 謎解きデータの保管庫
+     */
     public RiddleService(RiddleRepository repository) {
         this.repository = repository;
     }
@@ -38,8 +42,18 @@ public class RiddleService {
 
     /**
      * IDで問題データを取得する (Controllerのためのパシリ)
+     * @param id 問題ID
+     * @return 問題データのOptional
      */
     public Optional<Riddle> findById(Integer id) {
         return repository.findById(id);
+    }
+
+    /**
+     * 全ての謎解きデータを取得する (Controllerのためのパシリ)
+     * @return 全謎解きデータのリスト
+     */
+    public List<Riddle> findAll() {
+        return repository.findAll();
     }
 }

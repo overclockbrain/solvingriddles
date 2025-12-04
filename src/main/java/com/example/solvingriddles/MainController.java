@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
  * アプリ全体の画面遷移を管理するコントローラー
- * <p>
  * ユーザーからのリクエストを受け付け、Service層に処理を依頼し、
  * 結果に応じたHTMLテンプレートを返却する役割を持つ。
  */
@@ -24,7 +24,6 @@ public class MainController {
 
     /**
      * コンストラクタ
-     * <p>
      * Springの依存性注入(DI)により、自動的にRiddleServiceが渡される。
      * @param riddleService 謎解きのロジックを担当するサービス
      */
@@ -42,17 +41,24 @@ public class MainController {
     }
 
     /**
-     * 謎解きの一覧画面を表示する
+     * 謎解き一覧画面を表示する
+     * Service層から全ての謎解きデータを取得し、HTMLに渡す。
      * @return 一覧画面のHTMLファイル名 (list.html)
      */
     @GetMapping("/list")
-    public String list() {
+    public String list(Model model) {
+        // ★ここが大事！Serviceから全データを取ってきて...
+        // (import java.util.List; を忘れずに！)
+        List<Riddle> riddles = riddleService.findAll();
+        
+        // ★ "riddles" という名前でHTMLに渡す！
+        model.addAttribute("riddles", riddles);
+        
         return "list";
     }
 
     /**
      * 指定されたIDの謎解き画面を表示する
-     * <p>
      * URLの {id} 部分を数値として受け取り、対応する問題データを検索する。
      * データが存在しない場合は一覧画面へリダイレクトする。
      *
@@ -77,7 +83,6 @@ public class MainController {
 
     /**
      * ユーザーの回答を受け取り、正誤判定を行う
-     * <p>
      * 判定ロジックはService層に委譲し、その結果に応じて画面表示用のメッセージを設定する。
      *
      * @param id     回答対象の問題ID
