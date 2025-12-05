@@ -76,21 +76,17 @@ Spring Boot学習とリハビリを兼ねて開発する、Webブラウザベー
 ```mermaid
 graph TD
     Top[Top画面] -->|Start| List[謎解き一覧画面]
-    
     List -->|選択| Quiz[ゲーム画面]
-    
     Quiz -->|回答送信| Check{判定処理}
     
-    Check -->|正解| ResultWin[結果画面(成功)]
-    Check -->|不正解| ResultLose[結果画面(失敗)]
+    %% ここ修正！""で囲ったで
+    Check -->|正解| ResultWin["結果画面(成功)"]
+    Check -->|不正解| ResultLose["結果画面(失敗)"]
     
     ResultWin -->|Next Level| Quiz
     ResultWin -->|一覧へ| List
-    
     ResultLose -->|Retry| Quiz
-    ResultLose -->|諦める| List
     
-    %% ハンバーガーメニュー
     subgraph "共通メニュー"
         Menu[≡] --> List
         Menu --> Top
