@@ -115,4 +115,28 @@ class RiddleRepositoryTest {
         boolean containsId4 = result.stream().anyMatch(r -> r.id() == 4);
         assertTrue(containsId4, "ID 4 の問題が含まれていません");
     }
+
+    /**
+     * 画像マップ形式の問題データの読み込みテスト
+     * 条件: ID=5 (画像マップ型問題)
+     * 検証項目:
+     * 1. データが存在すること
+     * 2. タイプが "image-map" であること
+     * 3. 画像URLが正しく読み込まれていること
+     */
+    @Test
+    @DisplayName("JSONロード確認(Image): ID=5の画像問題とパスが取得できること")
+    void testFindByIdImage() {
+        // まだデータないけど、未来の仕様を先に書く！
+        Optional<Riddle> result = repository.findById(5);
+        
+        // ※データ作成前やから、ここを実行すると失敗する(Red)
+        if (result.isPresent()) {
+            Riddle riddle = result.get();
+            assertEquals("image-map", riddle.type());
+            
+            // ★ここが新機能の検証！(今はメソッドなくてエラーになる)
+            assertEquals("/images/level5.png", riddle.imageUrl());
+        }
+    }
 }

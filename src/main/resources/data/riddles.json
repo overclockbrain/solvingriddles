@@ -52,5 +52,14 @@
             }
         ],
         "level": 4
+    },
+    {
+        "id": 5,
+        "question": "【視覚情報解析】\nノイズデータの中に『異物』が混入している。\n座標を特定し、排除（クリック）せよ。",
+        "answer": "target-b",
+        "hint": "『8』の羅列に見えるが...よく見ると閉じていない箇所がある。",
+        "type": "image-map",
+        "level": 5,
+        "imageUrl": "/images/level5.png"
     }
 ]

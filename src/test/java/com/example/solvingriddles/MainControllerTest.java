@@ -2,6 +2,9 @@ package com.example.solvingriddles;
 
 import com.example.solvingriddles.model.Riddle;
 import com.example.solvingriddles.service.RiddleService;
+import com.example.solvingriddles.constant.UrlConst;
+import com.example.solvingriddles.constant.ViewNames;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +46,13 @@ class MainControllerTest {
     @DisplayName("クイズ画面: IDが存在すれば画面とデータを返す")
     void testQuizFound() throws Exception {
         // 準備: ID 1ならデータを返す
-        Riddle mockRiddle = new Riddle(1, "Question", "Answer", "Hint", "text", null,1);
+        Riddle mockRiddle = new Riddle(1, "Question", "Answer", "Hint", "text", null,1, null);
         when(riddleService.findById(1)).thenReturn(Optional.of(mockRiddle));
 
         // 実行 & 検証
-        mockMvc.perform(get("/quiz/1"))
+        mockMvc.perform(get(UrlConst.QUIZ + "/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("quiz"))
+                .andExpect(view().name(ViewNames.QUIZ))
                 .andExpect(model().attribute("riddle", mockRiddle));
     }
 
@@ -67,9 +70,9 @@ class MainControllerTest {
         when(riddleService.findById(999)).thenReturn(Optional.empty());
 
         // 実行 & 検証
-        mockMvc.perform(get("/quiz/999"))
+        mockMvc.perform(get(UrlConst.QUIZ + "/999"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/list"));
+                .andExpect(redirectedUrl(UrlConst.LIST));
     }
 
     /**
@@ -86,11 +89,11 @@ class MainControllerTest {
         when(riddleService.checkAnswer(1, "Answer")).thenReturn(true);
 
         // 実行
-        mockMvc.perform(post("/quiz/check")
+        mockMvc.perform(post(UrlConst.QUIZ_CHECK)
                         .param("id", "1")
                         .param("answer", "Answer"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("result"))
+                .andExpect(view().name(ViewNames.RESULT))
                 .andExpect(model().attribute("isSuccess", true));
     }
 
@@ -109,11 +112,11 @@ class MainControllerTest {
         when(riddleService.checkAnswer(1, "Wrong")).thenReturn(false);
 
         // 実行
-        mockMvc.perform(post("/quiz/check")
+        mockMvc.perform(post(UrlConst.QUIZ_CHECK)
                         .param("id", "1")
                         .param("answer", "Wrong"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("result"))
+                .andExpect(view().name(ViewNames.RESULT))
                 .andExpect(model().attribute("isSuccess", false))
                 .andExpect(model().attribute("resultTitle", "ACCESS DENIED"));
     }
@@ -130,17 +133,17 @@ class MainControllerTest {
     void testList() throws Exception {
         // 準備: ダミーのリストを作る
         List<Riddle> mockList = List.of(
-            new Riddle(1, "Q1", "A", "H", "text", null, 1),
-            new Riddle(2, "Q2", "A", "H", "text", null, 2)
+            new Riddle(1, "Q1", "A", "H", "text", null, 1, null),
+            new Riddle(2, "Q2", "A", "H", "text", null, 2, null)
         );
         
         // findAll() が呼ばれたらダミーリストを返す
         when(riddleService.findAll()).thenReturn(mockList);
 
         // 実行 & 検証
-        mockMvc.perform(get("/list"))
+        mockMvc.perform(get(UrlConst.LIST))
                 .andExpect(status().isOk())
-                .andExpect(view().name("list"))
+                .andExpect(view().name(ViewNames.LIST))
                 .andExpect(model().attribute("riddles", mockList)); // データが渡ってるか？
     }
 }
