@@ -19,11 +19,13 @@
         <form id="quizForm" th:action="@{/quiz/check}" method="post">
             <input type="hidden" name="id" th:value="${riddle.id}" />
 
+            <!-- テキスト入力型の問題表示 -->
             <div th:if="${riddle.type == 'text'}">
                 <input type="text" name="answer" placeholder="Enter key..." autofocus>
                 <button type="submit">EXECUTE</button>
             </div>
 
+            <!-- クリック型の問題表示 -->
             <div th:if="${riddle.type == 'click'}" class="click-area">
                 <input type="hidden" id="hiddenAnswer" name="answer" value="">
 
@@ -50,6 +52,24 @@
                         document.getElementById('quizForm').submit();
                     }
                 </script>
+            </div>
+
+            <!-- 画像マップ型の問題表示 -->
+            <div th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
+                <p class="hint-text">ターゲットをクリックして解析せよ</p>
+                
+                <img th:src="@{${riddle.imageUrl}}" usemap="#image-map" 
+                    class="puzzle-image">
+
+                <map name="image-map">
+                    <area shape="rect" coords="292,145,320,185" 
+                        th:href="@{/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
+                        alt="正解エリア">
+                    
+                    <area shape="rect" coords="0,0,3000,3000" 
+                        th:href="@{/quiz/check-image(id=${riddle.id}, answer='wrong')}"
+                        alt="不正解エリア">
+                </map>
             </div>
         </form>
         

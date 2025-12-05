@@ -2,6 +2,9 @@ package com.example.solvingriddles;
 
 import com.example.solvingriddles.model.Riddle;
 import com.example.solvingriddles.service.RiddleService;
+import com.example.solvingriddles.constant.UrlConst;
+import com.example.solvingriddles.constant.ViewNames;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +38,9 @@ public class MainController {
      * トップ画面を表示する
      * @return トップ画面のHTMLファイル名 (index.html)
      */
-    @GetMapping("/")
+    @GetMapping(UrlConst.ROOT)
     public String index() {
-        return "index";
+        return ViewNames.INDEX;
     }
 
     /**
@@ -45,7 +48,7 @@ public class MainController {
      * Service層から全ての謎解きデータを取得し、HTMLに渡す。
      * @return 一覧画面のHTMLファイル名 (list.html)
      */
-    @GetMapping("/list")
+    @GetMapping(UrlConst.LIST)
     public String list(Model model) {
         // ★ここが大事！Serviceから全データを取ってきて...
         // (import java.util.List; を忘れずに！)
@@ -54,7 +57,7 @@ public class MainController {
         // ★ "riddles" という名前でHTMLに渡す！
         model.addAttribute("riddles", riddles);
         
-        return "list";
+        return ViewNames.LIST;
     }
 
     /**
@@ -66,19 +69,20 @@ public class MainController {
      * @param model 画面(HTML)にデータを渡すための入れ物
      * @return 謎解き画面 (quiz.html)、または一覧へのリダイレクトパス
      */
-    @GetMapping("/quiz/{id}")
+    @GetMapping(UrlConst.QUIZ + "/{id}")
     public String quiz(@PathVariable Integer id, Model model) {
         // Serviceを使って問題データを取得
         Optional<Riddle> riddle = riddleService.findById(id);
 
-        // もし存在しないIDなら、一覧画面に強制送還（リダイレクト）
         if (riddle.isEmpty()) {
-            return "redirect:/list";
+            // もし存在しないIDなら、一覧画面に強制送還（リダイレクト）
+            // UrlConstを使う理由はブラウザに対して明示的に別のURLに移動するよう指示するため
+            return "redirect:" + UrlConst.LIST;
         }
 
         // HTML側で "riddle" という名前でデータを使えるようにする
         model.addAttribute("riddle", riddle.get());
-        return "quiz";
+        return ViewNames.QUIZ;
     }
 
     /**
@@ -90,7 +94,7 @@ public class MainController {
      * @param model  画面に結果を表示するためのデータ受け渡し用
      * @return 結果画面のHTMLファイル名 (result.html)
      */
-    @PostMapping("/quiz/check")
+    @PostMapping(UrlConst.QUIZ_CHECK)
     public String check(@RequestParam Integer id, @RequestParam String answer, Model model) {
         // 判定ロジックはServiceに丸投げ
         boolean isSuccess = riddleService.checkAnswer(id, answer);
@@ -108,6 +112,39 @@ public class MainController {
         // リトライ用にIDも渡しておく (result.htmlから戻るため)
         model.addAttribute("riddleId", id);
         
-        return "result";
+        return ViewNames.RESULT;
+    }
+
+    /**
+     * 画像クリック(GET)用の判定メソッド
+     * <area href="/quiz/check-image?id=5&answer=..."> から呼ばれる
+     * @param id     問題ID
+     * @param answer クリック座標などの回答データ
+     * @param model  画面に結果を表示するためのデータ受け渡し用
+     * @return 結果画面のHTMLファイル名 (result.html)
+     */
+    @GetMapping(UrlConst.QUIZ_CHECK_IMAGE)
+    public String checkImage(@RequestParam Integer id, 
+                             @RequestParam String answer, 
+                             Model model) {
+        
+        // ロジックはServiceに丸投げ（既存のメソッドを再利用！）
+        boolean isSuccess = riddleService.checkAnswer(id, answer);
+
+        if (isSuccess) {
+            model.addAttribute("resultTitle", "ACCESS GRANTED");
+            model.addAttribute("resultMessage", "認証成功。画像解析完了。");
+            model.addAttribute("isSuccess", true);
+        } else {
+            model.addAttribute("resultTitle", "ACCESS DENIED");
+            model.addAttribute("resultMessage", "座標エラー。ターゲットではありません。");
+            model.addAttribute("isSuccess", false);
+        }
+        
+        // リトライ時に元の問題に戻れるようにIDを渡す
+        model.addAttribute("riddleId", id);
+        
+        // 結果画面は既存のものを使い回す
+        return ViewNames.RESULT;
     }
 }

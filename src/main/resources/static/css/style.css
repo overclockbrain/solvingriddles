@@ -195,3 +195,21 @@ button {
 .target-char:hover {
     text-shadow: 0 0 10px #00ff41; /* 正解は輝く */
 }
+
+/* --- 画像探索問題用 --- */
+.image-quiz-area {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.puzzle-image {
+    max-width: 100%;
+    border: 2px solid #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3); /* ちょっと光らせてリッチに */
+}
+
+.hint-text {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
