@@ -188,4 +188,30 @@ class RiddleRepositoryTest {
         assertNotNull(riddle.options(), "選択肢リストがnullです");
         assertTrue(riddle.options().size() >= 3, "選択肢が3つ以上あるはずです");
     }
+
+    /**
+     * 並べ替え形式の問題データの読み込みテスト
+     * 条件: ID=8 (並べ替え型問題)
+     * 検証項目:
+     * 1. データが存在すること
+     * 2. タイプが "sort" であること
+     * 3. 選択肢リスト (options) が正しく読み込まれていること
+     * 4. 正解データ (answer) が正しく読み込まれていること
+     */
+    @Test
+    @DisplayName("JSONロード確認(Sort): ID=8の並べ替え問題が取得できること")
+    void testFindByIdSort() {
+        // まだデータないから失敗するはず(Red)
+        Optional<Riddle> result = repository.findById(8);
+        
+        assertTrue(result.isPresent(), "ID=8のデータが見つかりません");
+        Riddle riddle = result.get();
+        
+        assertEquals("sort", riddle.type());
+        assertNotNull(riddle.options(), "並べ替え用の選択肢がnullです");
+        assertTrue(riddle.options().size() >= 3, "選択肢が3つ以上あるはずです");
+        
+        // 正解はカンマ区切りの文字列を想定（例: "a,b,c"）
+        assertNotNull(riddle.answer(), "正解が定義されていません");
+    }
 }

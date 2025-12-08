@@ -61,6 +61,26 @@
             </form>
         </div>
 
+        <!-- 並べ替え型の問題表示 -->
+        <div th:if="${riddle.type == 'sort'}" class="sort-container">
+            <ul id="sortable-list" class="sort-list">
+                <li th:each="opt : ${riddle.options}"
+                    class="sort-item"
+                    draggable="true"
+                    th:data-value="${opt.role}"
+                    th:text="${opt.text}">
+                </li>
+            </ul>
+
+            <form th:action="@{/quiz/check}" method="post" id="sortForm">
+                <input type="hidden" name="id" th:value="${riddle.id}">
+                <input type="hidden" name="answer" id="hiddenAnswer">
+                <div style="text-align: center; margin-top: 20px;">
+                    <button type="button" class="btn" onclick="submitSortAnswer()">決定して回答</button>
+                </div>
+            </form>
+        </div>
+
         <!-- テキスト入力型・クリック型の問題表示 -->
         <form id="quizForm" th:action="@{/quiz/check}" method="post" 
           th:unless="${riddle.type == 'image-map' || riddle.type == 'story' || riddle.type == 'select'}">
@@ -108,5 +128,7 @@
             <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
         </div>
     </div>
+
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>
