@@ -291,3 +291,30 @@ button, .btn {
     outline: none;
     box-shadow: 0 0 10px #00ff00; /* フォーカス時に光らせる */
 }
+
+/* --- 並べ替えリストのデザイン --- */
+.sort-list {
+    list-style-type: none; /* ・を消す */
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.sort-item {
+    background-color: #333; /* 黒背景 */
+    color: #00ff00;         /* 緑文字 */
+    border: 1px solid #00ff00;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: grab;           /* 掴めそうな手 */
+    font-family: 'Courier New', monospace;
+    transition: background-color 0.2s;
+}
+
+/* ドラッグ中の見た目 */
+.sort-item.dragging {
+    opacity: 0.5;
+    background-color: #555;
+    cursor: grabbing;       /* 掴んでる手 */
+}

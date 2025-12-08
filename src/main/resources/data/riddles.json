@@ -99,6 +99,30 @@
             }
         ],
         "imageUrl": null,
+        "nextId": 7
+    },
+    {
+        "id": 8,
+        "question": "TDD（テスト駆動開発）の正しいサイクルの順序に並べ替えよ。",
+        "answer": "red,green,refactor",
+        "hint": "まずは失敗、次は成功、最後は整理や。",
+        "type": "sort",
+        "level": 3,
+        "options": [
+            {
+                "text": "Refactor (整理)",
+                "role": "refactor"
+            },
+            {
+                "text": "Red (失敗)",
+                "role": "red"
+            },
+            {
+                "text": "Green (成功)",
+                "role": "green"
+            }
+        ],
+        "imageUrl": null,
         "nextId": null
     }
 ]
