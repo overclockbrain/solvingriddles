@@ -16,7 +16,38 @@
             ヒント
         </p>
 
-        <form id="quizForm" th:action="@{/quiz/check}" method="post">
+        <!-- 画像マップ型の問題表示 -->
+        <div th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
+            <p class="hint-text">ターゲットをクリックして解析せよ</p>
+            
+            <img th:src="@{${riddle.imageUrl}}" usemap="#image-map" 
+                class="puzzle-image">
+
+            <map name="image-map">
+                <area shape="rect" coords="292,145,320,185" 
+                    th:href="@{/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
+                    alt="正解エリア">
+                
+                <area shape="rect" coords="0,0,3000,3000" 
+                    th:href="@{/quiz/check-image(id=${riddle.id}, answer='wrong')}"
+                    alt="不正解エリア">
+            </map>
+        </div>
+
+        <!-- ストーリー型の問題表示 -->
+        <div th:if="${riddle.type == 'story'}" class="story-container">
+            <p class="story-text" th:utext="${#strings.replace(riddle.question, '&#10;', '<br>')}"></p>           
+            <div class="story-btn-container">
+                <a th:href="@{/list}" class="btn btn-secondary">一覧へ</a>
+                <a th:if="${riddle.nextId != null}" 
+                   th:href="@{/quiz/{id}(id=${riddle.nextId})}" 
+                   class="btn">次のミッションへ</a>
+            </div>
+        </div>
+
+        <!-- テキスト入力型・クリック型の問題表示 -->
+        <form id="quizForm" th:action="@{/quiz/check}" method="post" 
+          th:unless="${riddle.type == 'image-map' || riddle.type == 'story'}">
             <input type="hidden" name="id" th:value="${riddle.id}" />
 
             <!-- テキスト入力型の問題表示 -->
@@ -53,28 +84,13 @@
                     }
                 </script>
             </div>
-
-            <!-- 画像マップ型の問題表示 -->
-            <div th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
-                <p class="hint-text">ターゲットをクリックして解析せよ</p>
-                
-                <img th:src="@{${riddle.imageUrl}}" usemap="#image-map" 
-                    class="puzzle-image">
-
-                <map name="image-map">
-                    <area shape="rect" coords="292,145,320,185" 
-                        th:href="@{/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
-                        alt="正解エリア">
-                    
-                    <area shape="rect" coords="0,0,3000,3000" 
-                        th:href="@{/quiz/check-image(id=${riddle.id}, answer='wrong')}"
-                        alt="不正解エリア">
-                </map>
-            </div>
         </form>
         
         <br><br><br>
-        <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
+        <!-- 中断リンク（ストーリー型以外で表示） -->
+        <div th:if="${riddle.type != 'story'}">
+            <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
+        </div>
     </div>
 </body>
 </html>

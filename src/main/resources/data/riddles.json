@@ -61,5 +61,16 @@
         "type": "image-map",
         "level": 5,
         "imageUrl": "/images/level5.png"
+    },
+    {
+        "id": 6,
+        "question": "🍵 休憩ポイント\n\n激しい戦いの末、君は古いデータセンターに辿り着いた。\nサーバーの排熱ファンの音が心地よく響いている。\n\n少し休んでから、次の任務（リスト）へ戻ろう。",
+        "answer": null,
+        "hint": "ただの休憩や。深呼吸してな。",
+        "type": "story",
+        "level": 1,
+        "options": null,
+        "imageUrl": null,
+        "nextId": 7
     }
 ]

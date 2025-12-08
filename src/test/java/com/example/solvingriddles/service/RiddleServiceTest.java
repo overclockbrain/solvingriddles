@@ -38,7 +38,7 @@ class RiddleServiceTest {
     @DisplayName("正解判定: 正しい答えならtrueが返ること")
     void testCheckAnswerCorrect() {
         // 準備: Optionsはnull
-        Riddle mockRiddle = new Riddle(1, "テスト問題", "Answer", "ヒント", "text", null,1, null);
+        Riddle mockRiddle = new Riddle(1, "テスト問題", "Answer", "ヒント", "text", null,1, null,null);
         when(repository.findById(1)).thenReturn(Optional.of(mockRiddle));
 
         // 実行
@@ -57,7 +57,7 @@ class RiddleServiceTest {
     @DisplayName("正解判定: 間違いならfalseが返ること")
     void testCheckAnswerIncorrect() {
         // 準備
-        Riddle mockRiddle = new Riddle(1, "テスト問題", "Answer", "ヒント", "text", null,1, null);
+        Riddle mockRiddle = new Riddle(1, "テスト問題", "Answer", "ヒント", "text", null,1, null,null);
         when(repository.findById(1)).thenReturn(Optional.of(mockRiddle));
 
         // 実行
@@ -77,7 +77,7 @@ class RiddleServiceTest {
     @DisplayName("正解判定: 大文字小文字を無視すること")
     void testCheckAnswerIgnoreCase() {
         // 準備
-        Riddle mockRiddle = new Riddle(1, "テスト問題", "Answer", "ヒント", "text", null,1, null);
+        Riddle mockRiddle = new Riddle(1, "テスト問題", "Answer", "ヒント", "text", null,1, null,null);
         when(repository.findById(1)).thenReturn(Optional.of(mockRiddle));
 
         // 実行
@@ -102,7 +102,7 @@ class RiddleServiceTest {
         );
 
         // 準備: Optionsが入ったRiddleを作る (答えは "found")
-        Riddle mockRiddle = new Riddle(4, "クリック問題", "found", "ヒント", "click", options,1, null);
+        Riddle mockRiddle = new Riddle(4, "クリック問題", "found", "ヒント", "click", options,1, null,null);
         
         when(repository.findById(4)).thenReturn(Optional.of(mockRiddle));
 
@@ -125,7 +125,7 @@ class RiddleServiceTest {
     void testFindAll() {
         // 準備
         List<Riddle> mockList = List.of(
-            new Riddle(1, "Q", "A", "H", "text", null, 1, null)
+            new Riddle(1, "Q", "A", "H", "text", null, 1, null,null)
         );
         when(repository.findAll()).thenReturn(mockList);
 

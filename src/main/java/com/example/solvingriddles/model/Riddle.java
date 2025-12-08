@@ -12,6 +12,7 @@ import java.util.List;
  * @param options クリック問題用のパーツリスト
  * @param level 難易度レベル
  * @param imageUrl 画像URL
+ * @param nextId 次の問題ID (ストーリー型用)
  */
 public record Riddle(
     Integer id,
@@ -21,7 +22,8 @@ public record Riddle(
     String type,
     List<RiddleOption> options,
     Integer level,
-    String imageUrl
+    String imageUrl,
+    Integer nextId
 ) {
     /**
      * レベルの数字を星に変換するメソッド
