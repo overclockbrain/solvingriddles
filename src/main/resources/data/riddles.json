@@ -72,5 +72,33 @@
         "options": null,
         "imageUrl": null,
         "nextId": 7
+    },
+    {
+        "id": 7,
+        "question": "⚔️ 作戦再開\n\n十分な休息は取れたようだな。\nこれよりセキュリティレベルが上がる。\n\n次のコードを出力するプログラミング言語を選んでロックを解除せよ。\n\nSystem.out.println(\"Hello\");",
+        "answer": "java",
+        "hint": "このアプリを作っている言語や。",
+        "type": "select",
+        "level": 2,
+        "options": [
+            {
+                "text": "Python",
+                "role": "python"
+            },
+            {
+                "text": "Java",
+                "role": "java"
+            },
+            {
+                "text": "C++",
+                "role": "cpp"
+            },
+            {
+                "text": "HTML",
+                "role": "html"
+            }
+        ],
+        "imageUrl": null,
+        "nextId": null
     }
 ]

@@ -157,11 +157,35 @@ class RiddleRepositoryTest {
     void testFindByIdStory() {
         // 実行
         Optional<Riddle> result = repository.findById(6);
-        
+        Riddle riddle = result.get();
+
         assertTrue(result.isPresent(), "ID=6のデータが見つかりません");
-        assertEquals("story", result.get().type());
-        assertEquals(7, result.get().nextId());
+        assertEquals("story", riddle.type());
+        assertEquals(7, riddle.nextId());
     }
 
-    
+    /**
+     * 選択肢形式の問題データの読み込みテスト
+     * 条件: ID=7 (選択肢型問題)
+     * 検証項目:
+     * 1. データが存在すること
+     * 2. タイプが "select" であること
+     * 3. 選択肢リスト (options) が正しく読み込まれていること
+     */
+    @Test
+    @DisplayName("JSONロード確認(Select): ID=7の選択肢問題が取得できること")
+    void testFindByIdSelect() {
+        // ID: 7 を取得
+        Optional<Riddle> result = repository.findById(7);
+        
+        assertTrue(result.isPresent(), "ID=7のデータが見つかりません");
+        Riddle riddle = result.get();
+        
+        // タイプは select
+        assertEquals("select", riddle.type());
+        
+        // 選択肢がちゃんと入ってるか
+        assertNotNull(riddle.options(), "選択肢リストがnullです");
+        assertTrue(riddle.options().size() >= 3, "選択肢が3つ以上あるはずです");
+    }
 }

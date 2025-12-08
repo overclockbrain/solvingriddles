@@ -8,18 +8,16 @@
         <h2 th:text="'LEVEL ' + ${riddle.id} + ': SECURITY CHECK'">LEVEL X</h2>
         <p>セキュリティ・質問に回答せよ</p>
         
-        <h3 class="question-text" th:text="${riddle.question}">
-            ここに問題文が出るで
+        <h3 class="question-text"
+            th:utext="${#strings.replace(riddle.question, '&#10;', '<br>')}">
         </h3>
         
-        <p class="hint-text" th:text="'HINT: ' + ${riddle.hint}">
-            ヒント
+        <p class="hint-text"
+        th:text="'HINT: ' + ${riddle.hint}">
         </p>
 
         <!-- 画像マップ型の問題表示 -->
         <div th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
-            <p class="hint-text">ターゲットをクリックして解析せよ</p>
-            
             <img th:src="@{${riddle.imageUrl}}" usemap="#image-map" 
                 class="puzzle-image">
 
@@ -36,18 +34,36 @@
 
         <!-- ストーリー型の問題表示 -->
         <div th:if="${riddle.type == 'story'}" class="story-container">
-            <p class="story-text" th:utext="${#strings.replace(riddle.question, '&#10;', '<br>')}"></p>           
             <div class="story-btn-container">
                 <a th:href="@{/list}" class="btn btn-secondary">一覧へ</a>
                 <a th:if="${riddle.nextId != null}" 
-                   th:href="@{/quiz/{id}(id=${riddle.nextId})}" 
-                   class="btn">次のミッションへ</a>
+                th:href="@{/quiz/{id}(id=${riddle.nextId})}" 
+                class="btn">次のミッションへ</a>
             </div>
+        </div>
+
+        <!-- セレクト型の問題表示 -->
+        <div th:if="${riddle.type == 'select'}" class="select-container">
+            <form th:action="@{/quiz/check}" method="post" class="quiz-form">
+                <input type="hidden" name="id" th:value="${riddle.id}">
+                
+                <div style="margin: 20px 0;">
+                    <select name="answer" class="form-select" required>
+                        <option value="" selected disabled>-- 言語を選択 --</option>
+                        <option th:each="opt : ${riddle.options}"
+                                th:value="${opt.role}"
+                                th:text="${opt.text}">
+                        </option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">ロック解除</button>
+            </form>
         </div>
 
         <!-- テキスト入力型・クリック型の問題表示 -->
         <form id="quizForm" th:action="@{/quiz/check}" method="post" 
-          th:unless="${riddle.type == 'image-map' || riddle.type == 'story'}">
+          th:unless="${riddle.type == 'image-map' || riddle.type == 'story' || riddle.type == 'select'}">
             <input type="hidden" name="id" th:value="${riddle.id}" />
 
             <!-- テキスト入力型の問題表示 -->
