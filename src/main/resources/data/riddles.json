@@ -124,5 +124,16 @@
         ],
         "imageUrl": null,
         "nextId": null
+    },
+    {
+        "id": 9,
+        "question": "💀 古のトラップ\n\n深層領域に進んだ途端、画面が暗転し、奇妙なエディタが起動した。\nカーソルは動くが、マウスも効かないし、元の画面に戻れない！\n\nこの「ヴィムの牢獄」から脱出（保存して終了）するコマンドを入力せよ。\n（コロン : を忘れずに）",
+        "answer": ":wq",
+        "hint": "w(rite) して q(uit) や。",
+        "type": "text",
+        "level": 4,
+        "options": null,
+        "imageUrl": null,
+        "nextId": null
     }
 ]

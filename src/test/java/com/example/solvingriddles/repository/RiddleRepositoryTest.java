@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -213,5 +215,53 @@ class RiddleRepositoryTest {
         
         // 正解はカンマ区切りの文字列を想定（例: "a,b,c"）
         assertNotNull(riddle.answer(), "正解が定義されていません");
+    }
+
+    /**
+     * データ整合性チェックテスト
+     * 条件: Repository内の全問題データ
+     * 検証項目:
+     * 1. 全データが存在すること
+     * 2. 各データのIDが重複していないこと
+     * 3. 必須項目 (question, type) がnullでないこと
+     * 4. ストーリー以外の問題は必ず正解 (answer) が定義されていること
+     * 5. nextId がある場合、その飛び先のIDが実在すること（リンク切れチェック）
+     */
+    @Test
+    @DisplayName("データ整合性チェック: 全問題がルール通り定義されているか")
+    void testAllRiddlesIntegrity() {
+        List<Riddle> allRiddles = repository.findAll();
+        
+        // 1. データが空じゃないか
+        assertFalse(allRiddles.isEmpty(), "JSONが読み込めていません");
+
+        // 重複IDチェック用のセット
+        Set<Integer> idSet = new HashSet<>();
+
+        for (Riddle r : allRiddles) {
+            // 2. IDの重複チェック
+            if (idSet.contains(r.id())) {
+                fail("IDが重複しています: " + r.id());
+            }
+            idSet.add(r.id());
+
+            // 3. 必須項目のチェック
+            assertNotNull(r.question(), "ID:" + r.id() + " の問題文(question)がnullです");
+            assertNotNull(r.type(), "ID:" + r.id() + " のタイプ(type)がnullです");
+
+            // 4. ストーリー以外なら、必ず「正解(answer)」があること
+            if (!"story".equals(r.type())) {
+                assertNotNull(r.answer(), "ID:" + r.id() + " は問題なのに正解(answer)がありません");
+            }
+            
+            // 5. nextId がある場合、その飛び先のIDが実在するか？ (リンク切れチェック)
+            if (r.nextId() != null) {
+                // ここで飛び先があるかチェックしたいけど、リスト全部なめないとわからんから
+                // 簡易的に「自分より大きいか」とかチェックしてもええし、
+                // 本気でやるなら全IDリストと突き合わせる
+                boolean targetExists = allRiddles.stream().anyMatch(t -> t.id().equals(r.nextId()));
+                assertTrue(targetExists, "ID:" + r.id() + " の nextId:" + r.nextId() + " が存在しません（リンク切れ）");
+            }
+        }
     }
 }
