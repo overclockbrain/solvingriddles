@@ -21,11 +21,34 @@ a:hover {
     max-width: 600px; 
     margin: 0 auto; 
 }
-input { 
-    background-color: #333; 
-    color: white; 
-    border: 1px solid #00ff41; 
-    padding: 10px; font-size: 1.2rem;
+/* input全体じゃなくて、テキスト入力だけを狙い撃ちするのが安全や */
+input[type="text"] {
+    /* 背景を #333(グレー) から #000(漆黒) へ変更 */
+    background-color: #000; 
+    
+    /* 文字を white から #00ff00(ターミナルグリーン) へ変更 */
+    color: #00ff00; 
+    
+    /* 枠線は今のままでOK！太さを2pxにするともっと強調される */
+    border: 2px solid #00ff41; 
+    
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    font-family: 'Courier New', monospace; /* フォントも等幅にする */
+    border-radius: 5px;
+    outline: none;
+    width: 80%; /* ちょっと広げる */
+    text-align: center;
+
+    display: block;          /* これでボタンが勝手に次の行に落ちる */
+    margin: 0 auto 30px;     /* 左右は中央(auto)、下(30px)にガッツリ隙間を作る */
+    
+    width: 30%;
+}
+
+/* 入力中に怪しく光らせる演出 */
+input[type="text"]:focus {
+    box-shadow: 0 0 15px #00ff41; 
 }
 button, .btn {
     background-color: #00ff41; 
