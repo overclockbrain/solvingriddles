@@ -94,11 +94,11 @@ class RiddleRepositoryTest {
 
     /**
      * 全件取得のテスト
-     * JSONファイルに定義されている全データ（現在は4件）が取得できること
+     * 条件: Repositoryから全ての問題データを取得する
      * 検証項目:
-     * 1. 返されたリストが null でないこと
-     * 2. リストのサイズが4であること
-     * 3. ID=4の問題が含まれていること
+     * 1. 返されたリストがnullでないこと
+     * 2. リストのサイズが期待値以上であること (現在6件登録されている)
+     * 3. 各データのIDが正しく読み込まれていること
      */
     @Test
     @DisplayName("JSONロード確認(All): 全てのデータが取得できること")
@@ -107,13 +107,17 @@ class RiddleRepositoryTest {
         List<Riddle> result = repository.findAll();
 
         // 検証
-        assertNotNull(result);
-        assertEquals(4, result.size(), "問題数がJSONの定義数(4つ)と一致しません");
+        // 1. まずnullじゃないこと (これは絶対)
+        assertNotNull(result, "リストがnullです");
+        
+        // 2. 「0以上」じゃなくて「今ある6件以上」にするのが安全！
+        //    これならID:7を追加してもテストを書き直さんで済むわ
+        assertTrue(result.size() >= 6, "問題データが読み込めていません（6件未満）");
         
         // 念のためID順に並んでるかとか見てもええけど、Mapやから順序保証はないかも
-        // (ID 4が含まれてるかチェック)
-        boolean containsId4 = result.stream().anyMatch(r -> r.id() == 4);
-        assertTrue(containsId4, "ID 4 の問題が含まれていません");
+        // (ID 6が含まれてるかチェック)
+        boolean containsId6 = result.stream().anyMatch(r -> r.id() == 6);
+        assertTrue(containsId6, "ID 6 の問題が含まれていません");
     }
 
     /**
@@ -139,4 +143,25 @@ class RiddleRepositoryTest {
             assertEquals("/images/level5.png", riddle.imageUrl());
         }
     }
+
+    /**
+     * ストーリー形式の問題データの読み込みテスト
+     * 条件: ID=6 (ストーリー型問題)
+     * 検証項目:
+     * 1. データが存在すること
+     * 2. タイプが "story" であること
+     * 3. 次の問題ID (nextId) が正しく読み込まれていること
+     */
+    @Test
+    @DisplayName("JSONロード確認(Story): ID=6のストーリータイプが取得できること")
+    void testFindByIdStory() {
+        // 実行
+        Optional<Riddle> result = repository.findById(6);
+        
+        assertTrue(result.isPresent(), "ID=6のデータが見つかりません");
+        assertEquals("story", result.get().type());
+        assertEquals(7, result.get().nextId());
+    }
+
+    
 }
