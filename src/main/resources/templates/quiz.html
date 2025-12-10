@@ -93,7 +93,7 @@
             </div>
 
             <!-- クリック型の問題表示 -->
-            <div th:if="${riddle.type == 'click'}" class="click-area">
+            <div th:if="${riddle.type == 'click'}" class="click-area" th:classappend="'level-' + ${riddle.id}">
                 <input type="hidden" id="hiddenAnswer" name="answer" value="">
 
                 <th:block th:each="opt : ${riddle.options}">

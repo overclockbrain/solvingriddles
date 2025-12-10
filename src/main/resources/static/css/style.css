@@ -1,4 +1,8 @@
 /* src/main/resources/static/css/style.css */
+
+/* =========================================
+   🎨 Base Styles (基本設定)
+   ========================================= */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -10,17 +14,25 @@ body {
     text-align: center;
     padding-top: 50px;
 }
+
 a { 
     color: #00ffff;
     text-decoration: none; 
 }
+
 a:hover { 
     text-decoration: underline;
 }
+
 .container { 
     max-width: 600px; 
     margin: 0 auto; 
 }
+
+/* =========================================
+   ⌨️ Input & Buttons (入力・ボタン)
+   ========================================= */
+
 /* input全体じゃなくて、テキスト入力だけを狙い撃ちするのが安全や */
 input[type="text"] {
     /* 背景を #333(グレー) から #000(漆黒) へ変更 */
@@ -42,7 +54,6 @@ input[type="text"] {
 
     display: block;          /* これでボタンが勝手に次の行に落ちる */
     margin: 0 auto 30px;     /* 左右は中央(auto)、下(30px)にガッツリ隙間を作る */
-    
     width: 30%;
 }
 
@@ -50,6 +61,7 @@ input[type="text"] {
 input[type="text"]:focus {
     box-shadow: 0 0 15px #00ff41; 
 }
+
 button, .btn {
     background-color: #00ff41; 
     color: black;
@@ -59,76 +71,20 @@ button, .btn {
     cursor: pointer;
     font-weight: bold;
 }
+
 .btn:hover {
     text-decoration: none;
 }
-/* ヘッダー周りのスタイル */
-.header-bar {
-    border-bottom: 1px solid #00ff41;
-    padding: 15px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+/* サブボタン（一覧へ）：グレーの塗りつぶし */
+.btn-secondary {
+    background-color: #666;    /* 濃いグレー */
+    color: #fff;
 }
 
-.logo {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #00ff41;
-    text-decoration: none;
-}
-
-.menu-btn {
-    cursor: pointer;
-    font-size: 1.5rem;
-}
-
-/* ミッション一覧の箱 */
-.mission-box {
-    border: 1px solid #00ff41;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-/* クイズ画面用 */
-.question-text {
-    font-size: 1.5rem;
-    margin: 30px 0;
-    letter-spacing: 2px; /* ちょっと文字間隔あけるとハッカーっぽい */
-}
-
-.question-text.story-text {
-    text-align: center;       /* 真ん中寄せ */
-    font-size: 1.2rem;        /* ちょっと文字サイズ変えてもええ */
-    line-height: 2.0;         /* 行間広めに */
-    margin-bottom: 30px;
-    font-weight: normal;      /* 太字解除して読み物っぽく */
-}
-
-.hint-text {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-}
-
-/* 結果画面用 */
-.text-success {
-    color: #00ff41; /* 成功時の緑 */
-}
-
-.text-danger {
-    color: #ff4444; /* 失敗時の赤 */
-}
-
-.btn-retry {
-    background-color: #ff4444;
-    color: white;
-    border: 1px solid #ff4444;
-}
-.btn-retry:hover {
-    background-color: #cc0000; /* ホバー時はちょっと暗く */
-}
-/* --- ヘッダーエリア --- */
+/* =========================================
+   🧭 Header & Navigation (ヘッダー・メニュー)
+   ========================================= */
 .app-header {
     position: relative; 
 }
@@ -136,7 +92,6 @@ button, .btn {
 .header-bar {
     border-bottom: 1px solid #00ff41;
     padding: 15px;
-    /* margin-bottom は削除（メニューが浮くから隙間いらん） */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -160,7 +115,6 @@ button, .btn {
 
 /* --- アコーディオンメニュー --- */
 .side-menu {
-    /* ★ここが大改造ポイント！ */
     position: absolute;  /* 浮カせる！ */
     top: 100%;           /* ヘッダーの真下に配置 */
     left: 0;
@@ -205,7 +159,61 @@ button, .btn {
     cursor: not-allowed;
 }
 
-/* --- クリック探索問題用 --- */
+/* =========================================
+   🧩 Quiz General (クイズ共通・テキスト)
+   ========================================= */
+
+/* ミッション一覧の箱 */
+.mission-box {
+    border: 1px solid #00ff41;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.question-text {
+    font-size: 1.5rem;
+    margin: 30px 0;
+    letter-spacing: 2px; /* ちょっと文字間隔あけるとハッカーっぽい */
+}
+
+.question-text.story-text {
+    text-align: center;       /* 真ん中寄せ */
+    font-size: 1.2rem;        /* ちょっと文字サイズ変えてもええ */
+    line-height: 2.0;         /* 行間広めに */
+    margin-bottom: 30px;
+    font-weight: normal;      /* 太字解除して読み物っぽく */
+}
+
+.hint-text {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+/* =========================================
+   🏆 Result Screen (結果画面)
+   ========================================= */
+.text-success {
+    color: #00ff41; /* 成功時の緑 */
+}
+
+.text-danger {
+    color: #ff4444; /* 失敗時の赤 */
+}
+
+.btn-retry {
+    background-color: #ff4444;
+    color: white;
+    border: 1px solid #ff4444;
+}
+
+.btn-retry:hover {
+    background-color: #cc0000; /* ホバー時はちょっと暗く */
+}
+
+/* =========================================
+   🖱️ Click Puzzle (クリック探索)
+   ========================================= */
 .click-area {
     margin-top: 30px; 
     font-size: 2rem; 
@@ -218,6 +226,7 @@ button, .btn {
     cursor: pointer;
     transition: color 0.2s;
 }
+
 .fake-char:hover {
     color: #ff4444; /* ダミーは赤く光らせて「罠」っぽく */
 }
@@ -227,11 +236,14 @@ button, .btn {
     color: #00ff41; /* 正解は最初から緑（難易度上げるなら白にしてな！） */
     font-weight: bold;
 }
+
 .target-char:hover {
     text-shadow: 0 0 10px #00ff41; /* 正解は輝く */
 }
 
-/* --- 画像探索問題用 --- */
+/* =========================================
+   🖼️ Image Puzzle (画像探索)
+   ========================================= */
 .image-quiz-area {
     text-align: center;
     margin-top: 20px;
@@ -243,17 +255,13 @@ button, .btn {
     box-shadow: 0 0 10px rgba(0, 255, 65, 0.3); /* ちょっと光らせてリッチに */
 }
 
-.hint-text {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-}
-
-/* --- ストーリーモード (休憩画面) --- */
+/* =========================================
+   📖 Story & Select (ストーリー・選択式)
+   ========================================= */
 .story-container,
 .select-container {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .story-icon {
@@ -262,22 +270,6 @@ button, .btn {
     display: block; /* 改行させる */
 }
 
-/* --- クラス定義の修正 --- */
-
-/* 白い箱（quiz-card）は廃止して、ただの配置用クラスにする */
-.story-container,
-.select-container {
-    text-align: center;
-    margin-top: 30px;
-}
-
-/* --- サブボタン（一覧へ）：グレーの塗りつぶし --- */
-.btn-secondary {
-    background-color: #666;    /* 濃いグレー */
-    color: #fff;
-}
-
-/* Storyのボタン並び（維持） */
 .story-btn-container {
     display: flex;
     gap: 15px;
@@ -285,7 +277,7 @@ button, .btn {
     margin-top: 30px;
 }
 
-/* --- プルダウンのデザイン --- */
+/* プルダウンのデザイン */
 .form-select {
     appearance: none;        /* Mac/Winの標準デザインを消す魔法 */
     -webkit-appearance: none; 
@@ -315,7 +307,9 @@ button, .btn {
     box-shadow: 0 0 10px #00ff00; /* フォーカス時に光らせる */
 }
 
-/* --- 並べ替えリストのデザイン --- */
+/* =========================================
+   🔃 Sort Puzzle (並べ替え)
+   ========================================= */
 .sort-list {
     list-style-type: none; /* ・を消す */
     padding: 0;
@@ -340,4 +334,47 @@ button, .btn {
     opacity: 0.5;
     background-color: #555;
     cursor: grabbing;       /* 掴んでる手 */
+}
+
+/* =========================================
+   💀 鬼畜モード (Level 12: Error Log)
+   ========================================= */
+.click-area.level-12 {
+    color: #ff4444;
+    text-align: left;        /* 絶対に左寄せ */
+    font-size: 0.9rem;       /* 文字は小さめがリアル */
+    
+    word-break: break-all;   /* 単語の途中でも折り返して、隙間を埋める */
+    
+    line-height: 1.2;        /* ★ここ重要！行間をギュッと詰める */
+    font-family: Consolas, Monaco, 'Courier New', monospace;
+    
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px dashed #555; 
+    background-color: #1e0000;
+    
+    width: 100%;
+    max-width: 100%;
+}
+
+/* 以下変更なし */
+.click-area.level-12 .target-char,
+.click-area.level-12 .target-char:hover,
+.click-area.level-12 .fake-char,
+.click-area.level-12 span {
+    color: inherit;
+    font-weight: normal;
+    text-shadow: none;
+    cursor: text; 
+}
+
+/* 文字を強制的にインライン（横並び）にする */
+.click-area.level-12 span,
+.click-area.level-12 .target-char,
+.click-area.level-12 .fake-char {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;   /* 改行コードは守る */
 }
