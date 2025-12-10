@@ -21,7 +21,7 @@ class RiddleTest {
     @DisplayName("難易度アイコン: レベル1なら星1つ")
     void testDifficultyIconLevel1() {
         // 準備: レベル1の問題を作る (他の項目は適当でOK)
-        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, 1, null,null);
+        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, 1, null,null,null);
 
         // 検証
         assertEquals("★☆☆☆☆", riddle.difficultyIcon());
@@ -35,7 +35,7 @@ class RiddleTest {
     @Test
     @DisplayName("難易度アイコン: レベル3なら星3つ")
     void testDifficultyIconLevel3() {
-        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, 3, null,null);
+        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, 3, null,null,null);
         assertEquals("★★★☆☆", riddle.difficultyIcon());
     }
 
@@ -47,7 +47,7 @@ class RiddleTest {
     @Test
     @DisplayName("難易度アイコン: レベル5なら星5つ")
     void testDifficultyIconLevel5() {
-        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, 5, null,null);
+        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, 5, null,null,null);
         assertEquals("★★★★★", riddle.difficultyIcon());
     }
 
@@ -60,7 +60,7 @@ class RiddleTest {
     @DisplayName("難易度アイコン: nullならデフォルトで星1つ")
     void testDifficultyIconNull() {
         // レベルに null を渡してみる
-        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, null, null,null);
+        Riddle riddle = new Riddle(1, "Q", "A", "H", "text", null, null, null,null,null);
         
         // コード内で「nullなら1」にしてるか確認
         assertEquals("★☆☆☆☆", riddle.difficultyIcon());

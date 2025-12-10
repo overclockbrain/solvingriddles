@@ -46,7 +46,7 @@ class MainControllerTest {
     @DisplayName("クイズ画面: IDが存在すれば画面とデータを返す")
     void testQuizFound() throws Exception {
         // 準備: ID 1ならデータを返す
-        Riddle mockRiddle = new Riddle(1, "Question", "Answer", "Hint", "text", null,1, null,null);
+        Riddle mockRiddle = new Riddle(1, "Question", "Answer", "Hint", "text", null,1, null,null,null);
         when(riddleService.findById(1)).thenReturn(Optional.of(mockRiddle));
 
         // 実行 & 検証
@@ -133,8 +133,8 @@ class MainControllerTest {
     void testList() throws Exception {
         // 準備: ダミーのリストを作る
         List<Riddle> mockList = List.of(
-            new Riddle(1, "Q1", "A", "H", "text", null, 1, null,null),
-            new Riddle(2, "Q2", "A", "H", "text", null, 2, null,null)
+            new Riddle(1, "Q1", "A", "H", "text", null, 1, null,null,null),
+            new Riddle(2, "Q2", "A", "H", "text", null, 2, null,null,null)
         );
         
         // findAll() が呼ばれたらダミーリストを返す

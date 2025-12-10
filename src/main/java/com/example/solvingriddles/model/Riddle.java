@@ -12,6 +12,7 @@ import java.util.List;
  * @param options クリック問題用のパーツリスト
  * @param level 難易度レベル
  * @param imageUrl 画像URL
+ * @param coords 画像マップタイプ用の座標情報
  * @param nextId 次の問題ID (ストーリー型用)
  */
 public record Riddle(
@@ -23,6 +24,7 @@ public record Riddle(
     List<RiddleOption> options,
     Integer level,
     String imageUrl,
+    String coords,
     Integer nextId
 ) {
     /**
