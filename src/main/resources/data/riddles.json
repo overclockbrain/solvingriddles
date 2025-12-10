@@ -134,17 +134,6 @@
         "level": 4,
         "options": null,
         "imageUrl": null,
-        "nextId": 10
-    },
-    {
-        "id": 10,
-        "type": "text",
-        "question": "正規表現 '^[Tt]a[ck]oyak[iy]$' にマッチする、関西のソウルフードは？",
-        "answer": "takoyaki",
-        "hint": "先頭は大文字小文字どっちでもええけど、最後は母音やで。",
-        "level": 2,
-        "options": null,
-        "imageUrl": null,
-        "nextId": 11
+        "nextId": null
     }
 ]
