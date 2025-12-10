@@ -157,6 +157,30 @@
         "level": 3,
         "imageUrl": "/images/raspi.png",
         "coords": "68,100,108,140",
-        "nextId": null
+        "nextId": 12
+    },
+    {
+        "id": 12,
+        "question": "Fatal System Error",
+        "answer": "found",
+        "hint": "ログの深層（Caused by）に、システム本来のパッケージとは異なる「異物」が混入している。",
+        "type": "click",
+        "level": 3,
+        "imageUrl": null,
+        "nextId": null,
+        "options": [
+            {
+                "text": "org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig':\n    Unsatisfied dependency expressed through field 'authService';\n    nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'authService':\n    Injection of autowired dependencies failed;\n    nested exception is java.lang.IllegalStateException:\n    The system integrity has been compromised by ",
+                "role": "normal"
+            },
+            {
+                "text": "com.example.malware.HiddenBug",
+                "role": "target"
+            },
+            {
+                "text": "\n    at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)\n    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)\n    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:584)\n    ... 15 common frames omitted",
+                "role": "normal"
+            }
+        ]
     }
 ]
