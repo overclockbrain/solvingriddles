@@ -60,7 +60,8 @@
         "hint": "『8』の羅列に見えるが...よく見ると閉じていない箇所がある。",
         "type": "image-map",
         "level": 5,
-        "imageUrl": "/images/level5.png"
+        "imageUrl": "/images/level5.png",
+        "coords": "292,145,320,185"
     },
     {
         "id": 6,
@@ -146,5 +147,16 @@
         "options": null,
         "imageUrl": null,
         "nextId": 11
+    },
+    {
+        "id": 11,
+        "type": "image-map",
+        "question": "この小さなサーバーの『頭脳（CPU）』はどこ？",
+        "answer": "SoC",
+        "hint": "真ん中にある、銀色の四角いチップや。",
+        "level": 3,
+        "imageUrl": "/images/raspi.png",
+        "coords": "68,100,108,140",
+        "nextId": null
     }
 ]

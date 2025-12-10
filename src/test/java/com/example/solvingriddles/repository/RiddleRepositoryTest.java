@@ -226,6 +226,7 @@ class RiddleRepositoryTest {
      * 3. 必須項目 (question, type) がnullでないこと
      * 4. ストーリー以外の問題は必ず正解 (answer) が定義されていること
      * 5. nextId がある場合、その飛び先のIDが実在すること（リンク切れチェック）
+     * 6. 画像マップタイプの問題は coords 情報が存在すること
      */
     @Test
     @DisplayName("データ整合性チェック: 全問題がルール通り定義されているか")
@@ -261,6 +262,13 @@ class RiddleRepositoryTest {
                 // 本気でやるなら全IDリストと突き合わせる
                 boolean targetExists = allRiddles.stream().anyMatch(t -> t.id().equals(r.nextId()));
                 assertTrue(targetExists, "ID:" + r.id() + " の nextId:" + r.nextId() + " が存在しません（リンク切れ）");
+            }
+
+            // 6. 画像マップ(image-map)タイプなら coords 情報があること
+            if ("image-map".equals(r.type())) {
+                // まだ .coords() なんてメソッドないから、ここで赤線（コンパイルエラー）が出るはずや！
+                // これが出たら TDD の第一段階クリアやで。
+                assertNotNull(r.coords(), "ID:" + r.id() + " は image-map やのに coords がないで！");
             }
         }
     }

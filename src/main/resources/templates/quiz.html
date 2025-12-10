@@ -22,7 +22,7 @@
                 class="puzzle-image">
 
             <map name="image-map">
-                <area shape="rect" coords="292,145,320,185" 
+                <area shape="rect" th:coords="${riddle.coords}" 
                     th:href="@{/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
                     alt="正解エリア">
                 
