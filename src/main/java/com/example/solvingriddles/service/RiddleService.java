@@ -26,9 +26,9 @@ public class RiddleService {
      * @param answer ユーザーの回答
      * @return 正解ならtrue
      */
-    public boolean checkAnswer(Integer id, String answer) {
+    public boolean checkAnswer(String mode, Integer id, String answer) {
         // 1. IDで正解データを取り出す
-        Optional<Riddle> riddleOpt = repository.findById(id);
+        Optional<Riddle> riddleOpt = repository.findById(mode, id);
 
         // 2. データがない場合（ありえへんけど）は false
         if (riddleOpt.isEmpty()) {
@@ -45,15 +45,15 @@ public class RiddleService {
      * @param id 問題ID
      * @return 問題データのOptional
      */
-    public Optional<Riddle> findById(Integer id) {
-        return repository.findById(id);
+    public Optional<Riddle> findById(String mode, Integer id) {
+        return repository.findById(mode, id);
     }
 
     /**
      * 全ての謎解きデータを取得する (Controllerのためのパシリ)
      * @return 全謎解きデータのリスト
      */
-    public List<Riddle> findAll() {
-        return repository.findAll();
+    public List<Riddle> findAll(String mode) {
+        return repository.findAll(mode);
     }
 }

@@ -2,8 +2,11 @@ package com.example.solvingriddles.repository;
 
 import com.example.solvingriddles.model.Riddle;
 import com.example.solvingriddles.model.RiddleOption;
+import com.example.solvingriddles.constant.AppConst;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -25,6 +28,10 @@ class RiddleRepositoryTest {
     @Autowired
     private RiddleRepository repository;
 
+    /*********************************************************************
+     * 👨‍💻Hackerモードの謎解きデータ読み込みテスト
+     *********************************************************************/
+
     /**
      * テキスト形式の問題データの読み込みテスト
      * 条件: ID=1 (標準的なテキスト問題)
@@ -38,7 +45,7 @@ class RiddleRepositoryTest {
     @Test
     @DisplayName("JSONロード確認(Text): ID=1のテキスト問題が取得できること")
     void testFindByIdText() {
-        Optional<Riddle> result = repository.findById(1);
+        Optional<Riddle> result = repository.findById(AppConst.MODE_HACKER, 1);
         assertTrue(result.isPresent(), "ID=1のデータが見つかりません");
 
         Riddle riddle = result.get();
@@ -69,7 +76,7 @@ class RiddleRepositoryTest {
     @DisplayName("JSONロード確認(Click): ID=4のクリック問題とOptionsが取得できること")
     void testFindByIdClick() {
         // 実行
-        Optional<Riddle> result = repository.findById(4);
+        Optional<Riddle> result = repository.findById(AppConst.MODE_HACKER,4);
         
         // 検証
         assertTrue(result.isPresent(), "ID=4のデータが見つかりません");
@@ -95,34 +102,6 @@ class RiddleRepositoryTest {
     }
 
     /**
-     * 全件取得のテスト
-     * 条件: Repositoryから全ての問題データを取得する
-     * 検証項目:
-     * 1. 返されたリストがnullでないこと
-     * 2. リストのサイズが期待値以上であること (現在6件登録されている)
-     * 3. 各データのIDが正しく読み込まれていること
-     */
-    @Test
-    @DisplayName("JSONロード確認(All): 全てのデータが取得できること")
-    void testFindAll() {
-        // 実行
-        List<Riddle> result = repository.findAll();
-
-        // 検証
-        // 1. まずnullじゃないこと (これは絶対)
-        assertNotNull(result, "リストがnullです");
-        
-        // 2. 「0以上」じゃなくて「今ある6件以上」にするのが安全！
-        //    これならID:7を追加してもテストを書き直さんで済むわ
-        assertTrue(result.size() >= 6, "問題データが読み込めていません（6件未満）");
-        
-        // 念のためID順に並んでるかとか見てもええけど、Mapやから順序保証はないかも
-        // (ID 6が含まれてるかチェック)
-        boolean containsId6 = result.stream().anyMatch(r -> r.id() == 6);
-        assertTrue(containsId6, "ID 6 の問題が含まれていません");
-    }
-
-    /**
      * 画像マップ形式の問題データの読み込みテスト
      * 条件: ID=5 (画像マップ型問題)
      * 検証項目:
@@ -134,7 +113,7 @@ class RiddleRepositoryTest {
     @DisplayName("JSONロード確認(Image): ID=5の画像問題とパスが取得できること")
     void testFindByIdImage() {
         // まだデータないけど、未来の仕様を先に書く！
-        Optional<Riddle> result = repository.findById(5);
+        Optional<Riddle> result = repository.findById(AppConst.MODE_HACKER,5);
         
         // ※データ作成前やから、ここを実行すると失敗する(Red)
         if (result.isPresent()) {
@@ -158,7 +137,7 @@ class RiddleRepositoryTest {
     @DisplayName("JSONロード確認(Story): ID=6のストーリータイプが取得できること")
     void testFindByIdStory() {
         // 実行
-        Optional<Riddle> result = repository.findById(6);
+        Optional<Riddle> result = repository.findById(AppConst.MODE_HACKER,6);
         Riddle riddle = result.get();
 
         assertTrue(result.isPresent(), "ID=6のデータが見つかりません");
@@ -178,7 +157,7 @@ class RiddleRepositoryTest {
     @DisplayName("JSONロード確認(Select): ID=7の選択肢問題が取得できること")
     void testFindByIdSelect() {
         // ID: 7 を取得
-        Optional<Riddle> result = repository.findById(7);
+        Optional<Riddle> result = repository.findById(AppConst.MODE_HACKER,7);
         
         assertTrue(result.isPresent(), "ID=7のデータが見つかりません");
         Riddle riddle = result.get();
@@ -204,7 +183,7 @@ class RiddleRepositoryTest {
     @DisplayName("JSONロード確認(Sort): ID=8の並べ替え問題が取得できること")
     void testFindByIdSort() {
         // まだデータないから失敗するはず(Red)
-        Optional<Riddle> result = repository.findById(8);
+        Optional<Riddle> result = repository.findById(AppConst.MODE_HACKER, 8);
         
         assertTrue(result.isPresent(), "ID=8のデータが見つかりません");
         Riddle riddle = result.get();
@@ -215,6 +194,39 @@ class RiddleRepositoryTest {
         
         // 正解はカンマ区切りの文字列を想定（例: "a,b,c"）
         assertNotNull(riddle.answer(), "正解が定義されていません");
+    }
+
+    /****************************************
+     * Hacker/Casualモードの謎解きデータ読み込みテスト
+     ****************************************/
+
+    /**
+     * 全件取得のテスト
+     * 条件: Repositoryから全ての問題データを取得する
+     * 検証項目:
+     * 1. 返されたリストがnullでないこと
+     * 2. リストのサイズが期待値以上であること
+     * 3. 各データのIDが正しく読み込まれていること
+     */
+    @ParameterizedTest
+    @ValueSource(strings = {AppConst.MODE_HACKER, AppConst.MODE_CASUAL})
+    @DisplayName("JSONロード確認(All): 全てのデータが取得できること")
+    void testFindAll(String mode) {
+        // 実行
+        List<Riddle> result = repository.findAll(mode);
+
+        // 検証
+        // 1. まずnullじゃないこと (これは絶対)
+        assertNotNull(result, "リストがnullです");
+        
+        // 2. 「0以上」じゃなくて「今ある1件以上」にするのが安全！
+        //    これならID:2を追加してもテストを書き直さんで済むわ
+        assertTrue(result.size() >= 1, "問題データが読み込めていません（1件未満）");
+        
+        // 念のためID順に並んでるかとか見てもええけど、Mapやから順序保証はないかも
+        // (ID 1が含まれてるかチェック)
+        boolean containsId1 = result.stream().anyMatch(r -> r.id() == 1);
+        assertTrue(containsId1, "ID 1 の問題が含まれていません");
     }
 
     /**
@@ -228,10 +240,11 @@ class RiddleRepositoryTest {
      * 5. nextId がある場合、その飛び先のIDが実在すること（リンク切れチェック）
      * 6. 画像マップタイプの問題は coords 情報が存在すること
      */
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {AppConst.MODE_HACKER, AppConst.MODE_CASUAL})
     @DisplayName("データ整合性チェック: 全問題がルール通り定義されているか")
-    void testAllRiddlesIntegrity() {
-        List<Riddle> allRiddles = repository.findAll();
+    void testAllRiddlesIntegrity(String mode) {
+        List<Riddle> allRiddles = repository.findAll(mode);
         
         // 1. データが空じゃないか
         assertFalse(allRiddles.isEmpty(), "JSONが読み込めていません");

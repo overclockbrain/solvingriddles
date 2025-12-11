@@ -1,7 +1,9 @@
-package com.example.solvingriddles;
+package com.example.solvingriddles.controller.hacker;
+
 
 import com.example.solvingriddles.model.Riddle;
 import com.example.solvingriddles.service.RiddleService;
+import com.example.solvingriddles.constant.AppConst;
 import com.example.solvingriddles.constant.UrlConst;
 import com.example.solvingriddles.constant.ViewNames;
 
@@ -25,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * MockMvcを使用し、HTTPリクエストに対するレスポンス（ステータスコード、View名、モデルデータ）
  * が正しいかを確認する。Service層はモック化 (@MockBean) して切り離す。
  */
-@WebMvcTest(MainController.class)
-class MainControllerTest {
+@WebMvcTest(HackerController.class)
+class HackerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,20 +41,20 @@ class MainControllerTest {
      * 条件: 指定したIDの問題が存在する場合
      * 期待値:
      * 1. ステータス 200 OK
-     * 2. View名が "quiz"
+     * 2. View名が "HACKER_QUIZ"
      * 3. Modelに "riddle" オブジェクトが含まれていること
      */
     @Test
     @DisplayName("クイズ画面: IDが存在すれば画面とデータを返す")
-    void testQuizFound() throws Exception {
+    void testHackerQuizFound() throws Exception {
         // 準備: ID 1ならデータを返す
         Riddle mockRiddle = new Riddle(1, "Question", "Answer", "Hint", "text", null,1, null,null,null);
-        when(riddleService.findById(1)).thenReturn(Optional.of(mockRiddle));
+        when(riddleService.findById(AppConst.MODE_HACKER,1)).thenReturn(Optional.of(mockRiddle));
 
         // 実行 & 検証
-        mockMvc.perform(get(UrlConst.QUIZ + "/1"))
+        mockMvc.perform(get(UrlConst.HACKER_BASE + UrlConst.HACKER_QUIZ + "/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ViewNames.QUIZ))
+                .andExpect(view().name(ViewNames.HACKER_QUIZ))
                 .andExpect(model().attribute("riddle", mockRiddle));
     }
 
@@ -61,39 +63,39 @@ class MainControllerTest {
      * 条件: 指定したIDの問題が存在しない場合
      * 期待値:
      * 1. ステータス 3xx (リダイレクト)
-     * 2. リダイレクト先が一覧画面 ("/list") であること
+     * 2. リダイレクト先が一覧画面 ("/HACKER_LIST") であること
      */
     @Test
     @DisplayName("クイズ画面: IDが存在しないなら一覧へリダイレクト")
-    void testQuizNotFound() throws Exception {
+    void testHackerQuizNotFound() throws Exception {
         // 準備: ID 999なら空を返す
-        when(riddleService.findById(999)).thenReturn(Optional.empty());
+        when(riddleService.findById(AppConst.MODE_HACKER,999)).thenReturn(Optional.empty());
 
         // 実行 & 検証
-        mockMvc.perform(get(UrlConst.QUIZ + "/999"))
+        mockMvc.perform(get(UrlConst.HACKER_BASE + UrlConst.HACKER_QUIZ + "/999"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(UrlConst.LIST));
+                .andExpect(redirectedUrl(UrlConst.HACKER_BASE + UrlConst.HACKER_LIST));
     }
 
     /**
      * 答え合わせのテスト: 正解パターン
      * 条件: Serviceが true (正解) を返す場合
      * 期待値:
-     * 1. View名が "result"
+     * 1. View名が "HACKER_RESULT"
      * 2. Modelの isSuccess フラグが true であること
      */
     @Test
     @DisplayName("答え合わせ: 正解なら成功フラグを渡す")
     void testCheckAnswerSuccess() throws Exception {
         // 準備
-        when(riddleService.checkAnswer(1, "Answer")).thenReturn(true);
+        when(riddleService.checkAnswer(AppConst.MODE_HACKER,1, "Answer")).thenReturn(true);
 
         // 実行
-        mockMvc.perform(post(UrlConst.QUIZ_CHECK)
+        mockMvc.perform(post(UrlConst.HACKER_BASE + UrlConst.HACKER_QUIZ_CHECK)
                         .param("id", "1")
                         .param("answer", "Answer"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ViewNames.RESULT))
+                .andExpect(view().name(ViewNames.HACKER_RESULT))
                 .andExpect(model().attribute("isSuccess", true));
     }
 
@@ -101,7 +103,7 @@ class MainControllerTest {
      * 答え合わせのテスト: 不正解パターン
      * 条件: Serviceが false (不正解) を返す場合
      * 期待値:
-     * 1. View名が "result"
+     * 1. View名が "HACKER_RESULT"
      * 2. Modelの isSuccess フラグが false であること
      * 3. 拒否メッセージ (ACCESS DENIED) が設定されていること
      */
@@ -109,14 +111,14 @@ class MainControllerTest {
     @DisplayName("答え合わせ: 間違いなら失敗フラグを渡す")
     void testCheckAnswerFailure() throws Exception {
         // 準備
-        when(riddleService.checkAnswer(1, "Wrong")).thenReturn(false);
+        when(riddleService.checkAnswer(AppConst.MODE_HACKER,1, "Wrong")).thenReturn(false);
 
         // 実行
-        mockMvc.perform(post(UrlConst.QUIZ_CHECK)
+        mockMvc.perform(post(UrlConst.HACKER_BASE + UrlConst.HACKER_QUIZ_CHECK)
                         .param("id", "1")
                         .param("answer", "Wrong"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ViewNames.RESULT))
+                .andExpect(view().name(ViewNames.HACKER_RESULT))
                 .andExpect(model().attribute("isSuccess", false))
                 .andExpect(model().attribute("resultTitle", "ACCESS DENIED"));
     }
@@ -125,25 +127,25 @@ class MainControllerTest {
      * 一覧画面のテスト
      * 条件: Serviceが全データを返す場合
      * 期待値:
-     * 1. View名が "list"
+     * 1. View名が "HACKER_LIST"
      * 2. Modelに "riddles" が含まれていて、中身が正しいこと
      */
     @Test
     @DisplayName("一覧画面: 全データを取得して表示する")
-    void testList() throws Exception {
+    void testHackerList() throws Exception {
         // 準備: ダミーのリストを作る
-        List<Riddle> mockList = List.of(
+        List<Riddle> mockHackerList = List.of(
             new Riddle(1, "Q1", "A", "H", "text", null, 1, null,null,null),
             new Riddle(2, "Q2", "A", "H", "text", null, 2, null,null,null)
         );
         
         // findAll() が呼ばれたらダミーリストを返す
-        when(riddleService.findAll()).thenReturn(mockList);
+        when(riddleService.findAll(AppConst.MODE_HACKER)).thenReturn(mockHackerList);
 
         // 実行 & 検証
-        mockMvc.perform(get(UrlConst.LIST))
+        mockMvc.perform(get(UrlConst.HACKER_BASE + UrlConst.HACKER_LIST))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ViewNames.LIST))
-                .andExpect(model().attribute("riddles", mockList)); // データが渡ってるか？
+                .andExpect(view().name(ViewNames.HACKER_LIST))
+                .andExpect(model().attribute("riddles", mockHackerList)); // データが渡ってるか？
     }
 }

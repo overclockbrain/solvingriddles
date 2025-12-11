@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" th:href="@{/css/casual.css}">
+</head>
+<body>
+
+    <div class="result-card">
+        <div th:if="${isSuccess}">
+            <span class="result-icon">🎉</span>
+            <h1 class="success-msg">Congratulations!</h1>
+            <p>見事正解です！素晴らしいひらめき！</p>
+            <a th:href="@{/casual/quiz/{id}(id=${riddleId + 1})}" class="btn-base btn-next">
+                次の問題へ ➡
+            </a>
+        </div>
+
+        <div th:unless="${isSuccess}">
+            <span class="result-icon">😢</span>
+            <h1 class="fail-msg">Don't give up...</h1>
+            <p>残念！もう一度チャレンジしてみよう。</p>
+
+            <a th:href="@{/casual/quiz/{id}(id=${riddleId})}" class="btn-base btn-retry">↺ リトライ</a>
+        </div>
+
+        <br>
+        <div class="navigation-links">
+            <a class="return-list" th:href="@{/casual/list}">一覧に戻る</a>
+        </div>
+    </div>
+
+</body>
+</html>

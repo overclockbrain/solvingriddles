@@ -1,4 +1,4 @@
-package com.example.solvingriddles;
+package com.example.solvingriddles.controller.hacker;
 
 import com.example.solvingriddles.model.Riddle;
 import com.example.solvingriddles.service.RiddleService;
@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -21,16 +22,18 @@ import java.util.Optional;
  * 結果に応じたHTMLテンプレートを返却する役割を持つ。
  */
 @Controller
-public class MainController {
+@RequestMapping(UrlConst.HACKER_BASE) // ここで "/hacker" を指定
+public class HackerController {
 
     private final RiddleService riddleService;
+    private final static String MODE = "HACKER";
 
     /**
      * コンストラクタ
      * Springの依存性注入(DI)により、自動的にRiddleServiceが渡される。
      * @param riddleService 謎解きのロジックを担当するサービス
      */
-    public MainController(RiddleService riddleService) {
+    public HackerController(RiddleService riddleService) {
         this.riddleService = riddleService;
     }
 
@@ -40,7 +43,7 @@ public class MainController {
      */
     @GetMapping(UrlConst.ROOT)
     public String index() {
-        return ViewNames.INDEX;
+        return ViewNames.LAUNCHER;
     }
 
     /**
@@ -48,16 +51,16 @@ public class MainController {
      * Service層から全ての謎解きデータを取得し、HTMLに渡す。
      * @return 一覧画面のHTMLファイル名 (list.html)
      */
-    @GetMapping(UrlConst.LIST)
+    @GetMapping(UrlConst.HACKER_LIST)
     public String list(Model model) {
         // ★ここが大事！Serviceから全データを取ってきて...
         // (import java.util.List; を忘れずに！)
-        List<Riddle> riddles = riddleService.findAll();
+        List<Riddle> riddles = riddleService.findAll(MODE);
         
         // ★ "riddles" という名前でHTMLに渡す！
         model.addAttribute("riddles", riddles);
         
-        return ViewNames.LIST;
+        return ViewNames.HACKER_LIST;
     }
 
     /**
@@ -69,20 +72,20 @@ public class MainController {
      * @param model 画面(HTML)にデータを渡すための入れ物
      * @return 謎解き画面 (quiz.html)、または一覧へのリダイレクトパス
      */
-    @GetMapping(UrlConst.QUIZ + "/{id}")
+    @GetMapping(UrlConst.HACKER_QUIZ + "/{id}")
     public String quiz(@PathVariable Integer id, Model model) {
         // Serviceを使って問題データを取得
-        Optional<Riddle> riddle = riddleService.findById(id);
+        Optional<Riddle> riddle = riddleService.findById(MODE,id);
 
         if (riddle.isEmpty()) {
             // もし存在しないIDなら、一覧画面に強制送還（リダイレクト）
             // UrlConstを使う理由はブラウザに対して明示的に別のURLに移動するよう指示するため
-            return "redirect:" + UrlConst.LIST;
+            return "redirect:" + UrlConst.HACKER_BASE + UrlConst.HACKER_LIST;
         }
 
         // HTML側で "riddle" という名前でデータを使えるようにする
         model.addAttribute("riddle", riddle.get());
-        return ViewNames.QUIZ;
+        return ViewNames.HACKER_QUIZ;
     }
 
     /**
@@ -94,10 +97,10 @@ public class MainController {
      * @param model  画面に結果を表示するためのデータ受け渡し用
      * @return 結果画面のHTMLファイル名 (result.html)
      */
-    @PostMapping(UrlConst.QUIZ_CHECK)
+    @PostMapping(UrlConst.HACKER_QUIZ_CHECK)
     public String check(@RequestParam Integer id, @RequestParam String answer, Model model) {
         // 判定ロジックはServiceに丸投げ
-        boolean isSuccess = riddleService.checkAnswer(id, answer);
+        boolean isSuccess = riddleService.checkAnswer(MODE, id, answer);
 
         if (isSuccess) {
             model.addAttribute("resultTitle", "ACCESS GRANTED");
@@ -112,7 +115,7 @@ public class MainController {
         // リトライ用にIDも渡しておく (result.htmlから戻るため)
         model.addAttribute("riddleId", id);
         
-        return ViewNames.RESULT;
+        return ViewNames.HACKER_RESULT;
     }
 
     /**
@@ -123,13 +126,13 @@ public class MainController {
      * @param model  画面に結果を表示するためのデータ受け渡し用
      * @return 結果画面のHTMLファイル名 (result.html)
      */
-    @GetMapping(UrlConst.QUIZ_CHECK_IMAGE)
+    @GetMapping(UrlConst.HACKER_QUIZ_CHECK_IMAGE)
     public String checkImage(@RequestParam Integer id, 
                              @RequestParam String answer, 
                              Model model) {
         
         // ロジックはServiceに丸投げ（既存のメソッドを再利用！）
-        boolean isSuccess = riddleService.checkAnswer(id, answer);
+        boolean isSuccess = riddleService.checkAnswer(MODE, id, answer);
 
         if (isSuccess) {
             model.addAttribute("resultTitle", "ACCESS GRANTED");
@@ -145,6 +148,6 @@ public class MainController {
         model.addAttribute("riddleId", id);
         
         // 結果画面は既存のものを使い回す
-        return ViewNames.RESULT;
+        return ViewNames.HACKER_RESULT;
     }
 }

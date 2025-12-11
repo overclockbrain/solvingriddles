@@ -23,11 +23,11 @@
 
             <map name="image-map">
                 <area shape="rect" th:coords="${riddle.coords}" 
-                    th:href="@{/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
+                    th:href="@{/hacker/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
                     alt="正解エリア">
                 
                 <area shape="rect" coords="0,0,3000,3000" 
-                    th:href="@{/quiz/check-image(id=${riddle.id}, answer='wrong')}"
+                    th:href="@{/hacker/quiz/check-image(id=${riddle.id}, answer='wrong')}"
                     alt="不正解エリア">
             </map>
         </div>
@@ -35,16 +35,16 @@
         <!-- ストーリー型の問題表示 -->
         <div th:if="${riddle.type == 'story'}" class="story-container">
             <div class="story-btn-container">
-                <a th:href="@{/list}" class="btn btn-secondary">一覧へ</a>
+                <a th:href="@{/hacker/list}" class="btn btn-secondary">一覧へ</a>
                 <a th:if="${riddle.nextId != null}" 
-                th:href="@{/quiz/{id}(id=${riddle.nextId})}" 
+                th:href="@{/hacker/quiz/{id}(id=${riddle.nextId})}" 
                 class="btn">次のミッションへ</a>
             </div>
         </div>
 
         <!-- セレクト型の問題表示 -->
         <div th:if="${riddle.type == 'select'}" class="select-container">
-            <form th:action="@{/quiz/check}" method="post" class="quiz-form">
+            <form th:action="@{/hacker/quiz/check}" method="post" class="quiz-form">
                 <input type="hidden" name="id" th:value="${riddle.id}">
                 
                 <div style="margin: 20px 0;">
@@ -72,7 +72,7 @@
                 </li>
             </ul>
 
-            <form th:action="@{/quiz/check}" method="post" id="sortForm">
+            <form th:action="@{/hacker/quiz/check}" method="post" id="sortForm">
                 <input type="hidden" name="id" th:value="${riddle.id}">
                 <input type="hidden" name="answer" id="hiddenAnswer">
                 <div style="text-align: center; margin-top: 20px;">
@@ -82,7 +82,7 @@
         </div>
 
         <!-- テキスト入力型・クリック型の問題表示 -->
-        <form id="quizForm" th:action="@{/quiz/check}" method="post" 
+        <form id="quizForm" th:action="@{/hacker/quiz/check}" method="post" 
           th:unless="${riddle.type == 'image-map' || riddle.type == 'story' || riddle.type == 'select'}">
             <input type="hidden" name="id" th:value="${riddle.id}" />
 
@@ -125,7 +125,7 @@
         <br><br><br>
         <!-- 中断リンク（ストーリー型以外で表示） -->
         <div th:if="${riddle.type != 'story'}">
-            <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
+            <a th:href="@{/hacker/list}">&lt;&lt; Abort (List)</a>
         </div>
     </div>
 </body>

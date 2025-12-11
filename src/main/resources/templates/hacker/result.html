@@ -13,18 +13,18 @@
 
         <div th:if="${isSuccess}">
             <p>次のレベルへ進みますか？</p>
-            <a th:href="@{/quiz/{id}(id=${riddleId + 1})}">
+            <a th:href="@{/hacker/quiz/{id}(id=${riddleId + 1})}">
                 <button>NEXT LEVEL</button>
             </a>
         </div>
 
         <div th:unless="${isSuccess}">
-            <a th:href="@{/quiz/{id}(id=${riddleId})}">
+            <a th:href="@{/hacker/quiz/{id}(id=${riddleId})}">
                 <button class="btn-retry">RETRY</button>
             </a>
         </div>
         <br><br><br>
-        <a th:href="@{/list}">&lt;&lt; Abort (List)</a>
+        <a th:href="@{/hacker/list}">&lt;&lt; Abort (List)</a>
     </div>
 </body>
 </html>

@@ -9,9 +9,21 @@ public class UrlConst {
     // インスタンス化禁止（new UrlConst() させない）
     private UrlConst() {}
 
+    // 🏠 ランチャー (ルート画面)
     public static final String ROOT = "/";
-    public static final String LIST = "/list";
-    public static final String QUIZ = "/quiz"; // "/quiz/{id}" のベース
-    public static final String QUIZ_CHECK = "/quiz/check";
-    public static final String QUIZ_CHECK_IMAGE = "/quiz/check-image";
+
+    // 🕵️‍♂️ ハッカーモード用URL (ベースパスを追加！)
+    public static final String HACKER_BASE = "/hacker"; // ★コントローラのクラス自体につける
+    public static final String HACKER_LIST = "/list";   // → /hacker/list になる
+    public static final String HACKER_QUIZ = "/quiz";   // → /hacker/quiz/{id}
+    public static final String HACKER_QUIZ_CHECK = "/quiz/check";
+    public static final String HACKER_QUIZ_CHECK_IMAGE = "/quiz/check-image";
+
+    // 🍰 カジュアルモード用URL
+    public static final String CASUAL_BASE = "/casual";
+    public static final String CASUAL_INDEX = "/index";
+    public static final String CASUAL_LIST = "/list";
+    public static final String CASUAL_QUIZ = "/quiz";
+    public static final String CASUAL_QUIZ_CHECK = "/quiz/check";
+    public static final String CASUAL_RESULT = "/result";
 }

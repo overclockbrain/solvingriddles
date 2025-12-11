@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{common/head :: common-head('Top')}"></head>
+<head th:replace="~{common/head :: common-head('Game Launcher')}"></head>
 
-<body>
-    <header th:replace="~{common/header :: common-header}"></header>
+<body class="launcher-body">
 
-    <div class="container">
-        <h1>SYSTEM HACKING...</h1>
-        <p>セキュリティホールを発見しました。</p>
-        <br>
-        <a th:href="@{/list}"><button>MISSION LIST</button></a>
+    <div class="launcher-container">
+        <h1 class="launcher-title">SELECT GAME CARTRIDGE</h1>
+
+        <div class="game-cards">
+            <a th:href="@{/hacker/list}" class="game-card hacker-card">
+                <div class="card-icon">🕵️‍♂️</div>
+                <div class="card-info">
+                    <h2>CYBER PROTOCOL</h2>
+                    <p>Hacker's Riddle</p>
+                </div>
+            </a>
+
+            <a th:href="@{/casual/list}" class="game-card casual-card">
+                <div class="card-icon">🍰</div>
+                <div class="card-info">
+                    <h2>CASUAL PUZZLE</h2>
+                    <p>Casual Riddle</p>
+                </div>
+            </a>
+        </div>
     </div>
 </body>
 </html>

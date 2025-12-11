@@ -1,0 +1,43 @@
+[
+    {
+        "id": 1,
+        "question": "パンはパンでも食べられないパンは？",
+        "answer": "フライパン",
+        "hint": "キッチンにあります",
+        "type": "choice",
+        "options": [
+            {
+                "text": "食パン",
+                "isCorrect": false
+            },
+            {
+                "text": "フライパン",
+                "isCorrect": true
+            },
+            {
+                "text": "クリームパン",
+                "isCorrect": false
+            }
+        ],
+        "level": 1,
+        "nextId": 2
+    },
+    {
+        "id": 2,
+        "question": "あるところに1本の木があります。その木には1つのリンゴがなっています。あなたはそのリンゴを取ろうとしましたが、取れませんでした。なぜでしょう？",
+        "answer": "木が絵だから",
+        "hint": "現実ではないです",
+        "type": "text",
+        "level": 1,
+        "nextId": 3
+    },
+    {
+        "id": 3,
+        "question": "次の数列の規則性を見つけて、？に入る数字を答えてください。\n2, 4, 8, 16, ?",
+        "answer": "32",
+        "hint": "各数字は前の数字の2倍です。",
+        "type": "text",
+        "level": 2,
+        "nextId": null
+    }
+]
