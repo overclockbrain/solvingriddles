@@ -10,8 +10,18 @@ public class ViewNames {
     // インスタンス化禁止（new ViewNames() させない）
     private ViewNames() {}
 
-    public static final String INDEX = "index";
-    public static final String LIST = "list";
-    public static final String QUIZ = "quiz";
-    public static final String RESULT = "result";
+    // 🏠 ランチャー画面 (ルートにあるのでそのまま)
+    public static final String LAUNCHER = "index";
+
+    // 🕵️‍♂️ ハッカーモード (★hackerフォルダの中に移動したから変更！)
+    // HTMLファイルの場所を指すパスやから、先頭に "hacker/" をつけるんや
+    public static final String HACKER_LIST   = "hacker/list";
+    public static final String HACKER_QUIZ   = "hacker/quiz";
+    public static final String HACKER_RESULT = "hacker/result";
+
+    // 🍰 カジュアルモード (casualフォルダの中)
+    public static final String CASUAL_INDEX = "casual/index";
+    public static final String CASUAL_LIST = "casual/list";
+    public static final String CASUAL_QUIZ = "casual/quiz";
+    public static final String CASUAL_RESULT = "casual/result";
 }

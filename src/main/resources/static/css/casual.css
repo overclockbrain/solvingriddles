@@ -1,0 +1,263 @@
+@charset "UTF-8";
+/* =========================================
+   🔘 ボタン共通設定 (Base Button)
+   送信(button)もリンク(a)も、これでサイズを完全統一や！
+   ========================================= */
+.btn-base {
+    display: inline-block;
+    padding: 12px 40px;       /* 横幅を広めに統一 */
+    font-size: 1.2rem;        /* 文字サイズも統一 */
+    border-radius: 50px;      /* 丸っこく */
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    width: 220px;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   🍰 カジュアルモード共通設定 (Base)
+   ========================================= */
+body {
+    background-color: #f0f8ff;
+    color: #333;
+    font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+a { text-decoration: none; }
+
+/* 共通コンテナ（中央寄せ用） */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* =========================================
+   🧩 リスト画面 (List)
+   ========================================= */
+.casual-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.casual-title {
+    color: #ff9900;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 0 #fff;
+    margin-bottom: 10px;
+}
+
+.mission-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.mission-card {
+    background: white;
+    width: 250px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mission-card:hover {
+    border-color: #ff9900;
+}
+
+.level-badge {
+    background: #eee;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.question-text {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 30px;
+    color: #666;
+    transition: color 0.2s;
+}
+.btn-back:hover { 
+    color: #ff9900; 
+}
+.next-page-flow {
+    margin-top:auto; 
+    color:#ff9900;
+    font-size:2rem;
+}
+
+/* =========================================
+   🤔 クイズ画面 (Quiz)
+   ========================================= */
+.quiz-card {
+    background: white;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 3px solid #ff9900;
+    text-align: center;
+}
+
+.level-label {
+    background: #ff9900;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.question-box {
+    font-size: 1.5rem;
+    margin: 20px 0 40px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+/* 選択肢ボタン */
+.options-grid {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.option-btn {
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+    color: #333;
+}
+
+.option-btn:hover {
+    background: #fff5e6;
+    border-color: #ff9900;
+}
+
+/* テキスト入力エリア */
+.input-area {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.casual-input {
+    padding: 15px;
+    width: 80%;
+    max-width: 300px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.casual-input:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 8px rgba(255,153,0,0.3);
+}
+
+/* ========================
+   送信ボタン（オレンジ）
+   ======================== */
+.btn-submit {
+    background-color: #ff9900;
+    color: white;
+}
+
+/* ホバー時：ちょっと濃くして「押せる感」を出す */
+.btn-submit:hover {
+    background-color: #e68a00; 
+}
+
+/* =========================================
+   🎉 結果画面 (Result)
+   ========================================= */
+.result-card {
+    background: white;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.result-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.success-msg { color: #28a745; font-size: 2rem; font-weight: bold; margin: 0; }
+.fail-msg { color: #dc3545; font-size: 2rem; font-weight: bold; margin: 0; }
+
+/* 🔴 リトライボタン（赤色） */
+.btn-retry {
+    background-color: #ff4d4d;
+    color: white;
+    margin-top: 20px;
+}
+
+.btn-retry:hover {
+    background: #ff6666; /* ホバーでちょっと明るく */
+}
+
+.return-list {
+    margin-top: 30px;
+    color : #999;
+}
+
+.return-list:hover {
+    color : #BBB;
+}
+
+.navigation-links {
+    margin-top: 30px;
+}
+
+/* 🔵 次へ進むボタン（青色） */
+.btn-next {
+    background-color: #007bff;
+    color: white;
+    margin-top: 20px;
+}
+
+.btn-next:hover {
+    background: #3395ff; /* ホバーでちょっと明るく */
+}

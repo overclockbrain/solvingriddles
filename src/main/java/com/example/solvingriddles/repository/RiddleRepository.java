@@ -8,63 +8,75 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class RiddleRepository {
 
-    // データを保管する箱
-    private final Map<Integer, Riddle> storage = new HashMap<>();
+    private final ObjectMapper objectMapper;
     
-    // JSONを変換する道具
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    // "HACKER" -> [...], "CASUAL" -> [...] のように管理
+    private final Map<String, List<Riddle>> riddleMap = new ConcurrentHashMap<>();
 
     /**
-     * アプリ起動時に1回だけ呼ばれるメソッド
-     * JSONファイルを読んで storage に詰め込む
-     * @throws IOException ファイル読み込みに失敗した場合
+     * コンストラクタ
+     * @param objectMapper
+     */
+    public RiddleRepository(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    /**
+     * アプリ起動時にJSONファイルを読み込む
      */
     @PostConstruct
     public void init() {
+        // ファイル名は後で実際に作る名前に合わせてな！
+        riddleMap.put("HACKER", loadJson("data/hacker_riddles.json"));
+        riddleMap.put("CASUAL", loadJson("data/casual_riddles.json"));
+    }
+
+    /**
+     * JSONファイルを読み込んでRiddleリストを返す
+     * @param path
+     * @return
+     */
+    private List<Riddle> loadJson(String path) {
         try {
-            // riddles.json を読み込む
-            ClassPathResource resource = new ClassPathResource("data/riddles.json");
-            
-            // JSON → JavaのList に変換
-            List<Riddle> riddles = objectMapper.readValue(
-                resource.getInputStream(), 
-                new TypeReference<List<Riddle>>() {}
-            );
-
-            // List を Map に詰め替え (検索しやすくするため)
-            riddles.forEach(riddle -> storage.put(riddle.id(), riddle));
-            
-            System.out.println("謎解きデータをロードしました: " + riddles.size() + "件");
-
+            ClassPathResource resource = new ClassPathResource(path);
+            if (!resource.exists()) {
+                System.out.println("⚠️ ファイルが見つかりません: " + path);
+                return Collections.emptyList();
+            }
+            InputStream is = resource.getInputStream();
+            return objectMapper.readValue(is, new TypeReference<List<Riddle>>() {});
         } catch (IOException e) {
+            // エラーログ出して空リストで続行（アプリを落とさない）
             e.printStackTrace();
-            throw new RuntimeException("データの読み込みに失敗したわ", e);
+            return Collections.emptyList();
         }
     }
 
     /**
-     * IDで検索
-     * @param id 謎解きID
-     * @return 該当する謎解きデータ (存在しない場合は空のOptional)
+     * モードを指定して全件取得
+     * @return 謎解きリスト
      */
-    public Optional<Riddle> findById(Integer id) {
-        return Optional.ofNullable(storage.get(id));
+    public List<Riddle> findAll(String mode) {
+        return riddleMap.getOrDefault(mode, Collections.emptyList());
     }
 
     /**
-     * 全件取得
-     * @return 全ての謎解きデータのリスト
+     * モードとIDで検索
+     * @return 1件または空
      */
-    public List<Riddle> findAll() {
-        return new ArrayList<>(storage.values());
+    public Optional<Riddle> findById(String mode, Integer id) {
+        return findAll(mode).stream()
+                .filter(r -> r.id().equals(id))
+                .findFirst();
     }
 }
