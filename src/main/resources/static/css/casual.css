@@ -143,13 +143,13 @@ a { text-decoration: none; }
 }
 
 /* 選択肢ボタン */
-.options-grid {
+.choise-grid {
     display: grid;
     gap: 15px;
     margin-top: 20px;
 }
 
-.option-btn {
+.choise-btn {
     background: #f9f9f9;
     border: 2px solid #ddd;
     padding: 15px;
@@ -162,7 +162,7 @@ a { text-decoration: none; }
     color: #333;
 }
 
-.option-btn:hover {
+.choise-btn:hover {
     background: #fff5e6;
     border-color: #ff9900;
 }
