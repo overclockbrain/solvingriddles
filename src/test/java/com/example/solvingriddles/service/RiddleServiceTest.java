@@ -143,4 +143,48 @@ class RiddleServiceTest {
         assertEquals(1, result.size());
         assertEquals(1, result.get(0).id());
     }
+
+    /**
+     * 正規表現の修正確認: Takoyakiの綴りを厳格に判定すること
+     * 条件: 正解データが "^[Tt]a[ck]oyak[iy]$" の場合
+     * 検証:
+     * 1. 許容される8パターンすべてでtrueが返ること
+     * 2. それ以外のパターンではfalseが返ること
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { AppConst.MODE_HACKER }) // Hackerモードで確認
+    @DisplayName("正規表現厳格化: Tacoyakiなどの揺らぎを許可しないこと")
+    void testCheckAnswerRegexPatterns(String mode) {
+        // 準備: 8パターン許容する正規表現
+        String regex = "^[Tt]a[ck]oyak[iy]$";
+        Riddle mockRiddle = new Riddle(99, "タコヤキ問題", regex, "H", "text", null, 1, null,null,null);
+        
+        when(repository.findById(mode, 99)).thenReturn(Optional.of(mockRiddle));
+
+        // 検証: 全8パターンが true になるはず！
+        // 1. k - i
+        assertTrue(service.checkAnswer(mode, 99, "Takoyaki"));
+        assertTrue(service.checkAnswer(mode, 99, "takoyaki"));
+        // 2. c - i
+        assertTrue(service.checkAnswer(mode, 99, "Tacoyaki"));
+        assertTrue(service.checkAnswer(mode, 99, "tacoyaki"));
+        // 3. k - y
+        assertTrue(service.checkAnswer(mode, 99, "Takoyaky"));
+        assertTrue(service.checkAnswer(mode, 99, "takoyaky"));
+        // 4. c - y
+        assertTrue(service.checkAnswer(mode, 99, "Tacoyaky"));
+        assertTrue(service.checkAnswer(mode, 99, "tacoyaky"));
+
+        // 1. 最後が違う (uはダメ)
+        assertFalse(service.checkAnswer(mode, 99, "Takoyaku"), "最後がuなら不正解");
+        
+        // 2. 真ん中が違う (zはダメ)
+        assertFalse(service.checkAnswer(mode, 99, "Takozaki"), "k/c以外は不正解");
+        
+        // 3. 文字足らず
+        assertFalse(service.checkAnswer(mode, 99, "Takoyak"), "1文字足りないなら不正解");
+        
+        // 4. 全然違うやつ
+        assertFalse(service.checkAnswer(mode, 99, "Okonomiyaki"), "お好み焼きは不正解");
+    }
 }
