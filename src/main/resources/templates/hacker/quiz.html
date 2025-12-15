@@ -12,9 +12,14 @@
             th:utext="${#strings.replace(riddle.question, '&#10;', '<br>')}">
         </h3>
         
-        <p class="hint-text"
-        th:text="'HINT: ' + ${riddle.hint}">
-        </p>
+        <p class="hint-text" th:text="'HINT: ' + ${riddle.hint}"></p>
+
+        <!-- 画像表示（画像マップ型以外） -->
+        <div th:if="${riddle.type != 'image-map' and riddle.imageUrl != null}" 
+             style="text-align: center; margin: 20px 0;">
+            <img th:src="@{${riddle.imageUrl}}" class="puzzle-image" 
+                 style="max-width: 100%; height: auto;">
+        </div>
 
         <!-- 画像マップ型の問題表示 -->
         <div th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
