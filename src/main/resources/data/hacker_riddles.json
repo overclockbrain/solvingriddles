@@ -167,7 +167,7 @@
         "type": "click",
         "level": 3,
         "imageUrl": null,
-        "nextId": null,
+        "nextId": 13,
         "options": [
             {
                 "text": "org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig':\n    Unsatisfied dependency expressed through field 'authService';\n    nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'authService':\n    Injection of autowired dependencies failed;\n    nested exception is java.lang.IllegalStateException:\n    The system integrity has been compromised by ",
@@ -182,5 +182,16 @@
                 "role": "normal"
             }
         ]
+    },
+    {
+        "id": 13,
+        "type": "text",
+        "question": "【問13】暗号解読\n\n表示されている企業ロゴの『個数』が、その単語から抜き出す文字の場所を示している。\n隠されたツールの名は？",
+        "answer": "git",
+        "hint": "例えば『Google』のロゴが1個なら、1文字目の『G』を拾うってことや。",
+        "level": 3,
+        "options": null,
+        "imageUrl": "/images/id-13-logo.png",
+        "nextId": null
     }
 ]
