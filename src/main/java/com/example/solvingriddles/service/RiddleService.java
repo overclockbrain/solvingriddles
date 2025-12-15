@@ -37,6 +37,13 @@ public class RiddleService {
 
         // 3. 正解と比較 (大文字小文字は無視する)
         String correctAnswer = riddleOpt.get().answer();
+
+        // ケース1: 正解データが '^' で始まってたら「正規表現」として厳格に判定
+        if (correctAnswer.startsWith("^")) {
+            return answer.matches(correctAnswer);
+        }
+        
+        // ケース2: それ以外は今まで通り「大文字小文字無視」で優しく判定
         return correctAnswer.equalsIgnoreCase(answer);
     }
 
