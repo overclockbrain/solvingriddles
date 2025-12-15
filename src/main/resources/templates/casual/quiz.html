@@ -1,43 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Casual Quiz</title>
-    <link rel="stylesheet" th:href="@{/css/casual.css}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Casual Quiz</title>
+        <link rel="stylesheet" th:href="@{/css/casual.css}" />
+    </head>
+    <body>
+        <div class="quiz-card">
+            <span class="level-label" th:text="'LEVEL ' + ${riddle.level}"
+                >LEVEL 1</span
+            >
 
-    <div class="quiz-card">
-        <span class="level-label" th:text="'LEVEL ' + ${riddle.level}">LEVEL 1</span>
-        
-        <div class="question-box" th:text="${riddle.question}">
-            ここに問題文が表示されます
-        </div>
+            <div class="question-box" th:text="${riddle.question}">
+                ここに問題文が表示されます
+            </div>
 
-        <form th:action="@{/casual/quiz/check}" method="post">
-            <input type="hidden" name="id" th:value="${riddle.id}">
+            <form th:action="@{/casual/quiz/check}" method="post">
+                <input type="hidden" name="id" th:value="${riddle.id}" />
 
-            <div class="options-grid">
-                <button th:each="opt : ${riddle.options}" 
-                        type="submit" 
-                        name="answer" 
-                        th:value="${opt.text}"
-                        class="option-btn" 
-                        th:text="${opt.text}">
-                    選択肢A
+                <div th:if="${riddle.type == 'select'}" class="input-container">
+                    <select name="answer" class="form-select" required>
+                        <option value="" selected disabled>
+                            -- 選択してな --
+                        </option>
+                        <option
+                            th:each="opt : ${riddle.options}"
+                            th:value="${opt.role}"
+                            th:text="${opt.text}"
+                        ></option>
+                    </select>
+                </div>
+
+                <div th:if="${riddle.type == 'choice'}" class="choice-grid">
+                    <button
+                        th:each="opt : ${riddle.options}"
+                        type="submit"
+                        name="answer"
+                        th:value="${opt.role}"
+                        class="choice-btn"
+                    >
+                        <span th:text="${opt.text}">選択肢</span>
+                    </button>
+                </div>
+
+                <div class="input-area" th:if="${riddle.type == 'text'}">
+                    <input
+                        type="text"
+                        name="answer"
+                        class="casual-input"
+                        placeholder="ここに答えを入れてな"
+                        required
+                    />
+                </div>
+                <button type="submit" class="btn-base btn-submit">
+                    送信！
                 </button>
-            </div>
+            </form>
 
-            <div class="input-area" th:if="${riddle.type == 'text'}">
-                <input type="text" name="answer" class="casual-input" placeholder="ここに答えを入れてな" required>
-                <button type="submit" class="btn-base btn-submit">送信！</button>
+            <div class="navigation-links">
+                <a class="return-list" th:href="@{/casual/list}">一覧に戻る</a>
             </div>
-        </form>
-
-        <div class="navigation-links">
-            <a class="return-list" th:href="@{/casual/list}">一覧に戻る</a>
         </div>
-    </div>
-
-</body>
+    </body>
 </html>

@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Mission Select - Casual</title>
-    <link rel="stylesheet" th:href="@{/css/casual.css}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Mission Select - Casual</title>
+        <link rel="stylesheet" th:href="@{/css/casual.css}" />
+    </head>
+    <body>
+        <div class="casual-header">
+            <h1 class="casual-title">🧩 Select Puzzle 🧩</h1>
+            <p>解きたい謎を選んでください</p>
+        </div>
 
-    <div class="casual-header">
-        <h1 class="casual-title">🧩 Select Puzzle 🧩</h1>
-        <p>解きたい謎を選んでください</p>
-    </div>
+        <div class="mission-grid">
+            <a
+                th:each="riddle : ${riddles}"
+                th:href="@{/casual/quiz/{id}(id=${riddle.id})}"
+                class="mission-card"
+            >
+                <span class="level-badge" th:text="'Level ' + ${riddle.level}"
+                    >Level 1</span
+                >
+                <span
+                    class="question-text"
+                    th:text="'【Q' + ${riddle.id} + '】'"
+                >
+                    ここに問題文
+                </span>
+                <div class="next-page-flow">➔</div>
+            </a>
+        </div>
 
-    <div class="mission-grid">
-        <a th:each="riddle : ${riddles}" 
-           th:href="@{/casual/quiz/{id}(id=${riddle.id})}" 
-           class="mission-card">
-            
-            <span class="level-badge" th:text="'Level ' + ${riddle.level}">Level 1</span>
-            <span class="question-text" th:text="${riddle.question}">ここに問題文</span>
-            <div class="next-page-flow">➔</div>
-        </a>
-    </div>
-
-    <div style="text-align:center;">
-        <a th:href="@{/}" class="btn-back">← トップに戻る</a>
-    </div>
-
-</body>
+        <div style="text-align: center">
+            <a th:href="@{/}" class="btn-back">← トップに戻る</a>
+        </div>
+    </body>
 </html>

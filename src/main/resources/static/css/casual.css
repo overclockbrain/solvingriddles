@@ -192,10 +192,49 @@ a { text-decoration: none; }
     box-shadow: 0 0 8px rgba(255,153,0,0.3);
 }
 
+/* ▼▼▼ プルダウン (select) のデザイン ▼▼▼ */
+.form-select {
+    width: 100%;             /* 横幅いっぱい */
+    padding: 15px;           /* 中の余白を広げて押しやすく */
+    font-size: 1.1em;        /* 文字サイズおっきく */
+    border: 2px solid #ddd;  /* 枠線を太めに */
+    border-radius: 10px;     /* 角丸にする */
+    background-color: #fff;  /* 背景は白 */
+    cursor: pointer;         /* カーソルを指に */
+    appearance: none;        /* デフォルトの矢印を消す（モダンなブラウザ用） */
+    /* ↓ カスタム矢印（右端に▼を表示するテクニック） */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.5em;
+}
+
+/* フォーカス時（押した時）のデザイン */
+.form-select:focus {
+    outline: none;
+    border-color: #0d6efd;   /* 青枠にする */
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25); /* ふわっと青く光らせる */
+}
+
+/* 入力欄（text）もついでに合わせとこか */
+.form-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box; /* パディングを含めた幅計算 */
+}
+.form-input:focus {
+    outline: none;
+    border-color: #0d6efd;
+}
+
 /* ========================
    送信ボタン（オレンジ）
    ======================== */
 .btn-submit {
+    margin-top: 30px;
     background-color: #ff9900;
     color: white;
 }

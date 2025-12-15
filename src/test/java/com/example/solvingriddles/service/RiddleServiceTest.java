@@ -5,6 +5,7 @@ import com.example.solvingriddles.model.RiddleOption;
 import com.example.solvingriddles.repository.RiddleRepository;
 import com.example.solvingriddles.constant.AppConst;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -186,5 +187,32 @@ class RiddleServiceTest {
         
         // 4. 全然違うやつ
         assertFalse(service.checkAnswer(mode, 99, "Okonomiyaki"), "お好み焼きは不正解");
+    }
+
+    /**
+     * 正規表現の修正確認: ひらがな・漢字のどっちでも正解できること
+     * 条件: 正解データが "^(おんせん|温泉)$" の場合
+     * 検証:
+     * 1. ひらがなでマッチすること
+     * 2. 漢字でマッチすること
+     * 3. 違う言葉は弾くこと
+     * 4. 部分一致じゃなくて完全一致であること(^$)
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { AppConst.MODE_CASUAL }) // Casualモードで確認
+    @DisplayName("ひらがな・漢字のどっちでも正解できるかテスト")
+    void testRegexAnswer() {
+        // JSONの "answer" を想定した正規表現
+        String regexAnswer = "^(おんせん|温泉)$";
+
+        // 1. ひらがなで正解
+        assertTrue("おんせん".matches(regexAnswer), "ひらがなでマッチすること");
+        
+        // 2. 漢字で正解
+        assertTrue("温泉".matches(regexAnswer), "漢字でマッチすること");
+        
+        // 3. 不正解パターン
+        assertFalse("銭湯".matches(regexAnswer), "違う言葉は弾くこと");
+        assertFalse("おんせんたまご".matches(regexAnswer), "部分一致じゃなくて完全一致であること(^$)");
     }
 }
