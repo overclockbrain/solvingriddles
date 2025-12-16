@@ -82,8 +82,32 @@
                 </div>
             </div>
 
+            <!-- トグルスイッチの問題 -->
+            <div th:if="${riddle.type == 'toggle'}" class="toggle-section">
+                <p>部屋が真っ暗や… ブレーカーが落ちてるみたい。<br>全てのスイッチをONにして！</p>
+                
+                <div id="bulbIcon" class="light-bulb">💡</div>
+
+                <div class="switch-container">
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch">
+                        <span class="slider"></span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch">
+                        <span class="slider"></span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" class="toggle-switch">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <p class="toggle-status">電源OFF...</p>
+            </div>
+
             <!-- その他の問題タイプの解答欄 -->
-            <div th:if="${riddle.type != 'moving'}">
+            <div th:if="${riddle.type != 'moving'}" class="answer-section">
                 <form th:action="@{/casual/quiz/check}" method="post">
                     <input type="hidden" name="id" th:value="${riddle.id}" />
 
@@ -112,7 +136,7 @@
                         </button>
                     </div>
 
-                    <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon'}">
+                    <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon' || riddle.type == 'toggle'}">
                         <input
                             type="text"
                             name="answer"

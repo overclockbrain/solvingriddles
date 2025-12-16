@@ -379,6 +379,242 @@ a { text-decoration: none; }
     width: 100%;
 }
 
+/* ▼▼▼ トグルスイッチ & 電球ギミック (Q7用) ▼▼▼ */
+.toggle-status {
+    font-size: 1.2rem;
+    color:#666;
+}
+
+.toggle-section {
+    text-align: center;
+    padding: 20px;
+}
+
+/* 電球アイコン（最初は暗い・グレーにする） */
+.light-bulb {
+    font-size: 80px;
+    margin-bottom: 20px;
+    transition: all 0.3s; /* 色もフィルターもアニメーション */
+    
+    /* ★ここが重要！強制的にグレーにして、ちょっと薄くする */
+    filter: grayscale(100%);
+    opacity: 0.2; 
+}
+
+/* 点灯時のスタイル（元の色に戻す・光らせる） */
+.light-bulb.on {
+    /* ★グレーを解除して、不透明に戻す */
+    filter: grayscale(0%);
+    opacity: 1;
+    
+    /* 光の表現 */
+    text-shadow: 0 0 30px #ffeb3b, 0 0 60px orange;
+}
+
+/* スイッチのコンテナ */
+.switch-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* --- スイッチ本体のデザイン (Checkbox Hack) --- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+/* チェックされた時の変化 */
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* ▼▼▼ トグルスイッチエリアの背景演出 ▼▼▼ */
+.toggle-section {
+    text-align: center;
+    padding: 30px;
+    border-radius: 15px; /* 角丸にして部屋っぽく */
+    
+    /* 背景色と文字色がじわっと変わるアニメーション */
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* レベル0: 真っ暗（初期状態） */
+.toggle-section[data-brightness="0"] {
+    background-color: #222; /* ほぼ黒 */
+    color: #888;            /* 文字は薄暗く */
+}
+
+/* レベル1: ちょっと見えてきた */
+.toggle-section[data-brightness="1"] {
+    background-color: #444; /* ダークグレー */
+    color: #aaa;
+}
+
+/* レベル2: だいぶ明るい */
+.toggle-section[data-brightness="2"] {
+    background-color: #777; /* ライトグレー */
+    color: #fff;
+}
+
+/* レベル3: 全点灯（明るい部屋） */
+.toggle-section[data-brightness="3"] {
+    background-color: #fff9c4; /* 薄い黄色（明かりがついた色） */
+    color: #333;               /* 文字は黒くハッキリ */
+    box-shadow: 0 0 20px rgba(255, 235, 59, 0.5); /* 全体が光ってる感 */
+}
+
+/* ▼▼▼ ページ全体を使った演出に変更 ▼▼▼ */
+
+/* body自体にアニメーション設定 */
+body {
+    transition: background-color 0.8s ease, color 0.5s ease;
+}
+
+/* レベル0: 真っ暗（初期状態） */
+body[data-brightness="0"] {
+    background-color: #121212; /* 漆黒 */
+    color: #555;               /* 文字はかなり見えにくく */
+}
+
+/* レベル1: うっすら */
+body[data-brightness="1"] {
+    background-color: #333;
+    color: #888;
+}
+
+/* レベル2: まあまあ見える */
+body[data-brightness="2"] {
+    background-color: #666;
+    color: #ddd;
+}
+
+/* レベル3: 全点灯（いつもの白背景に戻す） */
+body[data-brightness="3"] {
+    background-color: #fff; /* 通常時の色 */
+    color: #212529;         /* 通常時の文字色 */
+}
+
+/* ※元々の .toggle-section の色は消して、透明にしとくのがおすすめ */
+.toggle-section {
+    text-align: center;
+    padding: 30px;
+    background-color: transparent; /* 背景透明に */
+}
+
+/* 共通設定：変化をアニメーションさせる */
+.toggle-section {
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+/* ▼▼▼ カスタムクラス用：暗闇連動設定 ▼▼▼ */
+
+/* まずは変化がフワッとなるように設定 */
+.quiz-card, .toggle-section, .level-label, .question-box {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+/* === レベル0: 真っ暗（ほぼ見えん） === */
+/* カンマ区切りで「あれも、これも」一括指定や */
+body[data-brightness="0"] .quiz-card,
+body[data-brightness="0"] .toggle-section,
+body[data-brightness="0"] .level-label,
+body[data-brightness="0"] .question-box,
+body[data-brightness="0"] .casual-input, 
+body[data-brightness="0"] .btn-base {
+    background-color: #222 !important; /* 暗いグレー */
+    color: #555 !important;            /* 文字も沈ませる */
+    border-color: #444 !important;     /* 枠線も目立たなく */
+}
+
+/* === レベル1: うっすら === */
+body[data-brightness="1"] .quiz-card,
+body[data-brightness="1"] .toggle-section,
+body[data-brightness="1"] .level-label,
+body[data-brightness="1"] .question-box,
+body[data-brightness="1"] .casual-input {
+    background-color: #444 !important;
+    color: #888 !important;
+    border-color: #666 !important;
+}
+
+/* === レベル2: まあまあ見える === */
+body[data-brightness="2"] .quiz-card,
+body[data-brightness="2"] .toggle-section,
+body[data-brightness="2"] .level-label,
+body[data-brightness="2"] .question-box,
+body[data-brightness="2"] .casual-input {
+    background-color: #777 !important;
+    color: #ddd !important;
+    border-color: #999 !important;
+}
+
+/* === レベル3: 全点灯（元に戻す） === */
+body[data-brightness="3"] .quiz-card,
+body[data-brightness="3"] .toggle-section,
+body[data-brightness="3"] .level-label,
+body[data-brightness="3"] .question-box,
+body[data-brightness="3"] .casual-input {
+    /* ここは !important 無しで、元のCSS指定に戻るようにする */
+    /* もし戻らんかったら background-color: white !important; とか書いてな */
+    background-color: #fff !important; 
+    color: #333 !important;
+    border-color: #ddd !important; /* 元の枠線の色に合わせてな */
+}
+
+/* 送信ボタンだけ特別扱い */
+body[data-brightness="1"] .btn-base {
+    background-color: #804d00 !important; /* 送信ボタンの元色に戻す */
+    color: white !important;
+}
+
+body[data-brightness="2"] .btn-base {
+    background-color: #cc7a00 !important; /* 送信ボタンの元色に戻す */
+    color: white !important;
+}
+
+body[data-brightness="3"] .btn-base {
+    background-color: #ff9900 !important; /* 送信ボタンの元色に戻す */
+    color: white !important;
+}
+
 /* ========================
    送信ボタン（オレンジ）
    ======================== */
