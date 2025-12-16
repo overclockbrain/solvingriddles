@@ -143,13 +143,13 @@ a { text-decoration: none; }
 }
 
 /* 選択肢ボタン */
-.choise-grid {
+.choice-grid {
     display: grid;
     gap: 15px;
     margin-top: 20px;
 }
 
-.choise-btn {
+.choice-btn {
     background: #f9f9f9;
     border: 2px solid #ddd;
     padding: 15px;
@@ -162,7 +162,7 @@ a { text-decoration: none; }
     color: #333;
 }
 
-.choise-btn:hover {
+.choice-btn:hover {
     background: #fff5e6;
     border-color: #ff9900;
 }
@@ -228,6 +228,69 @@ a { text-decoration: none; }
 .form-input:focus {
     outline: none;
     border-color: #0d6efd;
+}
+
+/* ▼▼▼ 50音表の説明文用 ▼▼▼ */
+.instruction-title {
+    margin: 0;
+    font-weight: bold;
+}
+
+.instruction-desc {
+    margin: 5px 0;
+}
+
+.instruction-example {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* ▼▼▼ 50音表 (gojuon) のスタイル ▼▼▼ */
+.gojuon-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9em;
+    background-color: #fff;
+    text-align: center;
+}
+
+.gojuon-table th, .gojuon-table td {
+    border: 1px solid #ccc;
+    padding: 8px 4px; /* スマホ用に少し詰め気味に */
+}
+
+.gojuon-table th {
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+}
+
+.gojuon-table .row-header {
+    background-color: #e9ecef;
+    font-weight: bold;
+    width: 15%;
+}
+
+.gojuon-instruction {
+    background-color: #e8f4fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 5px solid #0d6efd;
+    text-align: left;
+}
+
+/* ▼▼▼ 強調表示用のクラス ▼▼▼ */
+.circled-text {
+    display: inline-block;    /* 幅や高さを効かせるため */
+    border: 3px solid #dc3545; /* 赤くて太い枠線 */
+    border-radius: 50%;       /* 枠を完全な丸にする */
+    padding: 4px 8px;         /* 文字と枠の間の余白（微調整してな） */
+    color: #dc3545;           /* 文字色も赤にする */
+    font-weight: bold;
+    line-height: 1;           /* 上下のズレを防ぐ */
 }
 
 /* ========================
