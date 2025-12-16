@@ -1,74 +1,95 @@
-/**
- * コンテンツが読み込まれている場合、ハンバーガーメニューの表示/非表示切り替え
- */
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ボタンとメニューの要素を取得
+    /* ==================================================
+       1. ハンバーガーメニューの制御
+       ================================================== */
     const menuBtn = document.getElementById('menu-btn');
     const sideMenu = document.getElementById('side-menu');
 
-    // ボタンが押された時の動き
-    menuBtn.addEventListener('click', function () {
-        // メニューの表示/非表示を切り替え (toggle)
-        if (sideMenu.style.display === 'none' || sideMenu.style.display === '') {
-            sideMenu.style.display = 'block'; // 表示
-            menuBtn.textContent = '×';       // ボタンをバツ印に
-        } else {
-            sideMenu.style.display = 'none';  // 非表示
-            menuBtn.textContent = '≡';       // ボタンを三本線に
-        }
-    });
-});
+    if (menuBtn && sideMenu) {
+        menuBtn.addEventListener('click', function () {
+            if (sideMenu.style.display === 'none' || sideMenu.style.display === '') {
+                sideMenu.style.display = 'block';
+                menuBtn.textContent = '×';
+            } else {
+                sideMenu.style.display = 'none';
+                menuBtn.textContent = '≡';
+            }
+        });
+    }
 
-/**
- * 並べ替え問題のドラッグ＆ドロップ処理
- */
-document.addEventListener("DOMContentLoaded", () => {
+    /* ==================================================
+       2. 並べ替え問題 (Sort) のドラッグ＆ドロップ
+       ================================================== */
     const sortList = document.getElementById("sortable-list");
 
-    // sortページじゃなければ何もしない（エラー防止）
-    if (!sortList) return;
+    if (sortList) {
+        let draggingItem = null;
 
-    let draggingItem = null;
+        sortList.addEventListener("dragstart", (e) => {
+            draggingItem = e.target;
+            setTimeout(() => e.target.classList.add("dragging"), 0);
+        });
 
-    // 1. ドラッグ開始
-    sortList.addEventListener("dragstart", (e) => {
-        draggingItem = e.target;
-        // ちょっと遅らせてクラスをつける（見た目の調整）
-        setTimeout(() => e.target.classList.add("dragging"), 0);
-    });
+        sortList.addEventListener("dragend", (e) => {
+            e.target.classList.remove("dragging");
+            draggingItem = null;
+        });
 
-    // 2. ドラッグ終了
-    sortList.addEventListener("dragend", (e) => {
-        e.target.classList.remove("dragging");
-        draggingItem = null;
-    });
+        sortList.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(sortList, e.clientY);
+            if (afterElement == null) {
+                sortList.appendChild(draggingItem);
+            } else {
+                sortList.insertBefore(draggingItem, afterElement);
+            }
+        });
+    }
 
-    // 3. ドラッグ中（並べ替えロジック）
-    sortList.addEventListener("dragover", (e) => {
-        e.preventDefault(); // これがないとドロップできない
+    /* ==================================================
+       3. 暴走回答欄 (Moving / KAN-25) の制御
+       ================================================== */
+    const toggleBtn = document.getElementById('toggleButton');
 
-        const afterElement = getDragAfterElement(sortList, e.clientY);
-        if (afterElement == null) {
-            sortList.appendChild(draggingItem);
-        } else {
-            sortList.insertBefore(draggingItem, afterElement);
-        }
-    });
+    // ★ここが修正ポイント！ボタンがある時だけ動くからエラー出へん
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+            const target = document.getElementById('movingForm');
+
+            if (target) {
+                // アニメーション停止/再開
+                target.classList.toggle('paused');
+
+                // ボタンの見た目切り替え
+                if (target.classList.contains('paused')) {
+                    toggleBtn.innerHTML = '🏃‍♂️ 再開する！！';
+                    toggleBtn.classList.remove('btn-danger');
+                    toggleBtn.classList.add('btn-success');
+                } else {
+                    toggleBtn.innerHTML = '🛑 止まれ！！';
+                    toggleBtn.classList.remove('btn-success');
+                    toggleBtn.classList.add('btn-danger');
+                }
+            }
+        });
+    }
+
 });
 
+/* ==================================================
+   ヘルパー関数（グローバルに残すもの）
+   ================================================== */
+
 /**
- * マウス位置から「どこの上に落とそうとしてるか」を判定する魔法の関数
- * @param {HTMLElement} container 並べ替え対象のリスト要素
- * @param {number} y マウスのY座標
- * @returns {HTMLElement|null} マウス位置の次に来る要素、なければ null
+ * マウス位置判定用（Sort機能で使用）
  */
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll(".sort-item:not(.dragging)")];
 
     return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2; // 要素の中心からの距離
+        const offset = y - box.top - box.height / 2;
 
         if (offset < 0 && offset > closest.offset) {
             return { offset: offset, element: child };
@@ -79,17 +100,21 @@ function getDragAfterElement(container, y) {
 }
 
 /**
- * 並べ替えた結果を隠しフィールドにセットしてフォーム送信
+ * 並べ替え送信（HTMLのonclickから呼ぶならこれが必要）
+ * ※もしHTML側も addEventListener に変えるなら、これも中に入れられるで
  */
 function submitSortAnswer() {
     const listItems = document.querySelectorAll(".sort-item");
+    if (listItems.length === 0) return; // エラー防止
 
-    // リストの並び順通りに data-value を集めてカンマ区切りにする
-    // 例: ["red", "green", "refactor"] -> "red,green,refactor"
     const answerArray = Array.from(listItems).map(item => item.getAttribute("data-value"));
     const finalAnswer = answerArray.join(",");
 
-    // 隠しフィールドにセットして送信
-    document.getElementById("hiddenAnswer").value = finalAnswer;
-    document.getElementById("sortForm").submit();
+    const hiddenInput = document.getElementById("hiddenAnswer");
+    const sortForm = document.getElementById("sortForm");
+
+    if (hiddenInput && sortForm) {
+        hiddenInput.value = finalAnswer;
+        sortForm.submit();
+    }
 }
