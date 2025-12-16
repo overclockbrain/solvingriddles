@@ -15,10 +15,8 @@
         <p class="hint-text" th:text="'HINT: ' + ${riddle.hint}"></p>
 
         <!-- 画像表示（画像マップ型以外） -->
-        <div th:if="${riddle.type != 'image-map' and riddle.imageUrl != null}" 
-             style="text-align: center; margin: 20px 0;">
-            <img th:src="@{${riddle.imageUrl}}" class="puzzle-image" 
-                 style="max-width: 100%; height: auto;">
+        <div th:if="${riddle.type != 'image-map' and riddle.imageUrl != null}" class="image-container">
+            <img th:src="@{${riddle.imageUrl}}" class="puzzle-image">
         </div>
 
         <!-- 画像マップ型の問題表示 -->
@@ -52,7 +50,7 @@
             <form th:action="@{/hacker/quiz/check}" method="post" class="quiz-form">
                 <input type="hidden" name="id" th:value="${riddle.id}">
                 
-                <div style="margin: 20px 0;">
+                <div class="form-group">
                     <select name="answer" class="form-select" required>
                         <option value="" selected disabled>-- 言語を選択 --</option>
                         <option th:each="opt : ${riddle.options}"
@@ -80,7 +78,7 @@
             <form th:action="@{/hacker/quiz/check}" method="post" id="sortForm">
                 <input type="hidden" name="id" th:value="${riddle.id}">
                 <input type="hidden" name="answer" id="hiddenAnswer">
-                <div style="text-align: center; margin-top: 20px;">
+                <div class="submit-sort-container">
                     <button type="button" class="btn" onclick="submitSortAnswer()">決定して回答</button>
                 </div>
             </form>
@@ -118,12 +116,7 @@
                           
                 </th:block>
 
-                <script>
-                    function submitAnswer(val) {
-                        document.getElementById('hiddenAnswer').value = val;
-                        document.getElementById('quizForm').submit();
-                    }
-                </script>
+                <script th:src="@{/js/script.js}"></script>
             </div>
         </form>
         

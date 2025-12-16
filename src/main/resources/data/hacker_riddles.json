@@ -156,7 +156,7 @@
         "hint": "真ん中にある、銀色の四角いチップや。",
         "level": 3,
         "imageUrl": "/images/raspi.png",
-        "coords": "68,100,108,140",
+        "coords": "68,110,108,148",
         "nextId": 12
     },
     {

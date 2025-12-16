@@ -12,7 +12,6 @@ body {
     color: #00ff41; /* マトリックス緑 */
     font-family: 'Courier New', monospace;
     text-align: center;
-    padding-top: 50px;
 }
 
 a { 
@@ -127,6 +126,8 @@ button, .btn {
     
     /* アニメーション用（フワッと出るようにしたいなら） */
     box-shadow: 0 10px 20px rgba(0, 255, 65, 0.1);
+
+    display: none; /* 初期状態では非表示 */
 }
 
 .menu-list {
@@ -157,6 +158,10 @@ button, .btn {
     display: block;
     text-decoration: none;
     cursor: not-allowed;
+}
+
+.back-to-top {
+    text-align: center
 }
 
 /* =========================================
@@ -244,6 +249,12 @@ button, .btn {
 /* =========================================
    🖼️ Image Puzzle (画像探索)
    ========================================= */
+.image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+
 .image-quiz-area {
     text-align: center;
     margin-top: 20px;
@@ -307,6 +318,10 @@ button, .btn {
     box-shadow: 0 0 10px #00ff00; /* フォーカス時に光らせる */
 }
 
+.form-group {
+    margin: 20px 0;
+}
+
 /* =========================================
    🔃 Sort Puzzle (並べ替え)
    ========================================= */
@@ -336,6 +351,10 @@ button, .btn {
     cursor: grabbing;       /* 掴んでる手 */
 }
 
+.submit-sort-container {
+    margin-top: 20px;
+    text-align: center; 
+}
 /* =========================================
    💀 鬼畜モード (Level 12: Error Log)
    ========================================= */
