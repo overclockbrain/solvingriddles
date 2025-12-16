@@ -321,7 +321,19 @@ document.addEventListener('DOMContentLoaded', function () {
    ================================================== */
 
 /**
+ * クリックされた内容を送信する関数
+ * @param {*} val 
+ */
+function submitAnswer(val) {
+    document.getElementById('hiddenAnswer').value = val;
+    document.getElementById('quizForm').submit();
+}
+
+/**
  * マウス位置判定用（Sort機能で使用）
+ * @param {HTMLElement} container 
+ * @param {number} y 
+ * @returns {HTMLElement|null}
  */
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll(".sort-item:not(.dragging)")];
