@@ -615,6 +615,55 @@ body[data-brightness="3"] .btn-base {
     color: white !important;
 }
 
+/* ▼▼▼ Q12: 長押しチャージ演出 (KAN-26) ▼▼▼ */
+
+.charge-section {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* バーの枠（背景） */
+.charge-container {
+    height: 30px;
+    background-color: #333;
+    border-radius: 15px; /* 角丸にしてちょっとリッチに */
+    overflow: hidden;
+}
+
+/* バーの中身（伸びる部分） */
+.charge-bar {
+    width: 0%;           /* 最初は0% */
+    background-color: #dc3545; /* 最初は赤色 (Bootstrapのdanger色) */
+    transition: none;    /* JSで細かく制御するからCSSアニメは切る */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* チャージ中のブルブル震える演出 */
+.charging {
+    box-shadow: 0 0 15px #f44336;
+    animation: shake 0.1s infinite;
+}
+
+/* 満タンになった時の演出 */
+.charged-full {
+    background-color: #00e676 !important; /* 緑色に変化 */
+    box-shadow: 0 0 30px #00e676;
+    width: 100% !important;
+}
+
+/* ブルブル震えるキーフレーム */
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
 /* ========================
    送信ボタン（オレンジ）
    ======================== */
@@ -684,4 +733,77 @@ body[data-brightness="3"] .btn-base {
 
 .btn-next:hover {
     background: #3395ff; /* ホバーでちょっと明るく */
+}
+
+/* ▼▼▼ スマホ対応用: 長押ししてもメニュー出さない設定 ▼▼▼ */
+.key-icon, .mobile-hold-btn {
+    -webkit-touch-callout: none; /* iPhoneで長押しメニュー禁止 */
+    -webkit-user-select: none;   /* テキスト選択禁止 */
+    user-select: none;
+    cursor: pointer;             /* 指マーク */
+    touch-action: manipulation;  /* ダブルタップ拡大とか無効化 */
+}
+
+/* Q12用のスマホ用ボタン */
+.mobile-hold-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 15px 40px;
+    background-color: #444;
+    color: white;
+    border: 2px solid #666;
+    border-radius: 50px; /* 丸っこく */
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 0 #222;
+    transition: all 0.1s;
+}
+
+.mobile-hold-btn:active, .mobile-hold-btn.active {
+    transform: translateY(4px);
+    box-shadow: none;
+    background-color: #dc3545; /* 押したら赤く */
+    border-color: #dc3545;
+}
+
+/* ▼▼▼ Q13: 2キー同時長押し (KAN-27) ▼▼▼ */
+
+.key-visuals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-family: monospace;
+}
+
+/* キーの見た目 */
+.key-icon {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background-color: #222;
+    color: #888;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #000;
+    transition: all 0.1s;
+}
+
+.key-enter {
+    padding: 10px 30px; /* Enterはちょっと横長 */
+}
+
+/* 押された時の見た目 */
+.key-active {
+    background-color: #00bcd4; /* サイバーブルー */
+    color: #fff;
+    border-color: #00bcd4;
+    box-shadow: 0 0 15px #00bcd4; /* 光らせる */
+    transform: translateY(4px);    /* 沈み込む */
+}
+
+/* ゲージの色（青） */
+.bg-info {
+    background-color: #00bcd4 !important;
 }

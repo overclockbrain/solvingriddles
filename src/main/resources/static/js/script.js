@@ -114,6 +114,206 @@ document.addEventListener('DOMContentLoaded', function () {
         // 初期実行（これでページ開いた瞬間に body が暗くなる）
         checkAllSwitches();
     }
+
+    /* ==================================================
+       5. Enterキー & スマホボタン長押し (Longpress / Q12)
+       ================================================== */
+    const chargeBar = document.getElementById('chargeBar');
+    const chargeText = document.getElementById('chargeText');
+    const hiddenInput = document.getElementById('hiddenAnswerInput');
+    const quizForm = document.querySelector('form');
+    // スマホ用ボタン
+    const mobileBtn = document.getElementById('mobileChargeBtn');
+
+    if (chargeBar && hiddenInput && quizForm) {
+
+        let chargeLevel = 0;
+        let isCharging = false;
+        let chargeInterval;
+
+        // --- 共通: チャージ開始処理 ---
+        function startCharge() {
+            if (!isCharging && chargeLevel < 100) {
+                isCharging = true;
+                chargeBar.classList.add('charging');
+                if (mobileBtn) mobileBtn.classList.add('active'); // ボタン凹ませる
+
+                chargeInterval = setInterval(() => {
+                    chargeLevel += 1.5;
+                    chargeBar.style.width = chargeLevel + '%';
+                    chargeText.textContent = Math.floor(chargeLevel) + '%';
+
+                    if (chargeLevel >= 100) {
+                        stopCharge(); // タイマー止める
+                        completeCharge();
+                    }
+                }, 30);
+            }
+        }
+
+        // --- 共通: チャージ停止処理 ---
+        function stopCharge() {
+            isCharging = false;
+            clearInterval(chargeInterval);
+            chargeBar.classList.remove('charging');
+            if (mobileBtn) mobileBtn.classList.remove('active');
+
+            // 満タンじゃなかったらリセット
+            if (chargeLevel < 100) {
+                chargeLevel = 0;
+                chargeBar.style.width = '0%';
+                chargeBar.style.backgroundColor = '';
+                chargeText.textContent = '0%';
+            }
+        }
+
+        // --- キーボードイベント ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                startCharge();
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') stopCharge();
+        });
+
+        // --- ★スマホ用タッチイベント (ボタンがあれば) ---
+        if (mobileBtn) {
+            mobileBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // メニューとか出さんように
+                startCharge();
+            });
+            mobileBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopCharge();
+            });
+            // 指がボタンから外れた時も停止
+            mobileBtn.addEventListener('touchleave', stopCharge);
+        }
+
+        function completeCharge() {
+            chargeBar.classList.add('charged-full');
+            chargeText.textContent = 'MAX!!';
+            hiddenInput.value = 'CHARGE_COMPLETE';
+            setTimeout(() => { quizForm.submit(); }, 500);
+        }
+    }
+
+    /* ==================================================
+       6. 2キー同時長押し & マルチタップ (Dual Longpress / Q13)
+       ================================================== */
+    const dualChargeBar = document.getElementById('dualChargeBar');
+    const dualChargeText = document.getElementById('dualChargeText');
+    const keyC = document.getElementById('keyC');
+    const keyEnter = document.getElementById('keyEnter');
+    const quizFormDual = document.querySelector('form');
+    const realInputDual = document.querySelector('input[name="answer"]');
+
+    if (dualChargeBar && quizFormDual && realInputDual) {
+        realInputDual.style.display = 'none';
+        const submitBtn = document.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.style.display = 'none';
+
+        let dualChargeLevel = 0;
+        let dualInterval;
+        let isDualCharging = false;
+
+        // 入力状態管理 (キーボードもタッチもここに集約)
+        const activeInputs = new Set();
+
+        // --- 状態更新関数 ---
+        function updateDualState() {
+            // C と Enter が両方アクティブか？
+            const hasC = activeInputs.has('c');
+            const hasEnter = activeInputs.has('enter');
+
+            // 見た目の更新 (キーボードでもタッチでも光らせる)
+            if (hasC) keyC.classList.add('key-active'); else keyC.classList.remove('key-active');
+            if (hasEnter) keyEnter.classList.add('key-active'); else keyEnter.classList.remove('key-active');
+
+            // チャージ判定
+            if (hasC && hasEnter) {
+                if (!isDualCharging && dualChargeLevel < 100) {
+                    startDualCharge();
+                }
+            } else {
+                if (isDualCharging) {
+                    stopDualCharge();
+                }
+            }
+        }
+
+        function startDualCharge() {
+            isDualCharging = true;
+            dualChargeBar.classList.add('charging');
+            dualInterval = setInterval(() => {
+                dualChargeLevel += 2.0;
+                dualChargeBar.style.width = dualChargeLevel + '%';
+                dualChargeText.textContent = Math.floor(dualChargeLevel) + '%';
+                if (dualChargeLevel >= 100) {
+                    clearInterval(dualInterval);
+                    completeDualCharge();
+                }
+            }, 30);
+        }
+
+        function stopDualCharge() {
+            isDualCharging = false;
+            clearInterval(dualInterval);
+            dualChargeBar.classList.remove('charging');
+            // リセット
+            if (dualChargeLevel < 100) {
+                dualChargeLevel = 0;
+                dualChargeBar.style.width = '0%';
+                dualChargeText.textContent = '0%';
+            }
+        }
+
+        // --- キーボードイベント ---
+        document.addEventListener('keydown', (e) => {
+            activeInputs.add(e.key.toLowerCase());
+            updateDualState();
+        });
+        document.addEventListener('keyup', (e) => {
+            activeInputs.delete(e.key.toLowerCase());
+            updateDualState();
+        });
+
+        // --- ★スマホ用タッチイベント ---
+        // ヘルパー関数: タッチ登録
+        function addTouchListener(elem, keyName) {
+            if (!elem) return;
+            elem.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // 拡大とか防ぐ
+                activeInputs.add(keyName);
+                updateDualState();
+            });
+            elem.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                activeInputs.delete(keyName);
+                updateDualState();
+            });
+            // 指が外れたらOFFにする
+            elem.addEventListener('touchleave', (e) => {
+                activeInputs.delete(keyName);
+                updateDualState();
+            });
+        }
+
+        // 画面上のアイコンをボタン化する
+        addTouchListener(keyC, 'c');
+        addTouchListener(keyEnter, 'enter');
+
+
+        function completeDualCharge() {
+            dualChargeBar.classList.remove('charging');
+            dualChargeBar.classList.add('charged-full');
+            dualChargeText.textContent = 'REBOOT!!';
+            realInputDual.value = 'DUAL_CHARGE_COMPLETE';
+            setTimeout(() => { quizFormDual.submit(); }, 600);
+        }
+    }
 });
 
 /* ==================================================
