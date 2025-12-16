@@ -169,6 +169,28 @@
         "level": 5,
         "options": null,
         "imageUrl": null,
+        "nextId": 12
+    },
+    {
+        "id": 12,
+        "type": "longpress",
+        "question": "【Q12】\n立ちふさがる重厚な扉。\n言葉はいらん。\n「決定」の意思を、3秒間押し続けてこじ開けろ！",
+        "answer": "^(CHARGE_COMPLETE)$",
+        "hint": "Enterキーを離したらあかんで。\nパワーが満タンになるまで耐えるんや！",
+        "level": 3,
+        "options": null,
+        "imageUrl": null,
+        "nextId": 13
+    },
+    {
+        "id": 13,
+        "type": "duallongpress",
+        "question": "【Q13】\nシステム警告：メインコア【CENTER】を再起動せよ。\n……エラー発生。\n「入力回路破損。同時信号送信数は『2』に制限されています。」",
+        "answer": "^(DUAL_CHARGE_COMPLETE)$",
+        "hint": "『CENTER』を送りたいが、キーは2つしか送れん。\n「頭文字」と「決定キー」…\nその2つを同時に長押しして、無理やり起動しろ！",
+        "level": 4,
+        "options": null,
+        "imageUrl": null,
         "nextId": null
     }
 ]
