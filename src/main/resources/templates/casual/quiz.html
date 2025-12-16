@@ -7,12 +7,55 @@
     </head>
     <body>
         <div class="quiz-card">
-            <span class="level-label" th:text="'LEVEL ' + ${riddle.level}"
-                >LEVEL 1</span
-            >
+            <span class="level-label" th:text="'LEVEL ' + ${riddle.level}">
+                LEVEL 1
+            </span>
 
             <div class="question-box" th:text="${riddle.question}">
                 ここに問題文が表示されます
+            </div>
+
+            <div th:if="${riddle.type == 'gojuon'}" class="gojuon-container">
+                <div class="gojuon-instruction">
+                    <p class="instruction-title">暗号解読ヒント:</p>
+                    <p class="instruction-desc">[行 - 段] の文字を拾え。</p>
+                    <p class="instruction-example">例: [1-1] → あ、[2-3] → く</p>
+                </div>
+
+                <table class="gojuon-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>1<br><small>あ</small></th>
+                            <th>2<br><small>い</small></th>
+                            <th>3<br><small>う</small></th>
+                            <th>4<br><small>え</small></th>
+                            <th>5<br><small>お</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-header">1<small>(あ)</small></td>
+                            <td>あ</td>
+                            <td>
+                                <span th:if="${riddle.id == 6}" class="circled-text">い</span>
+                                <span th:unless="${riddle.id == 6}">い</span>
+                            </td>
+                            <td>う</td>
+                            <td>え</td>
+                            <td>お</td>
+                        </tr>
+                        <tr><td class="row-header">2<small>(か)</small></td> <td>か</td><td>き</td><td>く</td><td>け</td><td>こ</td></tr>
+                        <tr><td class="row-header">3<small>(さ)</small></td> <td>さ</td><td>し</td><td>す</td><td>せ</td><td>そ</td></tr>
+                        <tr><td class="row-header">4<small>(た)</small></td> <td>た</td><td>ち</td><td>つ</td><td>て</td><td>と</td></tr>
+                        <tr><td class="row-header">5<small>(な)</small></td> <td>な</td><td>に</td><td>ぬ</td><td>ね</td><td>の</td></tr>
+                        <tr><td class="row-header">6<small>(は)</small></td> <td>は</td><td>ひ</td><td>ふ</td><td>へ</td><td>ほ</td></tr>
+                        <tr><td class="row-header">7<small>(ま)</small></td> <td>ま</td><td>み</td><td>む</td><td>め</td><td>も</td></tr>
+                        <tr><td class="row-header">8<small>(や)</small></td> <td>や</td><td></td><td>ゆ</td><td></td><td>よ</td></tr>
+                        <tr><td class="row-header">9<small>(ら)</small></td> <td>ら</td><td>り</td><td>る</td><td>れ</td><td>ろ</td></tr>
+                        <tr><td class="row-header">10<small>(わ)</small></td> <td>わ</td><td></td><td>を</td><td></td><td>ん</td></tr>
+                    </tbody>
+                </table>
             </div>
 
             <form th:action="@{/casual/quiz/check}" method="post">
@@ -43,7 +86,7 @@
                     </button>
                 </div>
 
-                <div class="input-area" th:if="${riddle.type == 'text'}">
+                <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon'}">
                     <input
                         type="text"
                         name="answer"
@@ -52,9 +95,11 @@
                         required
                     />
                 </div>
-                <button type="submit" class="btn-base btn-submit">
-                    送信！
-                </button>
+                <div th:if="${riddle.type != 'choice'}">
+                    <button type="submit" class="btn-base btn-submit">
+                        送信！
+                    </button>
+                </div>
             </form>
 
             <div class="navigation-links">
