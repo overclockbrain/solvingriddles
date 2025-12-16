@@ -282,7 +282,7 @@ a { text-decoration: none; }
     text-align: left;
 }
 
-/* ▼▼▼ 強調表示用のクラス ▼▼▼ */
+/* ▼▼▼ 文字を丸で囲むクラス ▼▼▼ */
 .circled-text {
     display: inline-block;    /* 幅や高さを効かせるため */
     border: 3px solid #dc3545; /* 赤くて太い枠線 */
@@ -291,6 +291,92 @@ a { text-decoration: none; }
     color: #dc3545;           /* 文字色も赤にする */
     font-weight: bold;
     line-height: 1;           /* 上下のズレを防ぐ */
+}
+
+/* ▼▼▼ 爆速移動ギミック (moving) ▼▼▼ */
+.moving-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.moving-container {
+    position: relative;
+    height: 250px; /* 動き回るフィールドの広さ */
+    border: 3px dashed #bbb;
+    background-color: #f0f8ff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.moving-target {
+    position: absolute;
+    width: 60%;
+    left: 20%; /* 中央寄せの基準 */
+    /* 2秒で一周、無限ループ、一定速度 */
+    animation: runAround 0.5s infinite linear;
+    z-index: 10;
+}
+
+/* ▼▼▼ 全方向めり込み爆走モード ▼▼▼ */
+@keyframes runAround {
+    /* translateX の数値を % 指定に変更したで！
+       要素の幅(60%)に対しての移動量やから、
+       60% 以上動かすとガッツリはみ出す計算や。
+    */
+
+    /* --- 上にめり込む --- */
+    0%   { top: -30%; transform: translateX(0) rotate(0deg); }
+    
+    /* --- 右にめり込む --- */
+    /* 右へ70%移動（枠を突き破る勢い） */
+    25%  { top: 70%;  transform: translateX(70%) rotate(10deg); }
+    
+    /* --- 下にめり込む --- */
+    /* 下へ110%（完全に隠れん程度に頭だけ出す感じ） */
+    50%  { top: 90%;  transform: translateX(0) rotate(180deg); }
+    
+    /* --- 左にめり込む --- */
+    /* 左へ-70%移動 */
+    75%  { top: 70%;  transform: translateX(-70%) rotate(-10deg); }
+    
+    /* --- 上に戻る --- */
+    100% { top: -30%; transform: translateX(0) rotate(360deg); }
+}
+/* 停止用クラス */
+.paused {
+    animation-play-state: paused !important;
+    border: 3px solid #dc3545; /* 止まったら赤枠で強調 */
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+/* 停止ボタン用 */
+.btn-stop-animation {
+    width: 100%;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 動き回るフォームの見た目 */
+.moving-form-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #999;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* フォーム内のラベル */
+.moving-form-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* フォーム内の送信ボタン */
+.btn-moving-submit {
+    margin-top: 10px;
+    width: 100%;
 }
 
 /* ========================

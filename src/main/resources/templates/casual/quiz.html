@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <title>Casual Quiz</title>
         <link rel="stylesheet" th:href="@{/css/casual.css}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
         <div class="quiz-card">
@@ -58,53 +59,80 @@
                 </table>
             </div>
 
-            <form th:action="@{/casual/quiz/check}" method="post">
-                <input type="hidden" name="id" th:value="${riddle.id}" />
+            <!-- 動く解答欄の問題 -->
+            <div th:if="${riddle.type == 'moving'}" class="moving-section">
+                <div class="alert alert-warning" role="alert">
+                    <strong>警告:</strong> 回答欄が逃走中です！<br>
+                    下のボタンで動きを止めてから入力してください！
+                </div>
+                
+                <button type="button" id="toggleButton" class="btn btn-danger btn-lg btn-stop-animation">
+                    🛑 止まれ！！
+                </button>
 
-                <div th:if="${riddle.type == 'select'}" class="input-container">
-                    <select name="answer" class="form-select" required>
-                        <option value="" selected disabled>
-                            -- 選択してな --
-                        </option>
-                        <option
+                <div class="moving-container">
+                    <div id="movingForm" class="moving-target">
+                        <form th:action="@{/casual/quiz/check}" method="post" class="moving-form-card">
+                            <input type="hidden" name="id" th:value="${riddle.id}">
+                            <label class="moving-form-label">回答欄</label>
+                            <input type="text" name="answer" class="form-control" placeholder="捕まえた！" required autocomplete="off">
+                            <button type="submit" class="btn btn-primary btn-moving-submit">回答する</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- その他の問題タイプの解答欄 -->
+            <div th:if="${riddle.type != 'moving'}">
+                <form th:action="@{/casual/quiz/check}" method="post">
+                    <input type="hidden" name="id" th:value="${riddle.id}" />
+
+                    <div th:if="${riddle.type == 'select'}" class="input-container">
+                        <select name="answer" class="form-select" required>
+                            <option value="" selected disabled>
+                                -- 選択してな --
+                            </option>
+                            <option
+                                th:each="opt : ${riddle.options}"
+                                th:value="${opt.role}"
+                                th:text="${opt.text}"
+                            ></option>
+                        </select>
+                    </div>
+
+                    <div th:if="${riddle.type == 'choice'}" class="choice-grid">
+                        <button
                             th:each="opt : ${riddle.options}"
+                            type="submit"
+                            name="answer"
                             th:value="${opt.role}"
-                            th:text="${opt.text}"
-                        ></option>
-                    </select>
-                </div>
+                            class="choice-btn"
+                        >
+                            <span th:text="${opt.text}">選択肢</span>
+                        </button>
+                    </div>
 
-                <div th:if="${riddle.type == 'choice'}" class="choice-grid">
-                    <button
-                        th:each="opt : ${riddle.options}"
-                        type="submit"
-                        name="answer"
-                        th:value="${opt.role}"
-                        class="choice-btn"
-                    >
-                        <span th:text="${opt.text}">選択肢</span>
-                    </button>
-                </div>
-
-                <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon'}">
-                    <input
-                        type="text"
-                        name="answer"
-                        class="casual-input"
-                        placeholder="ここに答えを入れてな"
-                        required
-                    />
-                </div>
-                <div th:if="${riddle.type != 'choice'}">
-                    <button type="submit" class="btn-base btn-submit">
-                        送信！
-                    </button>
-                </div>
-            </form>
+                    <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon'}">
+                        <input
+                            type="text"
+                            name="answer"
+                            class="casual-input"
+                            placeholder="ここに答えを入れてな"
+                            required
+                        />
+                    </div>
+                    <div th:if="${riddle.type != 'choice'}">
+                        <button type="submit" class="btn-base btn-submit">
+                            送信！
+                        </button>
+                    </div>
+                </form>
+            </div>
 
             <div class="navigation-links">
                 <a class="return-list" th:href="@{/casual/list}">一覧に戻る</a>
             </div>
         </div>
+        <script th:src="@{/js/script.js}"></script>
     </body>
 </html>
