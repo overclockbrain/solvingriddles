@@ -75,6 +75,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    /* ==================================================
+       4. トグルスイッチ (Toggle / KAN-20) の制御
+       ================================================== */
+    const switches = document.querySelectorAll('.toggle-switch');
+    const bulb = document.getElementById('bulbIcon');
+    const statusText = document.querySelector('.toggle-status');
+
+    // ★ここ変更: 特定のdivじゃなくて、body全体を操作対象にする
+    // const section = document.querySelector('.toggle-section'); ←これはもう要らん
+
+    // section のチェックを外して、switchesなどのチェックだけにする
+    if (switches.length > 0 && bulb && statusText) {
+
+        function checkAllSwitches() {
+            const checkedCount = document.querySelectorAll('.toggle-switch:checked').length;
+
+            // ★ここ変更: bodyタグに属性をつける！
+            document.body.setAttribute('data-brightness', checkedCount);
+
+            if (checkedCount === switches.length) {
+                // 全点灯
+                bulb.classList.add('on');
+                statusText.textContent = "電源復旧！明るくなった！";
+                statusText.style.color = "#f57f17";
+            } else {
+                // まだ暗い
+                bulb.classList.remove('on');
+                statusText.textContent = "まだ暗いな... ブレーカー上げな...";
+                statusText.style.color = "";
+            }
+        }
+
+        switches.forEach(sw => {
+            sw.addEventListener('change', checkAllSwitches);
+        });
+
+        // 初期実行（これでページ開いた瞬間に body が暗くなる）
+        checkAllSwitches();
+    }
 });
 
 /* ==================================================
