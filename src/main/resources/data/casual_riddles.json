@@ -201,7 +201,18 @@
         "hint": "黒は0、白は1。\n2進数で数が増えていってるで。",
         "level": 2,
         "options": null,
-        "imageUrl": "/images/riddle_light.png",
+        "imageUrl": null,
         "nextId": 15
+    },
+    {
+        "id": 15,
+        "type": "text",
+        "question": "【Q15】\nキーボード配列の謎。\n数字の場所に当てはまるキーを順に並べろ！",
+        "answer": "^(qwerty|QWERTY|クワーティ)$",
+        "hint": "キーボードのアルファベット列、一番左上から順に...",
+        "level": 2,
+        "options": null,
+        "imageUrl": null,
+        "nextId": 16
     }
 ]
