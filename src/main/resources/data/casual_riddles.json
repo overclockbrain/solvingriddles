@@ -191,6 +191,17 @@
         "level": 4,
         "options": null,
         "imageUrl": null,
-        "nextId": null
+        "nextId": 14
+    },
+    {
+        "id": 14,
+        "type": "lights",
+        "question": "【Q14】\n法則を見抜け。\nライトを操作して、続くパターンを作り出せ！",
+        "answer": "^(101)$",
+        "hint": "黒は0、白は1。\n2進数で数が増えていってるで。",
+        "level": 2,
+        "options": null,
+        "imageUrl": "/images/riddle_light.png",
+        "nextId": 15
     }
 ]
