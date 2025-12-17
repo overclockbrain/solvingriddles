@@ -165,6 +165,9 @@
                     <!-- キーボードの問題 -->
                     <div th:replace="fragments/casual/quiz_types_keyboard :: keyboard_section"></div>
 
+                    <!-- ショートカットキーの問題 -->
+                    <div th:replace="fragments/casual/quiz_types_shortcut :: shortcut_section"></div>
+
                     <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon' || riddle.type == 'toggle' || riddle.type == 'duallongpress'}">
                         <input type="text" name="answer" class="casual-input" placeholder="ここに答えを入れてな" required />
                     </div>

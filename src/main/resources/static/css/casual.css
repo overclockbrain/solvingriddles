@@ -802,6 +802,72 @@ body[data-brightness="3"] .btn-base {
     .keyboard-layout { transform: scale(0.75); transform-origin: top center; }
 }
 
+/* =========================================
+   🔢 Shortcut Puzzle (Q16 丸数字) - 大型化
+   ========================================= */
+.ctrl-box {
+    width: 110px;       /* 80px -> 110px に拡大 */
+    height: 75px;       /* 55px -> 75px に拡大 */
+    background: #fff;
+    border: 3px solid #333; /* 枠線も少し太く */
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 #ccc;
+    position: relative;
+    margin-right: 15px;
+}
+
+/* 丸数字（通常） */
+.circle-num {
+    width: 50px;        /* 35px -> 50px */
+    height: 50px;       /* 35px -> 50px */
+    border: 3px solid #333; /* 枠も太く */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-family: "Noto Sans JP", sans-serif;
+    background: #fff;
+    font-size: 1.5rem;  /* 文字サイズUP */
+}
+
+/* 答え入力用のさらに大きい丸数字 */
+.circle-num.large {
+    width: 60px;        /* 45px -> 60px */
+    height: 60px;       /* 45px -> 60px */
+    font-size: 1.8rem;  /* 文字サイズUP */
+    background: #fff9c4;
+}
+
+/* メインの数字「3」 */
+.ctrl-box .main-num {
+    position: absolute;
+    top: 5px;
+    left: 12px;
+    font-size: 2.5rem;  /* 文字も大きく */
+    font-weight: 900;
+    line-height: 1;
+    color: #222;
+}
+
+/* サブの数字「20 18 12」 */
+.ctrl-box .sub-nums {
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    font-size: 0.85rem; /* これも読みやすく */
+    color: #555;
+    letter-spacing: 1px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* 押した感じの演出（おまけ） */
+.ctrl-box:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #ccc;
+}
+
 /* ========================
    送信ボタン（オレンジ）
    ======================== */
