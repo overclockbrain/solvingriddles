@@ -214,5 +214,16 @@
         "options": null,
         "imageUrl": null,
         "nextId": 16
+    },
+    {
+        "id": 16,
+        "type": "text",
+        "question": "【Q16】\n計算式の意味を解読せよ。\n丸数字はある「順番」を表している。",
+        "answer": "^(start|START|スタート)$",
+        "hint": "左の箱にある小さい数字... 3, 20, 18, 12。\nアルファベット順で C, T, R, L やな。",
+        "level": 3,
+        "options": null,
+        "imageUrl": null,
+        "nextId": null
     }
 ]
