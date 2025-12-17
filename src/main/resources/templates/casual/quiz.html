@@ -5,6 +5,7 @@
         <title>Casual Quiz</title>
         <link rel="stylesheet" th:href="@{/css/casual.css}" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
     <body>
         <div class="quiz-card">
@@ -116,22 +117,12 @@
                             <option value="" selected disabled>
                                 -- 選択してな --
                             </option>
-                            <option
-                                th:each="opt : ${riddle.options}"
-                                th:value="${opt.role}"
-                                th:text="${opt.text}"
-                            ></option>
+                            <option th:each="opt : ${riddle.options}" th:value="${opt.role}" th:text="${opt.text}"></option>
                         </select>
                     </div>
 
                     <div th:if="${riddle.type == 'choice'}" class="choice-grid">
-                        <button
-                            th:each="opt : ${riddle.options}"
-                            type="submit"
-                            name="answer"
-                            th:value="${opt.role}"
-                            class="choice-btn"
-                        >
+                        <button th:each="opt : ${riddle.options}" type="submit" name="answer" th:value="${opt.role}" class="choice-btn">
                             <span th:text="${opt.text}">選択肢</span>
                         </button>
                     </div>
@@ -166,19 +157,15 @@
                                 <span id="dualChargeText">0%</span>
                             </div>
                         </div>
-                    
                     </div>
 
+                    <!-- ライトON/OFFの問題 -->
+                    <div th:replace="fragments/casual/quiz_types :: lights_section"></div>
+
                     <div class="input-area" th:if="${riddle.type == 'text' || riddle.type == 'gojuon' || riddle.type == 'toggle' || riddle.type == 'duallongpress'}">
-                        <input
-                            type="text"
-                            name="answer"
-                            class="casual-input"
-                            placeholder="ここに答えを入れてな"
-                            required
-                        />
+                        <input type="text" name="answer" class="casual-input" placeholder="ここに答えを入れてな" required />
                     </div>
-                    <div th:if="${riddle.type != 'choice' && riddle.type != 'longpress' && riddle.type != 'duallongpress'}">
+                    <div th:if="${riddle.type != 'choice' && riddle.type != 'longpress' && riddle.type != 'duallongpress' && riddle.type != 'lights'}" class="submit-button-container">
                         <button type="submit" class="btn-base btn-submit">
                             送信！
                         </button>

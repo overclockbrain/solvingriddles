@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>    
+    <div th:fragment="lights_section" th:if="${riddle.type == 'lights'}" class="lights-section text-center">
+        <div class="question-sequence mb-5">
+            <h5 class="mb-3 text-muted">Level 1</h5>
+            <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
+                
+                <div class="seq-item text-center"><i class="bi bi-lightbulb-fill"></i></div>
+
+                <i class="bi bi-arrow-right text-muted"></i>
+                
+                <div class="seq-item text-center"><i class="bi bi-lightbulb"></i></div>
+
+                <i class="bi bi-arrow-right text-muted"></i>
+                
+                <div class="seq-item text-center">
+                    <i class="bi bi-lightbulb"></i><i class="bi bi-lightbulb-fill"></i>
+                </div>
+
+                <i class="bi bi-arrow-right text-muted"></i>
+                
+                <div class="seq-item text-center">
+                    <i class="bi bi-lightbulb"></i><i class="bi bi-lightbulb"></i>
+                </div>
+
+                <i class="bi bi-arrow-right text-muted"></i>
+                
+                <div class="seq-item text-center">
+                    <i class="bi bi-lightbulb"></i><i class="bi bi-lightbulb-fill"></i><i class="bi bi-lightbulb-fill"></i>
+                </div>
+
+                <i class="bi bi-arrow-right text-muted"></i>
+                
+                <div class="seq-item text-center border-danger">
+                    <span class="text-danger fw-bold fs-3">???</span>
+                </div>
+            </div>
+            <p class="mt-3 small text-muted">法則を見抜け</p>
+        </div>
+        <p class="mb-3">下の電球をクリックしてON/OFFを切り替えろ！</p>
+        <div class="light-bulb-container">
+            <i class="light-bulb-btn bi bi-lightbulb-fill" data-index="0"></i>
+            <i class="light-bulb-btn bi bi-lightbulb-fill" data-index="1"></i>
+            <i class="light-bulb-btn bi bi-lightbulb-fill" data-index="2"></i>
+        </div>
+        <input type="hidden" id="lightsAnswerInput" name="answer" value="000">
+        <button type="submit" class="btn-base btn-submit mt-4">決定</button>
+
+</body>
+</html>

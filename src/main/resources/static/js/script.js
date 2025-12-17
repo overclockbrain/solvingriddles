@@ -314,6 +314,29 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => { quizFormDual.submit(); }, 600);
         }
     }
+
+    /* ==================================================
+       KAN-33. 電球パズル (Lights / Q14)
+       ================================================== */
+    (function () {
+        const bulbs = document.querySelectorAll('.light-bulb-btn');
+        const hiddenInput = document.getElementById('lightsAnswerInput');
+
+        if (bulbs.length > 0 && hiddenInput) {
+            let states = [0, 0, 0];
+            bulbs.forEach((bulb, index) => {
+                bulb.addEventListener('click', () => {
+                    states[index] = states[index] === 0 ? 1 : 0;
+                    if (states[index] === 1) {
+                        bulb.classList.add('on');
+                    } else {
+                        bulb.classList.remove('on');
+                    }
+                    hiddenInput.value = states.join('');
+                });
+            });
+        }
+    })();
 });
 
 /* ==================================================
