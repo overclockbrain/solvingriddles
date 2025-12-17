@@ -105,6 +105,11 @@ a { text-decoration: none; }
 .btn-back:hover { 
     color: #ff9900; 
 }
+
+.back-to-top {
+    text-align: center
+}
+
 .next-page-flow {
     margin-top:auto; 
     color:#ff9900;
@@ -116,7 +121,7 @@ a { text-decoration: none; }
    ========================================= */
 .quiz-card {
     background: white;
-    max-width: 600px;
+    max-width: 680px;
     margin: 30px auto;
     padding: 40px;
     border-radius: 20px;
@@ -720,9 +725,9 @@ body[data-brightness="3"] .btn-base {
    💡 電球パズルの問題文 (Sequence Display)
    ========================================= */
 .question-sequence .bi {
-    font-size: 2rem; /* ちょっと大きめに */
+    font-size: 2.5rem; /* ちょっと大きめに */
     color: #333;     /* インクっぽい黒 */
-    margin: 0 2px;   /* 電球同士の間隔 */
+    margin: 0 3px;   /* 電球同士の間隔 */
 }
 
 /* グループごとの区切りを見やすく */
@@ -732,6 +737,69 @@ body[data-brightness="3"] .btn-base {
     border-radius: 10px;
     border: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* =========================================
+   ⌨️ Keyboard Puzzle (Q15 キーボード)
+   ========================================= */
+.keyboard-layout {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #e0e0e0; /* ベースの色 */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.kb-row {
+    display: flex;
+    gap: 4px;
+}
+
+/* 通常キー */
+.kb-key {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #444;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 0 #bbb; /* キーの厚み */
+}
+
+/* 特殊キー（Tab, Shiftなど） */
+.kb-key.kb-special {
+    background: #f0f0f0;
+    font-size: 0.7rem;
+    color: #666;
+}
+
+/* 答えのキー */
+.kb-key.target-key {
+    border: 2px solid #333;
+    background: #fff9c4; /* 薄い黄色で強調 */
+    color: #000;
+}
+
+/* 各キーの幅調整 */
+.kb-backspace { width: 55px; }
+.kb-tab       { width: 50px; }
+.kb-caps      { width: 60px; }
+.kb-shift     { width: 75px; }
+.kb-enter-top { width: 45px; border-bottom-left-radius: 0; border-bottom: none; z-index: 2; height: 36px; margin-bottom: -4px;} /* Enter変形用（簡易版） */
+.kb-enter-bottom { width: 58px; border-top-right-radius: 0; margin-left: -13px; z-index: 1;}
+.kb-ctrl, .kb-alt { width: 45px; }
+.kb-space     { width: 200px; }
+
+/* スマホ対応 */
+@media (max-width: 500px) {
+    .keyboard-layout { transform: scale(0.75); transform-origin: top center; }
 }
 
 /* ========================
