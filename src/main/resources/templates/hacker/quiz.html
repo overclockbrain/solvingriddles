@@ -20,109 +20,31 @@
         </div>
 
         <!-- 画像マップ型の問題表示 -->
-        <div th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
-            <img th:src="@{${riddle.imageUrl}}" usemap="#image-map" 
-                class="puzzle-image">
-
-            <map name="image-map">
-                <area shape="rect" th:coords="${riddle.coords}" 
-                    th:href="@{/hacker/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
-                    alt="正解エリア">
-                
-                <area shape="rect" coords="0,0,3000,3000" 
-                    th:href="@{/hacker/quiz/check-image(id=${riddle.id}, answer='wrong')}"
-                    alt="不正解エリア">
-            </map>
-        </div>
+        <div th:replace="fragments/hacker/quiz_types_image_map :: image_map_section"></div>
 
         <!-- ストーリー型の問題表示 -->
-        <div th:if="${riddle.type == 'story'}" class="story-container">
-            <div class="story-btn-container">
-                <a th:href="@{/hacker/list}" class="btn btn-secondary">一覧へ</a>
-                <a th:if="${riddle.nextId != null}" 
-                th:href="@{/hacker/quiz/{id}(id=${riddle.nextId})}" 
-                class="btn">次のミッションへ</a>
-            </div>
-        </div>
+        <div th:replace="fragments/hacker/quiz_types_story :: story_section"></div>
 
-        <!-- セレクト型の問題表示 -->
-        <div th:if="${riddle.type == 'select'}" class="select-container">
-            <form th:action="@{/hacker/quiz/check}" method="post" class="quiz-form">
-                <input type="hidden" name="id" th:value="${riddle.id}">
-                
-                <div class="form-group">
-                    <select name="answer" class="form-select" required>
-                        <option value="" selected disabled>-- 言語を選択 --</option>
-                        <option th:each="opt : ${riddle.options}"
-                                th:value="${opt.role}"
-                                th:text="${opt.text}">
-                        </option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn">ロック解除</button>
-            </form>
-        </div>
-
-        <!-- 並べ替え型の問題表示 -->
-        <div th:if="${riddle.type == 'sort'}" class="sort-container">
-            <ul id="sortable-list" class="sort-list">
-                <li th:each="opt : ${riddle.options}"
-                    class="sort-item"
-                    draggable="true"
-                    th:data-value="${opt.role}"
-                    th:text="${opt.text}">
-                </li>
-            </ul>
-
-            <form th:action="@{/hacker/quiz/check}" method="post" id="sortForm">
-                <input type="hidden" name="id" th:value="${riddle.id}">
-                <input type="hidden" name="answer" id="hiddenAnswer">
-                <div class="submit-sort-container">
-                    <button type="button" class="btn" onclick="submitSortAnswer()">決定して回答</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- テキスト入力型・クリック型の問題表示 -->
-        <form id="quizForm" th:action="@{/hacker/quiz/check}" method="post" 
-          th:unless="${riddle.type == 'image-map' || riddle.type == 'story' || riddle.type == 'select'}">
+        <!-- 次ページにデータを送信する問題表示 -->
+        <form th:id="${riddle.type == 'sort'} ? 'sortForm' : 'quizForm'" th:action="@{/hacker/quiz/check}" method="post" 
+          th:unless="${riddle.type == 'image-map' || riddle.type == 'story'}">
             <input type="hidden" name="id" th:value="${riddle.id}" />
 
-            <!-- テキスト入力型の問題表示 -->
-            <div th:if="${riddle.type == 'text'}">
-                <input type="text" name="answer" placeholder="Enter key..." autofocus>
-                <button type="submit">EXECUTE</button>
-            </div>
+            <!-- セレクト型の問題表示 -->
+            <div th:replace="fragments/hacker/quiz_types_select :: select_section"></div>
 
             <!-- クリック型の問題表示 -->
-            <div th:if="${riddle.type == 'click'}" class="click-area" th:classappend="'level-' + ${riddle.id}">
-                <input type="hidden" id="hiddenAnswer" name="answer" value="">
+            <div th:replace="fragments/hacker/quiz_types_click :: click_section"></div>
 
-                <th:block th:each="opt : ${riddle.options}">
-                    
-                    <span th:if="${opt.role == 'target'}" 
-                          class="target-char" 
-                          th:text="${opt.text}"
-                          onclick="submitAnswer('found')"></span>
+            <!-- 並べ替え型の問題表示 -->
+            <div th:replace="fragments/hacker/quiz_types_sort :: sort_section"></div>
 
-                    <span th:if="${opt.role == 'fake'}" 
-                          class="fake-char" 
-                          th:text="${opt.text}"
-                          onclick="submitAnswer('wrong')"></span>
-
-                    <span th:if="${opt.role == 'normal'}" 
-                          th:text="${opt.text}"></span>
-                          
-                </th:block>
-
-                <script th:src="@{/js/script.js}"></script>
-            </div>
+            <!-- テキスト入力型の問題表示 -->
+            <div th:replace="fragments/hacker/quiz_input_area :: input_area_section"></div>
         </form>
         
-        <br><br><br>
         <!-- 中断リンク（ストーリー型以外で表示） -->
-        <div th:if="${riddle.type != 'story'}">
+        <div th:if="${riddle.type != 'story'}" class="back-to-list">
             <a th:href="@{/hacker/list}">&lt;&lt; Abort (List)</a>
         </div>
     </div>

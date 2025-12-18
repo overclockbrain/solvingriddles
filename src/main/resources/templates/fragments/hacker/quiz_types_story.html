@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="story_section" th:if="${riddle.type == 'story'}" class="story-container">
+        <div class="story-btn-container">
+            <a th:href="@{/hacker/list}" class="btn btn-secondary">一覧へ</a>
+            <a th:if="${riddle.nextId != null}" 
+            th:href="@{/hacker/quiz/{id}(id=${riddle.nextId})}" 
+            class="btn">次のミッションへ</a>
+        </div>
+    </div>
+</body>
+</html>

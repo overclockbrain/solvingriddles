@@ -51,4 +51,20 @@ public record Riddle(
         // Java 11以上なら repeat が使える
         return "★".repeat(lvl) + "☆".repeat(MAX_LEVEL - lvl);
     }
+
+    /**
+     * オプションリストのコピーを作成し、シャッフルして返す
+     * View側でランダム表示したい時に使用
+     * @return シャッフルされた新しいリスト
+     */
+    public java.util.List<RiddleOption> getShuffledOptions() {
+        if (options == null) {
+            return java.util.Collections.emptyList();
+        }
+        // text, role を持つ RiddleOption のリストをコピー
+        java.util.List<RiddleOption> copy = new java.util.ArrayList<>(options);
+        // シャッフル実行
+        java.util.Collections.shuffle(copy);
+        return copy;
+    }
 }

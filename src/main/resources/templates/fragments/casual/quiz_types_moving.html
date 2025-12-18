@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="moving_section" th:if="${riddle.type == 'moving'}" class="moving-section">
+        <div class="alert alert-warning" role="alert">
+            <strong>警告:</strong> 回答欄が逃走中です！<br>
+            下のボタンで動きを止めてから入力してください！
+        </div>
+        
+        <button type="button" id="toggleButton" class="btn btn-danger btn-lg btn-stop-animation">
+            🛑 止まれ！！
+        </button>
+
+        <div class="moving-container">
+            <div id="movingForm" class="moving-target">
+                <form th:action="@{/casual/quiz/check}" method="post" class="moving-form-card">
+                    <input type="hidden" name="id" th:value="${riddle.id}">
+                    <label class="moving-form-label">回答欄</label>
+                    <input type="text" name="answer" class="form-control" placeholder="捕まえた！" required autocomplete="off">
+                    <button type="submit" class="btn btn-primary btn-moving-submit">回答する</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

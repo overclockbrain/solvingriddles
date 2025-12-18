@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="toggle_section" th:if="${riddle.type == 'toggle'}" class="toggle-section">
+        <p>部屋が真っ暗や… ブレーカーが落ちてるみたい。<br>全てのスイッチをONにして！</p>
+        
+        <div id="bulbIcon" class="light-bulb">💡</div>
+
+        <div class="switch-container">
+            <label class="switch">
+                <input type="checkbox" class="toggle-switch">
+                <span class="slider"></span>
+            </label>
+            <label class="switch">
+                <input type="checkbox" class="toggle-switch">
+                <span class="slider"></span>
+            </label>
+            <label class="switch">
+                <input type="checkbox" class="toggle-switch">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <p class="toggle-status">電源OFF...</p>
+    </div>
+</body>
+</html>

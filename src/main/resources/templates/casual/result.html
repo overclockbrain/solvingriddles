@@ -8,13 +8,13 @@
 <body>
 
     <div class="result-card">
-        <div th:if="${isSuccess}">
-            <span class="result-icon">🎉</span>
-            <h1 class="success-msg">Congratulations!</h1>
-            <p>見事正解です！素晴らしいひらめき！</p>
-            <a th:href="@{/casual/quiz/{id}(id=${riddleId + 1})}" class="btn-base btn-next">
-                次の問題へ ➡
-            </a>
+        <div th:if="${isSuccess}" class="result-message text-center">
+            <span class="result-icon display-1">🧠✨</span>
+            <h1 class="success-msg fw-bold mt-3">Brilliant!</h1>
+            <p class="fs-5 text-muted">
+                素晴らしい洞察力です。<br>
+                脳の回路が完全に繋がりましたね！
+            </p>
         </div>
 
         <div th:unless="${isSuccess}">
