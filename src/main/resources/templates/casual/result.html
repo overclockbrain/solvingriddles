@@ -15,6 +15,9 @@
                 素晴らしい洞察力です。<br>
                 脳の回路が完全に繋がりましたね！
             </p>
+            <a th:href="@{/casual/quiz/{id}(id=${riddleId + 1})}" class="btn-base btn-next">
+                次の問題へ ➡
+            </a>
         </div>
 
         <div th:unless="${isSuccess}">
