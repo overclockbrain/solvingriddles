@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 /**
  * Riddleレコードのロジックを検証する単体テスト
  * 主に、データ加工メソッド（難易度の星変換など）が
@@ -64,5 +66,82 @@ class RiddleTest {
         
         // コード内で「nullなら1」にしてるか確認
         assertEquals("★☆☆☆☆", riddle.difficultyIcon());
+    }
+
+    /**
+     * getShuffledOptionsメソッドのテスト群
+     * 条件: optionsリストに複数のOptionが設定されている場合
+     * 期待値: シャッフルされた新しいリストが返されること
+     */
+    @Test
+    @DisplayName("getShuffledOptionsは、元のリストとは別のインスタンスを返すこと")
+    void getShuffledOptionsReturnsNewInstance() {
+        // Arrange
+        // RiddleOption(text, role) の順番で作成
+        List<RiddleOption> originalOptions = List.of(
+            new RiddleOption("A", "normal"),
+            new RiddleOption("B", "target"),
+            new RiddleOption("C", "fake")
+        );
+        
+        // Riddleレコードを作成（引数多いけど頑張って埋めるで）
+        Riddle riddle = new Riddle(
+            1, "Question", "Answer", "Hint", "sort", 
+            originalOptions, // options
+            1, null, null, null
+        );
+
+        // Act
+        List<RiddleOption> shuffled = riddle.getShuffledOptions();
+
+        // Assert
+        assertNotNull(shuffled, "nullであってはならない");
+        assertNotSame(originalOptions, shuffled, "元のリストと同じインスタンスであってはならない（コピーであること）");
+        assertEquals(3, shuffled.size(), "サイズが変わってはならない");
+    }
+
+    @Test
+    @DisplayName("getShuffledOptionsは、元のリストの要素をすべて含んでいること")
+    void getShuffledOptionsContainsAllElements() {
+        // Arrange
+        RiddleOption opt1 = new RiddleOption("Java", "target");
+        RiddleOption opt2 = new RiddleOption("Python", "fake");
+        RiddleOption opt3 = new RiddleOption("Ruby", "fake");
+        List<RiddleOption> expectedList = List.of(opt1, opt2, opt3);
+        
+        Riddle riddle = new Riddle(
+            1, "Q", "A", "H", "sort",
+            List.of(opt1, opt2, opt3),
+            1, null, null, null
+        );
+
+        // Act
+        List<RiddleOption> shuffled = riddle.getShuffledOptions();
+
+        // Assert
+        // サイズチェック
+        assertEquals(3, shuffled.size());
+        
+        // 中身が全部揃ってるかチェック（順番不問）
+        // ※JUnit標準には containsExactlyInAnyOrder がないから、containsAllで代用
+        assertTrue(shuffled.containsAll(expectedList), "元の要素がすべて含まれていること");
+    }
+
+    @Test
+    @DisplayName("optionsがnullの場合、空のリストを返して落ちないこと")
+    void getShuffledOptionsHandlesNull() {
+        // Arrange
+        Riddle riddle = new Riddle(
+            1, "Q", "A", "H", "text",
+            null, // optionsがnullの場合
+            1, null, null, null
+        );
+
+        // Act
+        List<RiddleOption> result = riddle.getShuffledOptions();
+
+        // Assert
+        assertNotNull(result, "nullの代わりに空リストを返すべき");
+        assertTrue(result.isEmpty(), "リストは空であるべき");
     }
 }

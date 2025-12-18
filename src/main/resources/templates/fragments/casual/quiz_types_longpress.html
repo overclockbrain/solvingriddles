@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="longpress_section">
+        <!-- 長押しチャージの問題 -->
+        <div th:if="${riddle.type == 'longpress'}" class="charge-section text-center">
+            <p class="mb-2 d-none d-md-block">Enterキーを長押ししてチャージ！</p>
+            <p class="mb-2 d-md-none">下のボタンを長押ししてチャージ！</p>
+            <div class="progress charge-container">
+                <div id="chargeBar" class="progress-bar charge-bar" role="progressbar">
+                    <span id="chargeText">0%</span>
+                </div>
+            </div>
+            <button type="button" id="mobileChargeBtn" class="mobile-hold-btn d-md-none">
+                長押しでチャージ！
+            </button>
+            <input type="hidden" id="hiddenAnswerInput" name="answer" value="">
+        </div>
+
+        <!-- 同時長押しチャージの問題 -->
+        <div th:if="${riddle.type == 'duallongpress'}" class="dual-charge-section text-center">
+            <p class="mb-3">制限モード：[ C ] と [ Enter ] を同時に長押しせよ！</p>
+            
+            <div class="key-visuals mb-3">
+                <span id="keyC" class="key-icon">C</span>
+                <span class="plus-icon">+</span>
+                <span id="keyEnter" class="key-icon key-enter">Enter ↵</span>
+            </div>
+
+            <div class="progress charge-container">
+                <div id="dualChargeBar" class="progress-bar charge-bar bg-info" role="progressbar">
+                    <span id="dualChargeText">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

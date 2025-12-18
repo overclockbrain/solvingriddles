@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="click_section" th:if="${riddle.type == 'click'}" class="click-area" th:classappend="'level-' + ${riddle.id}">
+        <input type="hidden" id="hiddenAnswer" name="answer" value="">
+
+        <th:block th:each="opt : ${riddle.shuffledOptions}">
+            
+            <span th:if="${opt.role == 'target'}" 
+                    class="target-char" 
+                    th:text="${opt.text}"
+                    onclick="submitAnswer('found')"></span>
+
+            <span th:if="${opt.role == 'fake'}" 
+                    class="fake-char" 
+                    th:text="${opt.text}"
+                    onclick="submitAnswer('wrong')"></span>
+
+            <span th:if="${opt.role == 'normal'}" 
+                    th:text="${opt.text}"></span>
+                    
+        </th:block>
+
+        <script th:src="@{/js/script.js}"></script>
+    </div>
+</body>
+</html>

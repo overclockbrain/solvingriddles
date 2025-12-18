@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="image_map_section" th:if="${riddle.type == 'image-map'}" class="image-quiz-area">
+        <img th:src="@{${riddle.imageUrl}}" usemap="#image-map" class="puzzle-image">
+
+        <map name="image-map">
+            <area shape="rect" th:coords="${riddle.coords}" 
+                th:href="@{/hacker/quiz/check-image(id=${riddle.id}, answer=${riddle.answer})}"
+                alt="正解エリア">
+            
+            <area shape="rect" coords="0,0,3000,3000" 
+                th:href="@{/hacker/quiz/check-image(id=${riddle.id}, answer='wrong')}"
+                alt="不正解エリア">
+        </map>
+    </div>
+</body>
+</html>

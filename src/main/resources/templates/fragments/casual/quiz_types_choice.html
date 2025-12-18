@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="choice_section" th:if="${riddle.type == 'choice'}" class="choice-grid">
+        <button th:each="opt : ${riddle.shuffledOptions}" type="submit" name="answer" th:value="${opt.role}" class="choice-btn">
+            <span th:text="${opt.text}">選択肢</span>
+        </button>
+    </div>
+</body>
+</html>

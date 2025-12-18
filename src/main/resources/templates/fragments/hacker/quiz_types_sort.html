@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="sort_section" th:if="${riddle.type == 'sort'}" class="sort-container">
+        <ul id="sortable-list" class="sort-list">
+            <li th:each="opt : ${riddle.shuffledOptions}"
+                class="sort-item"
+                draggable="true"
+                th:data-value="${opt.role}"
+                th:text="${opt.text}">
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

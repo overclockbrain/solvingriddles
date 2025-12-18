@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="input_area_section">
+        <div th:if="${riddle.type == 'text'}">
+            <input type="text" name="answer" placeholder="Enter key..." autofocus>
+        </div>
+        <div th:if="${riddle.type == 'text' || riddle.type == 'select'}">
+            <button type="submit">EXECUTE</button>
+        </div>
+
+        <div th:if="${riddle.type == 'sort'}">
+            <input type="hidden" name="answer" id="hiddenAnswer">
+            <div class="submit-sort-container">
+                <button type="button" class="btn" onclick="submitSortAnswer()">決定して回答</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

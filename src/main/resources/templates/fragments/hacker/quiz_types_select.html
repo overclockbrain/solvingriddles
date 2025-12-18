@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="select_section" th:if="${riddle.type == 'select'}" class="select-container">
+        <div class="form-group">
+            <select name="answer" class="form-select" required>
+                <option value="" selected disabled>-- 言語を選択 --</option>
+                <option th:each="opt : ${riddle.shuffledOptions}"
+                        th:value="${opt.role}"
+                        th:text="${opt.text}">
+                </option>
+            </select>
+        </div>
+    </div>
+</body>
+</html>
