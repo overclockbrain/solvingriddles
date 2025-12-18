@@ -4,7 +4,7 @@
     <div th:fragment="click_section" th:if="${riddle.type == 'click'}" class="click-area" th:classappend="'level-' + ${riddle.id}">
         <input type="hidden" id="hiddenAnswer" name="answer" value="">
 
-        <th:block th:each="opt : ${riddle.shuffledOptions}">
+        <th:block th:each="opt : ${riddle.options}">
             
             <span th:if="${opt.role == 'target'}" 
                     class="target-char" 
