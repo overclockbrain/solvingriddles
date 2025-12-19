@@ -915,6 +915,77 @@ body[data-brightness="3"] .btn-base {
     color: white;
 }
 
+/* ============================= */
+/* 🎚️ スライダーパズル (Slider) */
+/* ============================= */
+
+/* 全体の枠：上下に隙間をあける */
+.slider-wrapper {
+    width: 100%;
+    text-align: center;
+    margin: 40px 0;
+    padding-bottom: 20px;
+}
+
+/* スライダーの入る箱 */
+.slider-container {
+    width: 80%;
+    max-width: 400px;
+    margin: 0 auto; /* 中央寄せ */
+    padding: 10px;
+}
+
+/* スライダーの棒（レール） */
+.slider-range {
+    -webkit-appearance: none; /* デフォルト消去 */
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.slider-range:hover {
+    background: #babbbc;
+}
+
+/* つまみ (Chrome/Safari/Edge用) */
+.slider-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #e74c3c; /* ここで赤くしてる！ */
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* つまみ (Firefox用) */
+.slider-range::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #e74c3c;
+    cursor: pointer;
+    border: none;
+}
+
+/* テキスト周り */
+.slider-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #333;
+}
+
+.slider-number {
+    color: #e74c3c; /* 数字も赤く */
+}
+
 /* ========================
    送信ボタン（オレンジ）
    ======================== */

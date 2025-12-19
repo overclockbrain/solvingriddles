@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="slider_section" th:if="${riddle.type == 'slider'}" class="slider-wrapper">
+        <div class="slider-container">
+            <input type="range" id="myRange" min="0" max="120" value="0" class="slider-range">
+            
+            <p class="slider-text">
+                現在の温度: <span id="displayValue" class="slider-number">0</span>℃
+            </p>
+        </div>
+    </div>
+</body>
+</html>
