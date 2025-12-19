@@ -938,6 +938,7 @@ body[data-brightness="3"] .btn-base {
 /* スライダーの棒（レール） */
 .slider-range {
     -webkit-appearance: none; /* デフォルト消去 */
+    appearance: none;
     width: 100%;
     height: 10px;
     border-radius: 5px;
