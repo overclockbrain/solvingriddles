@@ -11,10 +11,13 @@
         <!-- 送信ボタンを表示する条件 -->
         <div th:if="${riddle.type != 'choice' && riddle.type != 'longpress' && riddle.type != 'duallongpress' && riddle.type != 'lights'}" 
             class="submit-button-container">
-            <button type="submit" class="btn-base btn-submit">
+            <button type="submit" class="btn-base btn-submit" id="submitBtn" th:data-type="${riddle.type}">
                 送信！
             </button>
         </div>
+
+        <!-- 隠しフィールド: JavaScriptからの回答入力用 -->
+        <input type="hidden" name="answer" id="answerInput">
     </div>
 </body>
 </html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="stairs_section" th:if="${riddle.type == 'stairs'}" class="stairs-wrapper">
+        <div class="stairs-container" id="stairs">
+            <div th:each="option, stat : ${riddle.options}" 
+                class="step" 
+                th:style="|--i: ${stat.count};|" 
+                th:data-index="${stat.count}" 
+                th:data-char="${option.text}" 
+                th:text="${option.text}">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

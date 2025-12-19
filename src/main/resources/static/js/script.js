@@ -337,6 +337,59 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     })();
+
+    // ==========================================
+    // 🪜 個別: 階段のクリック動作 (リアルタイム反映)
+    // ==========================================
+    const submitBtn = document.getElementById('submitBtn');
+    const stairsContainer = document.getElementById('stairs');
+    const answerInput = document.getElementById('answerInput'); // 答えを入れる場所
+
+    if (stairsContainer) {
+        const steps = stairsContainer.querySelectorAll('.step');
+
+        steps.forEach(step => {
+            step.addEventListener('click', function () {
+                // 1. クラスを付け外し (ON/OFF)
+                this.classList.toggle('selected');
+
+                // 2. ★ここが変更点！
+                // クリックされるたびに、今の状態を集計して input に即入れる
+                if (answerInput) {
+                    const selectedSteps = stairsContainer.querySelectorAll('.step.selected');
+                    let result = "";
+
+                    selectedSteps.forEach(s => {
+                        result += s.getAttribute('data-char');
+                    });
+
+                    // リアルタイムで値を更新！
+                    answerInput.value = result;
+                }
+            });
+        });
+    }
+
+    // ==========================================
+    // 🎚️ スライダー: 値をリアルタイムで同期
+    // ==========================================
+    const slider = document.getElementById('myRange');
+    const displayValue = document.getElementById('displayValue');
+
+    if (slider && displayValue && answerInput) {
+
+        // 初期値をセット（最初は0）
+        answerInput.value = slider.value;
+
+        // 動かしてる間の処理
+        slider.addEventListener('input', function () {
+            // 1. 画面の数字を変える
+            displayValue.textContent = this.value;
+
+            // 2. 送信用の隠しinputにも値を入れる
+            answerInput.value = this.value;
+        });
+    }
 });
 
 /* ==================================================

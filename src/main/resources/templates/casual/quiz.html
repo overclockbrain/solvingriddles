@@ -26,11 +26,11 @@
             <!-- トグルスイッチの問題 -->
             <div th:replace="fragments/casual/quiz_types_toggle :: toggle_section"></div>
 
+            
             <!-- その他の問題タイプの解答欄 -->
             <div th:if="${riddle.type != 'moving'}" class="answer-section">
-                <form th:action="@{/casual/quiz/check}" method="post">
+                <form th:action="@{/casual/quiz/check}" method="post" id="quizForm">
                     <input type="hidden" name="id" th:value="${riddle.id}" />
-
                     <!-- セレクトボックスの問題 -->
                     <div th:replace="fragments/casual/quiz_types_select :: select_section"></div>
 
@@ -48,6 +48,12 @@
 
                     <!-- ショートカットキーの問題 -->
                     <div th:replace="fragments/casual/quiz_types_shortcut :: shortcut_section"></div>
+
+                    <!-- 階段の問題 -->
+                    <div th:replace="fragments/casual/quiz_types_stairs :: stairs_section"></div>
+
+                    <!-- スライダーの問題 -->
+                    <div th:replace="fragments/casual/quiz_types_slider :: slider_section"></div>
 
                     <!-- テキスト入力欄 -->
                     <div th:replace="fragments/casual/quiz_input_area :: input_area_section"></div>
