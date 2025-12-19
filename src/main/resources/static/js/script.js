@@ -365,9 +365,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // リアルタイムで値を更新！
                     answerInput.value = result;
-                    console.log("現在の入力値: " + result);
                 }
             });
+        });
+    }
+
+    // ==========================================
+    // 🎚️ スライダー: 値をリアルタイムで同期
+    // ==========================================
+    const slider = document.getElementById('myRange');
+    const displayValue = document.getElementById('displayValue');
+
+    if (slider && displayValue && answerInput) {
+
+        // 初期値をセット（最初は0）
+        answerInput.value = slider.value;
+
+        // 動かしてる間の処理
+        slider.addEventListener('input', function () {
+            // 1. 画面の数字を変える
+            displayValue.textContent = this.value;
+
+            // 2. 送信用の隠しinputにも値を入れる
+            answerInput.value = this.value;
         });
     }
 });
