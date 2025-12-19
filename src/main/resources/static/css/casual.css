@@ -856,6 +856,65 @@ body[data-brightness="3"] .btn-base {
     box-shadow: 1px 1px 0 #ccc;
 }
 
+/* ============================= */
+/* 🪜 階段パズル (Stairs)      */
+/* ============================= */
+
+/* 1. 外側の枠（位置調整用） */
+.stairs-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+    width: 100%;
+}
+
+/* 2. 階段本体（段差を作る用） */
+.stairs-container {
+    display: flex;
+    align-items: flex-end; /* ★ここが重要！下揃え */
+    gap: 0;
+    padding-top: 20px;
+}
+
+/* 3. 各ステップのデザイン */
+.step {
+    box-sizing: border-box;
+    width: 60px;
+    height: calc(40px * var(--i)); /* 変数で高さを計算 */
+    
+    background-color: #f1c40f;
+    border: 2px solid #333;
+    border-right: none;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* 最後の段だけ右の線を書く */
+.step:last-child {
+    border-right: 2px solid #333;
+}
+
+/* ホバー時 */
+.step:hover {
+    background-color: #f39c12;
+    transform: translateY(-2px);
+}
+
+/* 選択時（赤くなる） */
+.step.selected {
+    background-color: #e74c3c !important;
+    color: white;
+}
+
 /* ========================
    送信ボタン（オレンジ）
    ======================== */

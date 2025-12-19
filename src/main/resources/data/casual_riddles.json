@@ -224,6 +224,81 @@
         "level": 3,
         "options": null,
         "imageUrl": null,
+        "nextId": 17
+    },
+    {
+        "id": 17,
+        "type": "stairs",
+        "question": "【Q17】階段の謎\n孤独な数字（素数）だけを踏みしめて進め。\n1は孤独ではない。2から始まる物語。",
+        "answer": "KEY",
+        "hint": "1段目は素数ちゃうで。\n2段目、3段目、5段目… 素数の段だけ選ぶんや！",
+        "level": 2,
+        "options": [
+            {
+                "text": "D",
+                "role": "step"
+            },
+            {
+                "text": "K",
+                "role": "step"
+            },
+            {
+                "text": "E",
+                "role": "step"
+            },
+            {
+                "text": "A",
+                "role": "step"
+            },
+            {
+                "text": "Y",
+                "role": "step"
+            }
+        ],
+        "imageUrl": null,
+        "nextId": 18
+    },
+    {
+        "id": 18,
+        "type": "stairs",
+        "question": "【Q18】続く階段\n次は「割り切れない思い（奇数）」だけを拾って進め。",
+        "answer": "CAT",
+        "hint": "偶数（2, 4）は避けるんや。\n1, 3, 5… 奇数の段にある文字をつなげてみ？",
+        "level": 2,
+        "options": [
+            {
+                "text": "C",
+                "role": "step"
+            },
+            {
+                "text": "X",
+                "role": "step"
+            },
+            {
+                "text": "A",
+                "role": "step"
+            },
+            {
+                "text": "Y",
+                "role": "step"
+            },
+            {
+                "text": "T",
+                "role": "step"
+            }
+        ],
+        "imageUrl": null,
+        "nextId": 19
+    },
+    {
+        "id": 19,
+        "type": "slider",
+        "question": "【Q19】温度の調整\n水が沸騰して気体に変わる温度。\nスライドバーをその数値に合わせて回答せよ。",
+        "answer": "100",
+        "hint": "摂氏(℃)で頼むで。\nMAXまで振り切ったらええんとちゃうか？",
+        "level": 2,
+        "options": null,
+        "imageUrl": null,
         "nextId": null
     }
 ]

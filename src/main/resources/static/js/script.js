@@ -337,6 +337,39 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     })();
+
+    // ==========================================
+    // 🪜 個別: 階段のクリック動作 (リアルタイム反映)
+    // ==========================================
+    const submitBtn = document.getElementById('submitBtn');
+    const stairsContainer = document.getElementById('stairs');
+    const answerInput = document.getElementById('answerInput'); // 答えを入れる場所
+
+    if (stairsContainer) {
+        const steps = stairsContainer.querySelectorAll('.step');
+
+        steps.forEach(step => {
+            step.addEventListener('click', function () {
+                // 1. クラスを付け外し (ON/OFF)
+                this.classList.toggle('selected');
+
+                // 2. ★ここが変更点！
+                // クリックされるたびに、今の状態を集計して input に即入れる
+                if (answerInput) {
+                    const selectedSteps = stairsContainer.querySelectorAll('.step.selected');
+                    let result = "";
+
+                    selectedSteps.forEach(s => {
+                        result += s.getAttribute('data-char');
+                    });
+
+                    // リアルタイムで値を更新！
+                    answerInput.value = result;
+                    console.log("現在の入力値: " + result);
+                }
+            });
+        });
+    }
 });
 
 /* ==================================================
