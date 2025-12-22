@@ -17,7 +17,7 @@
         </div>
 
         <!-- 隠しフィールド: JavaScriptからの回答入力用 -->
-        <div th:if="${riddle.type == 'slider' || riddle.type == 'shortcut' || riddle.type == 'stairs'}">
+        <div th:if="${riddle.type == 'slider' || riddle.type == 'stairs'}">
             <input type="hidden" name="answer" id="answerInput">
          </div>
     </div>
